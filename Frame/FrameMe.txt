@@ -1,0 +1,7 @@
+Jeppe & Mikkel
+
+Frame.
+
+Ide so far:
+
+Generatorpolynom til at pakke ind og tjekke cycl.
