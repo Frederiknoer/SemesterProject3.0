@@ -1,0 +1,9 @@
+﻿  Source.cpp
+c:\users\frede_noer\documents\github\semesterproject3.0\programmering\texthandler\consoleapplication1\consoleapplication1\source.cpp(26): warning C4018: '<': signed/unsigned mismatch
+c:\users\frede_noer\documents\github\semesterproject3.0\programmering\texthandler\consoleapplication1\consoleapplication1\source.cpp(33): warning C4018: '<': signed/unsigned mismatch
+c:\users\frede_noer\documents\github\semesterproject3.0\programmering\texthandler\consoleapplication1\consoleapplication1\source.cpp(43): warning C4018: '<': signed/unsigned mismatch
+c:\users\frede_noer\documents\github\semesterproject3.0\programmering\texthandler\consoleapplication1\consoleapplication1\source.cpp(50): warning C4018: '<': signed/unsigned mismatch
+c:\users\frede_noer\documents\github\semesterproject3.0\programmering\texthandler\consoleapplication1\consoleapplication1\source.cpp(55): warning C4018: '<': signed/unsigned mismatch
+c:\users\frede_noer\documents\github\semesterproject3.0\programmering\texthandler\consoleapplication1\consoleapplication1\source.cpp(61): warning C4018: '<': signed/unsigned mismatch
+  ConsoleApplication1.vcxproj -> C:\Users\Frede_noer\Documents\GitHub\SemesterProject3.0\Programmering\TextHandler\ConsoleApplication1\Debug\ConsoleApplication1.exe
+  ConsoleApplication1.vcxproj -> C:\Users\Frede_noer\Documents\GitHub\SemesterProject3.0\Programmering\TextHandler\ConsoleApplication1\Debug\ConsoleApplication1.pdb (Full PDB)
