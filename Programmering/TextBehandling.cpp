@@ -1,14 +1,14 @@
 #include <iostream>
-#include <string>
 #include <array>
 #include <vector>
+#include "InputText.h"
 using namespace std;
 
 int main()
 {
 	//output consts.
 	char outDataString[10000];
-	int outputBuffer[10000];
+	vector<char> outputBuffer;
 
 	//input conts.
 	vector<int> inputBuffer;
@@ -22,7 +22,7 @@ int main()
 
 	for (int i = 0; i < str.length(); i++)		//Converts char's from the string to decimal(1 byte each), and saves them in the outputBuffer
 	{
-		unsigned char ucOutCharacter = outDataString[i];
+		unsigned char ucOutCharacter = (unsigned char)outDataString[i];
 		outputBuffer[i] = (unsigned int)ucOutCharacter;
 	}
 	
@@ -35,7 +35,7 @@ int main()
 
 	for (int i = 0; i < inputBuffer.size(); i++) //Converts decimals to chars and saves them in inDataString
 	{
-		(unsigned char)ucInCharacter = inputBuffer[i];
+		ucInCharacter = (unsigned char)inputBuffer[i];
 		inDataString[i] = ucInCharacter;
 	}
 
@@ -44,7 +44,8 @@ int main()
 		cout << inDataString[i];
 	}
 	cout << endl;
-
+    string ny;
+    cin >> ny;
 	return 0;
 
 }
