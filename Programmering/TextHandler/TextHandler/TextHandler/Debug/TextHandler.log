@@ -1,0 +1,4 @@
+﻿  Test.cpp
+c:\users\frede_noer\documents\visual studio 2015\projects\texthandler\texthandler\texthandler\test.cpp(55): warning C4930: 'TextHandler dataIn(void)': prototyped function not called (was a variable definition intended?)
+  TextHandler.vcxproj -> C:\Users\Frede_noer\Documents\Visual Studio 2015\Projects\TextHandler\TextHandler\Debug\TextHandler.exe
+  TextHandler.vcxproj -> C:\Users\Frede_noer\Documents\Visual Studio 2015\Projects\TextHandler\TextHandler\Debug\TextHandler.pdb (Full PDB)
