@@ -7,11 +7,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#endif
-
-#ifdef _APPLE_
+#else
 #include <unistd.h>
-#define Sleep(x) usleep((x)*1000)
 #endif
 
 Sound::Sound() {
@@ -163,9 +160,8 @@ void Sound::playSound(vector<int> inputVector)
     sound.setBuffer(bufferInput);
 
     sound.play();
+    delay(timePrTone*inputVector.size());
 
-    Sleep(timePrTone*inputVector.size());
-    //   this_thread::sleep_for(chrono::milliseconds(timePrTone*inputVector.size()));
     cout << "Done playing sound" << endl;
 }
 
@@ -174,33 +170,41 @@ void Sound::recordSound(int milli) {
 
     int ms = milli;
     cout << "Recording.. " << endl;
-    if (!sf::SoundBufferRecorder::isAvailable())
-    {
+    if (!sf::SoundBufferRecorder::isAvailable()) {
         cout << "Audio device is uavalibale..." << endl;
-        Sleep(ms);
-        //this_thread::sleep_for(chrono::milliseconds(ms));
+
+        delay(ms);
+
     }
 
     sf::SoundBufferRecorder recorder;
     recorder.start();
 
-    Sleep(ms);
-    //  this_thread::sleep_for(chrono::milliseconds(ms));
-
+    delay(ms);
 
     recorder.stop();
 
-    const sf::SoundBuffer& buffer = recorder.getBuffer();
+    const sf::SoundBuffer &buffer = recorder.getBuffer();
 
     sf::Sound soundOutput(buffer);
     soundOutput.play();
 
     cout << "Playing sound.." << endl;
 
-    Sleep(ms);
-    //  this_thread::sleep_for(chrono::milliseconds(ms));
+    delay(ms);
 }
 
+
+void Sound::delay(int ms)
+{
+
+
+    #ifdef WINDOWS
+    Sleep(ms);
+    #else
+    usleep(ms * 1000);
+    #endif
+}
 
 
 Sound::~Sound() {
