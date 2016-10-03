@@ -5,9 +5,11 @@
 #include <chrono>
 #include <thread>
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #include <windows.h>
-#else
+#endif
+
+#ifdef _APPLE_
 #include <unistd.h>
 #define Sleep(x) usleep((x)*1000)
 #endif
@@ -175,7 +177,8 @@ void Sound::recordSound(int milli) {
     if (!sf::SoundBufferRecorder::isAvailable())
     {
         cout << "Audio device is uavalibale..." << endl;
-        this_thread::sleep_for(chrono::milliseconds(ms));
+        Sleep(ms);
+        //this_thread::sleep_for(chrono::milliseconds(ms));
     }
 
     sf::SoundBufferRecorder recorder;
