@@ -5,9 +5,12 @@
 #include <chrono>
 #include <thread>
 
-using namespace std;
-
-
+#ifdef _WINDOWS
+#include <windows.h>
+#else
+#include <unistd.h>
+#define Sleep(x) usleep((x)*1000)
+#endif
 
 Sound::Sound() {
 
@@ -27,7 +30,7 @@ double Sound::cycles() {
 }
 
 double Sound::rad() {
-    #define TWOPI 6.283185
+#define TWOPI 6.283185
     return TWOPI * cycles();
 }
 
@@ -91,11 +94,11 @@ void Sound::playSound(vector<int> inputVector)
             }else{
 
                 if (i < (numberOfSamples * fadeInOut))
-                    {
+                {
                     inputSamples.push_back(
                             (SinWave(i, toneFirst[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeInOut)))) +
                             (SinWave(i, toneSecound[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeInOut)))));
-                    }
+                }
             }
 
 // No fadeing module
@@ -159,8 +162,8 @@ void Sound::playSound(vector<int> inputVector)
 
     sound.play();
 
-
-    this_thread::sleep_for(chrono::milliseconds(timePrTone*inputVector.size()));
+    Sleep(timePrTone*inputVector.size());
+    //   this_thread::sleep_for(chrono::milliseconds(timePrTone*inputVector.size()));
     cout << "Done playing sound" << endl;
 }
 
@@ -178,7 +181,8 @@ void Sound::recordSound(int milli) {
     sf::SoundBufferRecorder recorder;
     recorder.start();
 
-    this_thread::sleep_for(chrono::milliseconds(ms));
+    Sleep(ms);
+    //  this_thread::sleep_for(chrono::milliseconds(ms));
 
 
     recorder.stop();
@@ -190,7 +194,8 @@ void Sound::recordSound(int milli) {
 
     cout << "Playing sound.." << endl;
 
-    this_thread::sleep_for(chrono::milliseconds(ms));
+    Sleep(ms);
+    //  this_thread::sleep_for(chrono::milliseconds(ms));
 }
 
 
