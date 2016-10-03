@@ -7,7 +7,9 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#else
+#endif
+
+#ifdef __APPLE__
 #include <unistd.h>
 #endif
 
@@ -198,12 +200,15 @@ void Sound::recordSound(int milli) {
 void Sound::delay(int ms)
 {
 
-
-    #ifdef WINDOWS
-    Sleep(ms);
-    #else
+#ifdef __APPLE__
     usleep(ms * 1000);
-    #endif
+#endif
+
+#ifdef _WIN32
+    Sleep(ms);
+#endif
+
+
 }
 
 
