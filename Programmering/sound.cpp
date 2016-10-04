@@ -2,8 +2,6 @@
 #include <math.h>
 #include <SFML/Audio.hpp>
 #include "sound.h"
-#include <chrono>
-#include <thread>
 
 #ifdef _WIN32
 #include <windows.h>
