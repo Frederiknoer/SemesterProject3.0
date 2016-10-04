@@ -32,3 +32,5 @@
 *.iml
 
 Programmering/.idea/
+*.xml
+Programmering/.idea/Programmering.iml
