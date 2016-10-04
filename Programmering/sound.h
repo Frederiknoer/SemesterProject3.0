@@ -13,6 +13,7 @@ public:
     double rad();
     void playSound(vector<int>);
     void recordSound(int);
+    void delay(int ms);
 
     ~Sound();
 

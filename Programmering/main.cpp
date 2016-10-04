@@ -18,6 +18,7 @@ int main()
     Sound RecordSound;
     RecordSound.recordSound(5000);
     */
-
+    int dontClose;
+    cin >> dontClose;
     return 0;
 }
