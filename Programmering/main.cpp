@@ -1,23 +1,32 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include "sound.h"
+#include "TextHandler.h"
 
 using namespace std;
 
 int main()
 {
 
-    vector<int> toneInput;
-    toneInput = {8, 4, 5, 10, 13, 0, 1, 6};
+    string inputText;
+    getline(cin, inputText);
+    vector<int> HexBuffer;
+
+    TextHandler dataIn;
+    for (int i = 0; i < (inputText.length() * 2); i++)
+    {
+        HexBuffer.push_back(dataIn.InputText(inputText)[i]);
+    }
 
     Sound SoundOne;
-    SoundOne.playSound(toneInput);
+    SoundOne.playSound(HexBuffer);
 
     /*
     Sound RecordSound;
     RecordSound.recordSound(5000);
     */
-    int dontClose;
-    cin >> dontClose;
-    return 0;
+
+    Sound delayms;
+    delayms.delay(2000);
+
 }

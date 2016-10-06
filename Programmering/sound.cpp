@@ -62,7 +62,7 @@ void Sound::playSound(vector<int> inputVector)
                            941, 941, 941, 941};
 
 
-    int timePrTone = 500;
+    int timePrTone = 200;
 
     sf::SoundBuffer bufferInput;
     vector<sf::Int16> inputSamples;
@@ -159,6 +159,7 @@ void Sound::playSound(vector<int> inputVector)
     sf::Sound sound;
     sound.setBuffer(bufferInput);
 
+    cout << "Playing sound" << endl;
     sound.play();
     delay(timePrTone*inputVector.size());
 
