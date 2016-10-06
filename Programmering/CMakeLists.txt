@@ -3,7 +3,7 @@ project(Projekt)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp sound.h sound.cpp TextHandler.h TextHandler.cpp)
+set(SOURCE_FILES main.cpp Sound/sound.h Sound/sound.cpp TextHandler/TextHandler.h TextHandler/TextHandler.cpp Frame/Frame/Frame.cpp Frame/Frame/Frame.h)
 add_executable(Projekt ${SOURCE_FILES})
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
