@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-
+    //Oprettelse af konstanter
     string inputText;
     getline(cin, inputText);
     vector<int> HexBuffer;
@@ -16,30 +16,25 @@ int main()
     TextHandler dataIn;
     HexBuffer.clear();
 
-
+    //Ligger teksten ind i HexBuffer som decimaler fra 0-15
     for(int i = 0; i < (inputText.length() * 2); i++)
     {
         HexBuffer.push_back(dataIn.InputText(inputText)[i]);
     }
 
+    //Opretter frame objekt
     Frame framing(HexBuffer);
     framing.makeFrame();
 
+    //Ligger hexbuffer ind i framebuffer med frame rundt om
     for (int i = 0; i < framing.getLength(); i++)
     {
         FrameBuffer.push_back(framing.getFrame().getElement(i));
     }
 
-
+    //Afspiller lyd
     Sound SoundOne;
     SoundOne.playSound(FrameBuffer);
 
-    /*
-    Sound RecordSound;
-    RecordSound.recordSound(5000);
-    */
-
-    Sound delayms;
-    delayms.delay(2000);
-
+    return 0;
 }
