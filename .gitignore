@@ -4,6 +4,7 @@
 *.o
 *.obj
 
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -27,3 +28,12 @@
 *.exe
 *.out
 *.app
+*.xml
+*.iml
+
+Programmering/.idea/
+*.xml
+Programmering/.idea/Programmering.iml
+Programmering/.idea/Programmering.iml
+
+Programmering/.idea/Programmering.iml
