@@ -6,7 +6,6 @@ using namespace std;
 
 int main()
 {
-    cout << "Playing input vector tone" << endl;
 
     vector<int> toneInput;
     toneInput = {8, 4, 5, 10, 13, 0, 1, 6};
