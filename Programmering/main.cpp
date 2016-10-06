@@ -13,9 +13,14 @@ int main()
     getline(cin, inputText);
     vector<int> HexBuffer;
     vector<int> FrameBuffer;
-
     TextHandler dataIn;
-    HexBuffer = dataIn.InputText(inputText);
+    HexBuffer.clear();
+
+
+    for(int i = 0; i < (inputText.length() * 2); i++)
+    {
+        HexBuffer.push_back(dataIn.InputText(inputText)[i]);
+    }
 
     Frame framing(HexBuffer);
     framing.makeFrame();
