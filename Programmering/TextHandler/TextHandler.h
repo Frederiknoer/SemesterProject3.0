@@ -20,14 +20,8 @@ private:
 	//output consts.
 	char outDataString[10000];
 	vector<int> outputBuffer;
-
 	vector<int> transNBuffer;
-	vector<int> transBBuffer;
 
 	//input conts.
-	vector<int> inBuffer;
-	vector<int> inputBuffer;
-	unsigned char ucInCharacter;
-	vector<char> inDataString;
+	string s;
 };
-

@@ -29,34 +29,20 @@ vector<int> TextHandler::InputText(string enS)
 	return transNBuffer;
 }
 
-string TextHandler::OutputText(vector<int> vINT)
+string TextHandler::OutputText(vector<int> vecInt)
 {
-	inBuffer = vINT;
+	vector<char> inDataString;
 
-	for (int i = 0; i < (inBuffer.size()); i++)
+	for (int i = 0; i < vecInt.size(); i += 2)
 	{
-		int nibbleTransfer = (inBuffer[i + 1] | (inBuffer[i] << 4));
-		transBBuffer.push_back(nibbleTransfer);
-		i++;
-	}
-
-	for (int i = 0; i < transBBuffer.size(); i++)		//Transfers the data from the outputBuffer to the inputBuffer
-	{
-		inputBuffer.push_back(transBBuffer[i]);
-	}
-
-	for (int i = 0; i < inputBuffer.size(); i++)		//Converts decimals to chars and saves them in inDataString
-	{
-		ucInCharacter = (unsigned char)transBBuffer[i];
-		inDataString[i] = ucInCharacter;
+		int nibbleTransfer = (vecInt[i + 1] | (vecInt[i] << 4));
+		inDataString.push_back((unsigned char)nibbleTransfer);
 	}
 
 	string s(inDataString.data(), inDataString.size());
-	
+
 	return s;
 }
-
-
 
 
 TextHandler::~TextHandler()
