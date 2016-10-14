@@ -1,10 +1,62 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 #include "Sound/sound.h"
 #include "TextHandler/TextHandler.h"
 #include "Frame/Frame/Frame.h"
+#include <complex>
+#include <math.h>
 using namespace std;
 
+
+int main()
+{
+
+    int samplingFreq = 44100;
+    int dt = 1/samplingFreq;
+    double recordTime = 1;
+    int z = -1;
+
+
+    sf::SoundBufferRecorder recorder;
+    recorder.start();
+
+    cout << "Recording.." << endl;
+    Sound delayms;
+    delayms.delay(recordTime);
+    cout << "Done Recording" << endl;
+
+    recorder.stop();
+
+    double NumSamp = 44100 * (recordTime/1000);
+    cout << NumSamp << endl;
+
+    const sf::SoundBuffer& buffer = recorder.getBuffer();
+    const sf::Int16 *samples = buffer.getSamples();
+
+    vector<int> freqData;
+
+    for (int i = 0; i < 200; i++)
+    {
+        double Data = 0;
+        for (int j = 0; j < NumSamp; j++)
+        {
+            Data = Data +  ( exp(real(z) * ((2 * M_PI) / NumSamp) * i * j));
+        }
+        freqData.push_back(Data);
+        cout << Data << endl;
+
+    }
+
+    double long vectorSize = freqData.size();
+    cout << vectorSize << endl;
+
+    return 0;
+
+}
+
+
+/*
 int main()
 {
     //Oprettelse af konstanter
@@ -47,3 +99,5 @@ int main()
     }
     return 0;
 }
+
+ */
