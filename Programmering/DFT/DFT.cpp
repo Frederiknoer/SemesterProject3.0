@@ -7,6 +7,7 @@ DFT::DFT()
 
 void DFT::DFTrans(const sf::Int16 *samples, double N, int sampleFreq)
 {
+    double M_PI = 3.1415;
 
     double FreqFaktor = N/(sampleFreq);
     int FreqTabel[] = {697, 770, 852, 941, 1209, 1336, 1477, 1633};
