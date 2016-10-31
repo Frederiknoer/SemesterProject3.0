@@ -3,6 +3,8 @@
 #include <SFML/Audio.hpp>
 #include "sound.h"
 
+#define TWOPI 6.283185
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -11,43 +13,29 @@
 #include <unistd.h>
 #endif
 
+
+
 Sound::Sound() {
 
 };
 
-
-double Sound::tpc() {
-
-    return 44100 / frequency;
-
-}
-
-double Sound::cycles() {
-
-    return theTime/tpc();
-
-}
-
-double Sound::rad() {
-#define TWOPI 6.283185
-    return TWOPI * cycles();
+void Sound::setSamplingRate(double SR) {
+    samplingRate = SR;
 }
 
 
-short Sound::SinWave(double time, double freq, double amp) {
 
-    theTime = time;
-    frequency = freq;
-    theAmplitude = amp * 32767;
+short Sound::sinWave(double time, double timePrTone, double freqLast, double freqNext) {
 
 
-    double result;
-    return result = theAmplitude * sin(rad());
+    double transformedFreqLast = freqLast/samplingRate;
+    double transformedFreqNext = freqNext/samplingRate;
 
+    return (short)(0.5*32767 * sin(TWOPI * (transformedFreqLast*timePrTone + time * transformedFreqNext)));
 }
 
 
-void Sound::playSound(vector<int> inputVector)
+void Sound::makeSound(vector<int> inputVector)
 {
 
 
@@ -62,145 +50,42 @@ void Sound::playSound(vector<int> inputVector)
                            941, 941, 941, 941};
 
 
-    int timePrTone = 500;
+    double timePrTone = 50;
+    double numberOfSamples = (samplingRate * timePrTone) / 1000; //44100 = the number of sampels for 1 sekund
+    double freqSumFirst = 0;
+    double freqSumSecound = 0;
 
-    sf::SoundBuffer bufferInput;
-    vector<sf::Int16> inputSamples;
+    vector <sf::Int16> bufferSamples;
 
+    for (int j = 0; j < inputVector.size(); j++) {
 
-    for (int j = 0; j < inputVector.size(); ++j) {
-
-        int tone = inputVector[j];
-        int numberOfSamples = (44100 * timePrTone) / 1000; //44100 = the number of sampels for 1 sekund
-        double fadeFirstLast = 0.1;
-        double fadeInOut = 0.01;
-
-        double setAmp = 1;  //0.0 - 1.0
-
-        for (int i = 0; i < numberOfSamples; i++)
-        {
-
-// Fade in module
-
-            if (j == 0)
-            {
-                if (i < (numberOfSamples * fadeFirstLast))
-                {
-                    inputSamples.push_back(
-                            (SinWave(i, toneFirst[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeFirstLast)))) +
-                            (SinWave(i, toneSecound[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeFirstLast)))));
-                }
-            }else{
-
-                if (i < (numberOfSamples * fadeInOut))
-                {
-                    inputSamples.push_back(
-                            (SinWave(i, toneFirst[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeInOut)))) +
-                            (SinWave(i, toneSecound[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeInOut)))));
-                }
-            }
-
-// No fadeing module
-
-            if (j == 0)
-            {
-                if (((numberOfSamples * fadeFirstLast) < i) && (i < (numberOfSamples * (1 - fadeInOut))))
-                {
-                    inputSamples.push_back(
-                            (SinWave(i, toneFirst[tone], (0.5 * setAmp))) +
-                            (SinWave(i, toneSecound[tone], (0.5 * setAmp))));
-                }
-
-            }else{
-
-                if( j == (inputVector.size() - 1) ){
-                    if (((numberOfSamples * fadeInOut) < i) && (i < (numberOfSamples * (1 - fadeFirstLast)))) {
-                        inputSamples.push_back(
-                                (SinWave(i, toneFirst[tone], (0.5 * setAmp))) +
-                                (SinWave(i, toneSecound[tone], (0.5 * setAmp))));
-                    }
-                }else {
-
-                    if (((numberOfSamples * fadeInOut) < i) && (i < (numberOfSamples * (1 - fadeInOut)))) {
-                        inputSamples.push_back(
-                                (SinWave(i, toneFirst[tone], (0.5 * setAmp))) +
-                                (SinWave(i, toneSecound[tone], (0.5 * setAmp))));
-                    }
-                }
-            }
-
-
-// Fade out module
-
-            if (j == (inputVector.size() - 1) )
-            {
-                if (i > (numberOfSamples * (1-fadeFirstLast)))
-                {
-                    inputSamples.push_back(
-                            (SinWave(i, toneFirst[tone], (0.5 * setAmp) * ((numberOfSamples - i) / (numberOfSamples * (fadeFirstLast))))) +
-                            (SinWave(i, toneSecound[tone], (0.5 * setAmp) * ((numberOfSamples - i) / (numberOfSamples * (fadeFirstLast))))));
-                }
-            }else {
-
-                if (i > (numberOfSamples * (1 - fadeInOut))) {
-                    inputSamples.push_back(
-                            (SinWave(i, toneFirst[tone],
-                                     (0.5 * setAmp) * ((numberOfSamples - i) / (numberOfSamples * (fadeInOut))))) +
-                            (SinWave(i, toneSecound[tone],
-                                     (0.5 * setAmp) * ((numberOfSamples - i) / (numberOfSamples * (fadeInOut))))));
-                }
-            }
+        for (int i = 0; i < numberOfSamples; ++i){
+            bufferSamples.push_back(
+                    sinWave(i, numberOfSamples, freqSumFirst, toneFirst[inputVector[j]]) +
+                    sinWave(i, numberOfSamples, freqSumSecound, toneSecound[inputVector[j]])
+            );
         }
-
+        freqSumFirst = freqSumFirst + toneFirst[inputVector[j]];
+        freqSumSecound = freqSumSecound + toneSecound[inputVector[j]];
     }
 
-    bufferInput.loadFromSamples(&inputSamples[0], inputSamples.size(), 1, 44100);
 
-    sf::Sound sound;
-    sound.setBuffer(bufferInput);
-
-    cout << "Playing sound" << endl;
-    sound.play();
-    delay(timePrTone*inputVector.size());
-
-    cout << "Done playing sound" << endl;
+    inputSamples = bufferSamples;
 }
 
 
-void Sound::recordSound(int milli) {
+vector<sf::Int16> Sound::getSound() {
+    return inputSamples;
 
-    int ms = milli;
-    cout << "Recording.. " << endl;
-    if (!sf::SoundBufferRecorder::isAvailable()) {
-        cout << "Audio device is uavalibale..." << endl;
-
-        delay(ms);
-
-    }
-
-    sf::SoundBufferRecorder recorder;
-    recorder.start();
-
-    delay(ms);
-
-    recorder.stop();
-
-    const sf::SoundBuffer &buffer = recorder.getBuffer();
-
-    sf::Sound soundOutput(buffer);
-    soundOutput.play();
-
-    cout << "Playing sound.." << endl;
-
-    delay(ms);
 }
 
 
-void Sound::delay(int ms)
+
+void Sound::delay(double ms)
 {
 
 #ifdef __APPLE__
-    usleep(ms * 1000);
+    usleep((useconds_t )ms * 1000);
 #endif
 
 #ifdef _WIN32

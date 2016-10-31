@@ -1,0 +1,81 @@
+     // Print tegn:
+
+        int counter = 0;
+        int highFreq = 0;
+        int lowFreq = 0;
+
+        int tegnTabel1[] = {0, 1, 2, 3};
+        int tegnTabel2[] = {4, 5, 6, 7};
+        int tegnTabel3[] = {8, 9, 10, 11};
+        int tegnTabel4[] = {12, 13, 14, 15};
+
+        freqSpek[0] = freqSpek[0] * 5;
+        freqSpek[6] = freqSpek[6] * 5;
+
+
+        int talTabel[] = {1, 2, 3, 4, 1, 2, 3, 4};
+        for (int l = 4; l < 8; ++l)
+        {
+            if (freqSpek[l] > ampFaktor)
+            {
+                counter++;
+                highFreq = talTabel[l];
+            }
+        }
+
+        if(counter == 1)
+        {
+            counter = 0;
+            for (int i = 0; i < 4; ++i)
+            {
+                if (freqSpek[i] > ampFaktor)
+                {
+                    counter++;
+                    lowFreq = talTabel[i];
+                }
+            }
+        }
+
+        clock_t start;
+
+        if(counter == 1)
+        {
+            if(lowFreq == 1)
+            {
+
+                cout << tegnTabel1[highFreq-1] << endl;
+
+                start = clock();
+
+                cout << endl;
+
+            }
+
+
+            if(lowFreq == 2)
+            {
+                cout << tegnTabel2[highFreq-1] << endl;
+
+                double duration;
+                cout <<  ( clock() - start ) / (double) CLOCKS_PER_SEC << endl;
+
+                cout << endl;
+            }
+
+            if(lowFreq == 3)
+            {
+
+                cout << tegnTabel3[highFreq-1] << endl;
+
+
+                cout << endl;
+            }
+
+            if(lowFreq == 4)
+            {
+                cout << tegnTabel4[highFreq-1] << endl;
+
+
+                cout << endl;
+            }
+        }

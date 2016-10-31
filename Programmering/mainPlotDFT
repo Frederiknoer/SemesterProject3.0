@@ -1,0 +1,175 @@
+#include <iostream>
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include "Sound/sound.h"
+#include <complex>
+#include "CustomRecorder/CustomRecorder.h"
+using namespace std;
+
+
+int main()
+{
+
+
+    //defines;
+
+    int samplingFreq = 96000;
+    double N = 8192;
+    double FreqFaktor = N/samplingFreq;
+    double recordTime = FreqFaktor * 1000;
+    double ampFaktor = 500000 * (N/1024);
+
+
+// window settings:
+
+    sf::RenderWindow window(sf::VideoMode(1024, 720), "Window");
+
+    while(window.isOpen())
+    {
+        sf::Event event;
+
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear(sf::Color::White);
+
+// record settings:
+        sf::SoundBufferRecorder recorder;
+        recorder.start((unsigned int)samplingFreq);
+
+        Sound delayms;
+        delayms.delay(recordTime);
+
+        recorder.stop();
+
+
+        const sf::SoundBuffer &buffer = recorder.getBuffer();
+
+        const sf::Int16 *samples = buffer.getSamples();
+        size_t count = buffer.getSampleCount();
+
+
+ //DFT - Diskret Fourier Transformation
+        vector <double> freqSpek;
+        int FreqTabel[] = {697, 770, 852, 941, 1209, 1336, 1477, 1633};
+
+        for (int k = 0; k < 8; k++) {
+            complex<double> sum(0.0, 0.0);
+            for (int j = 0; j < N; j++) {
+                int integers = -2 * j * FreqTabel[k];
+                complex<double> exponent(0.0, M_PI / N * ((double) integers * FreqFaktor));
+                sum += (double) samples[j] * exp(exponent);
+
+            }
+            freqSpek.push_back(abs(sum));
+        }
+
+
+
+
+// Tjekker hvilke DTMF toner der høres
+
+
+        int counter = 0;
+        int highFreq = 0;
+        int lowFreq = 0;
+
+        string tegnTabel1[] = {"1", "2", "3", "A"};
+        string tegnTabel2[] = {"4", "5", "6", "B"};
+        string tegnTabel3[] = {"7", "8", "9", "C"};
+        string tegnTabel4[] = {"*", "0", "#", "D"};
+
+        int talTabel[] = {1, 2, 3, 4, 1, 2, 3, 4};
+
+        for (int l = 4; l < 8; ++l)
+        {
+            if (freqSpek[l] > ampFaktor)
+            {
+                counter++;
+                highFreq = talTabel[l];
+            }
+        }
+
+        if(counter == 1)
+        {
+            counter = 0;
+            for (int i = 0; i < 4; ++i)
+                {
+                    if (freqSpek[i] > ampFaktor)
+                    {
+                        counter++;
+                        lowFreq = talTabel[i];
+                    }
+                }
+        }
+
+        if(counter == 1)
+        {
+        //  cout << "Består af: " << lowFreq << " & " << highFreq << "." << endl;
+            if(lowFreq == 1)
+            {
+                cout << tegnTabel1[highFreq-1];
+            }
+
+            if(lowFreq == 2)
+            {
+                cout << tegnTabel2[highFreq-1];
+            }
+
+            if(lowFreq == 3)
+            {
+            cout << tegnTabel3[highFreq-1];
+            }
+
+            if(lowFreq == 4)
+            {
+            cout << tegnTabel4[highFreq-1];
+            }
+        }
+
+
+// Tegner amplituden for de forskellige 8 frekvenser.
+
+        vector<sf::Vertex> vertices;
+
+
+
+        for (int i = 0; i < 8; ++i)
+        {
+
+            vertices.push_back(sf::Vertex(
+                    sf::Vector2f((1024 / 8 * i), (float)(-freqSpek[i] * 0.00001)+720),
+                    sf::Color::Black,
+                    sf::Vector2f((1024 / 8 * (i + 1)), (float)(-freqSpek[i] * 0.00001)+720))
+            );
+
+
+            vertices.push_back(sf::Vertex(
+                    sf::Vector2f((1024 / 8 * (i + 1)), (float)(-freqSpek[i] * 0.00001)+720),
+                    sf::Color::Black,
+                    sf::Vector2f((1024 / 8 * (i + 1)), (float)(-freqSpek[i + 1] * 0.00001)+720))
+            );
+
+        }
+
+        sf::Vertex line[] =
+                {
+                        sf::Vertex(sf::Vector2f(0, (float)(-ampFaktor * 0.00001)+720),
+                        sf::Color::Red),
+                        sf::Vertex(sf::Vector2f(1024, (float)(-ampFaktor * 0.00001)+720), sf::Color::Red)
+                };
+
+//Plotter streger
+
+        window.draw(line, 2, sf::Lines);
+        window.draw(&vertices[0], 16, sf::LinesStrip);
+
+        window.display();
+    }
+
+return 0;
+}
+/*

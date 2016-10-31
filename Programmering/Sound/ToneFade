@@ -1,0 +1,102 @@
+   int toneFirst[16] = {1209, 1336, 1447, 1633,
+                         1209, 1336, 1447, 1633,
+                         1209, 1336, 1447, 1633,
+                         1209, 1336, 1447, 1633};
+
+    int toneSecound[16] = {697, 697, 697, 697,
+                           770, 770, 770, 770,
+                           852, 852, 852, 852,
+                           941, 941, 941, 941};
+
+
+    int timePrTone = 250;
+
+    vector <sf::Int16> bufferSamples;
+
+    for (int j = 0; j < inputVector.size(); ++j) {
+
+        int tone = inputVector[j];
+        int numberOfSamples = (44100 * timePrTone) / 1000; //44100 = the number of sampels for 1 sekund
+        double fadeFirstLast = 0.1;
+        double fadeInOut = 0.01;
+
+        double setAmp = 1;  //0.0 - 1.0
+
+        for (int i = 0; i < numberOfSamples; i++)
+        {
+
+// Fade in module
+
+            if (j == 0)
+            {
+                if (i < (numberOfSamples * fadeFirstLast))
+                {
+                    bufferSamples.push_back(
+                            (SinWave(i, toneFirst[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeFirstLast)))) +
+                            (SinWave(i, toneSecound[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeFirstLast)))));
+                }
+            }else{
+
+                if (i < (numberOfSamples * fadeInOut))
+                {
+                    bufferSamples.push_back(
+                            (SinWave(i, toneFirst[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeInOut)))) +
+                            (SinWave(i, toneSecound[tone], (0.5 * setAmp) * (i / (numberOfSamples * fadeInOut)))));
+                }
+            }
+
+// No fadeing module
+
+            if (j == 0)
+            {
+                if (((numberOfSamples * fadeFirstLast) < i) && (i < (numberOfSamples * (1 - fadeInOut))))
+                {
+                    bufferSamples.push_back(
+                            (SinWave(i, toneFirst[tone], (0.5 * setAmp))) +
+                            (SinWave(i, toneSecound[tone], (0.5 * setAmp))));
+                }
+
+            }else{
+
+                if( j == (inputVector.size() - 1) ){
+                    if (((numberOfSamples * fadeInOut) < i) && (i < (numberOfSamples * (1 - fadeFirstLast)))) {
+                        bufferSamples.push_back(
+                                (SinWave(i, toneFirst[tone], (0.5 * setAmp))) +
+                                (SinWave(i, toneSecound[tone], (0.5 * setAmp))));
+                    }
+                }else {
+
+                    if (((numberOfSamples * fadeInOut) < i) && (i < (numberOfSamples * (1 - fadeInOut)))) {
+                        bufferSamples.push_back(
+                                (SinWave(i, toneFirst[tone], (0.5 * setAmp))) +
+                                (SinWave(i, toneSecound[tone], (0.5 * setAmp))));
+                    }
+                }
+            }
+
+
+// Fade out module
+
+            if (j == (inputVector.size() - 1) )
+            {
+                if (i > (numberOfSamples * (1-fadeFirstLast)))
+                {
+                    bufferSamples.push_back(
+                            (SinWave(i, toneFirst[tone], (0.5 * setAmp) * ((numberOfSamples - i) / (numberOfSamples * (fadeFirstLast))))) +
+                            (SinWave(i, toneSecound[tone], (0.5 * setAmp) * ((numberOfSamples - i) / (numberOfSamples * (fadeFirstLast))))));
+                }
+            }else {
+
+                if (i > (numberOfSamples * (1 - fadeInOut))) {
+                    bufferSamples.push_back(
+                            (SinWave(i, toneFirst[tone],
+                                     (0.5 * setAmp) * ((numberOfSamples - i) / (numberOfSamples * (fadeInOut))))) +
+                            (SinWave(i, toneSecound[tone],
+                                     (0.5 * setAmp) * ((numberOfSamples - i) / (numberOfSamples * (fadeInOut))))));
+                }
+            }
+        }
+
+    }
+
+    inputSamples = bufferSamples;

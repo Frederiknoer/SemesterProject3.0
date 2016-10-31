@@ -3,101 +3,63 @@
 #include <SFML/Graphics.hpp>
 #include "Sound/sound.h"
 #include "TextHandler/TextHandler.h"
-#include "Frame/Frame/Frame.h"
-#include <complex>
-#include <math.h>
+#include "CustomRecorder/CustomRecorder.h"
 using namespace std;
 
 
 int main()
 {
+    unsigned int recordSampleRate = 96000;
+    unsigned int playSampleRate = 44100;
 
-    int samplingFreq = 44100;
-    int dt = 1/samplingFreq;
-    double recordTime = 1;
-    int z = -1;
+    Sound mySound;
+    mySound.setSamplingRate(playSampleRate);
+
+    CustomRecorder recorder;
+    recorder.start(recordSampleRate);
+
+    string mystring;
+    cout << "Skriv tekst: ";
+    cin >> mystring;
+
+while (1) {
+    vector<int> HexBuffer = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 
 
-    sf::SoundBufferRecorder recorder;
-    recorder.start();
+    /*
+    TextHandler myTest;
+    vector<int> HexIntVec = myTest.InputText(mystring);
 
-    cout << "Recording.." << endl;
-    Sound delayms;
-    delayms.delay(recordTime);
-    cout << "Done Recording" << endl;
+    for (int i = 0; i < (mystring.length() * 2); ++i) {
+        HexBuffer.push_back(HexIntVec[i]);
+    }
+     */
+
+
+    mySound.makeSound(HexBuffer);
+
+
+    vector<sf::Int16> inputSamples = mySound.getSound();
+
+    sf::SoundBuffer bufferInput;
+    bufferInput.loadFromSamples(&inputSamples[0], inputSamples.size(), 1, playSampleRate);
+
+    sf::Sound sound;
+    sound.setBuffer(bufferInput);
+    sound.play();
+
+    HexBuffer.clear();
+//    HexIntVec.clear();
+
+
+    cout << "Skriv tekst: ";
+    cin >> mystring;
+
+
+
+}
 
     recorder.stop();
 
-    double NumSamp = 44100 * (recordTime/1000);
-    cout << NumSamp << endl;
-
-    const sf::SoundBuffer& buffer = recorder.getBuffer();
-    const sf::Int16 *samples = buffer.getSamples();
-
-    vector<int> freqData;
-
-    for (int i = 0; i < 200; i++)
-    {
-        double Data = 0;
-        for (int j = 0; j < NumSamp; j++)
-        {
-            Data = Data +  ( exp(real(z) * ((2 * M_PI) / NumSamp) * i * j));
-        }
-        freqData.push_back(Data);
-        cout << Data << endl;
-
-    }
-
-    double long vectorSize = freqData.size();
-    cout << vectorSize << endl;
-
-    return 0;
-
-}
-
-
-/*
-int main()
-{
-    //Oprettelse af konstanter
-    string inputText;
-    vector<int> HexBuffer;
-    vector<int> FrameBuffer;
-    TextHandler dataIn;
-    HexBuffer.clear();
-
-    while(true) {
-        //Læser input
-        getline(cin, inputText);
-
-        if (inputText == "stop")
-            break;
-
-        //Ligger teksten ind i HexBuffer som decimaler fra 0-15
-        vector<int> HexIntVec = dataIn.InputText(inputText);
-        for (int i = 0; i < (inputText.length() * 2); i++) {
-            HexBuffer.push_back(HexIntVec[i]);
-        }
-
-        //Opretter frame objekt
-        Frame framing(HexBuffer);
-        framing.makeFrame();
-
-        //Ligger hexbuffer ind i framebuffer med frame rundt om
-        for (int i = 0; i < framing.getLength(); i++) {
-            FrameBuffer.push_back(framing.getFrame().getElement(i));
-        }
-
-        //Afspiller lyd
-        Sound SoundOne;
-        SoundOne.playSound(FrameBuffer);
-
-        //Tømmer bufferne
-        HexBuffer.clear();
-        HexIntVec.clear();
-        FrameBuffer.clear();
-    }
     return 0;
 }
-
- */

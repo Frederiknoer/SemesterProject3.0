@@ -7,20 +7,20 @@ class Sound
 {
 public:
     Sound();
-    short SinWave(double time, double freq, double amp);
-    double tpc();
-    double cycles();
-    double rad();
-    void playSound(vector<int>);
-    void recordSound(int);
-    void delay(int ms);
+    void setSamplingRate(double SR);
+    void makeSound(vector<int>);
+
+    short sinWave(double time , double timePrTone,  double freqLast, double freqNext);
+    vector <sf::Int16> getSound();
+
+    void delay(double ms);
 
     ~Sound();
 
 private:
-    double frequency;
-    double theTime;
-    double theAmplitude;
+    double samplingRate;
+    vector<sf::Int16> inputSamples;
+
 
 
 };

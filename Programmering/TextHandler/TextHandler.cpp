@@ -1,7 +1,6 @@
 #include "TextHandler.h"
 
 
-
 TextHandler::TextHandler()
 {
 }
