@@ -62,7 +62,7 @@ void Sound::playSound(vector<int> inputVector)
                            941, 941, 941, 941};
 
 
-    int timePrTone = 500;
+    int timePrTone = 100;
 
     sf::SoundBuffer bufferInput;
     vector<sf::Int16> inputSamples;
