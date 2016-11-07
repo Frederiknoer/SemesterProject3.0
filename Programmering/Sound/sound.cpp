@@ -50,7 +50,7 @@ void Sound::makeSound(vector<int> inputVector)
                            941, 941, 941, 941};
 
 
-    double timePrTone = 50;
+    double timePrTone = 100;
     double numberOfSamples = (samplingRate * timePrTone) / 1000; //44100 = the number of sampels for 1 sekund
     double freqSumFirst = 0;
     double freqSumSecound = 0;
@@ -64,6 +64,7 @@ void Sound::makeSound(vector<int> inputVector)
                     sinWave(i, numberOfSamples, freqSumFirst, toneFirst[inputVector[j]]) +
                     sinWave(i, numberOfSamples, freqSumSecound, toneSecound[inputVector[j]])
             );
+
         }
         freqSumFirst = freqSumFirst + toneFirst[inputVector[j]];
         freqSumSecound = freqSumSecound + toneSecound[inputVector[j]];

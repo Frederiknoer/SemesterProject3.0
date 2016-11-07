@@ -51,7 +51,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         double avg = 0;
         int counter = 0;
         double freqs[2];
-        int jay[2];
+        int numberConst[2];
 
 
 
@@ -67,17 +67,16 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
             if (((freqSpek[j] * freqScale[j]) > avg && avg > 100000))
             {
                 freqs[counter] = freqSpek[j];
-                jay[counter] = j;
+                numberConst[counter] = j;
                 counter++;
             }
 
         }
 
         if(counter == 2) {
-            if (jay[0] < 4 && jay[0] >= 0 && jay[1] > 3 && jay[1] <=7)
+            if (numberConst[0] < 4 && numberConst[0] >= 0 && numberConst[1] > 3 && numberConst[1] <=7)
             {
-                cout << DTMFtable[jay[0]] [jay[1]-4];
-
+                cout << DTMFtable[numberConst[0]] [numberConst[1]-4];
                 //    cout << "Avg: " << avg << endl;
                 //    cout << "Freq " << freqTable[jay[0]] << " : " << freqSpek[jay[0]] << endl;
                 //    cout << "Freq " << freqTable[jay[1]] << " : " << freqSpek[jay[1]] <<  endl;
@@ -95,6 +94,6 @@ void CustomRecorder::onStop() {
 
 CustomRecorder::~CustomRecorder()
 {
-
+    stop();
 }
 
