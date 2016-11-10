@@ -9,7 +9,7 @@ CustomRecorder::CustomRecorder()
 
 bool CustomRecorder::onStart() {
 
-        setProcessingInterval(sf::milliseconds(20));
+        setProcessingInterval(sf::milliseconds(10));
         return true;
 
 }
@@ -53,7 +53,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         double freqs[2];
         int numberConst[2];
 
-
+        int freqTabel[] = {697, 770, 852, 941, 1209, 1336, 1477, 1633};
 
         for (int i = 0; i < 8; ++i) {
             avg = avg + freqSpek[i];
@@ -61,9 +61,11 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         avg = avg / 8;
 
-        int freqScale [] = {1, 1, 1, 1, 1, 1, 1, 1};
 
-        for (int j = 0; j < 8; ++j) {
+
+        double freqScale [] = {1, 1, 1, 1, 1, 1, 1, 1};
+
+        for (int j = 0; j <  8; ++j) {
             if (((freqSpek[j] * freqScale[j]) > avg && avg > 100000))
             {
                 freqs[counter] = freqSpek[j];
@@ -77,9 +79,10 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
             if (numberConst[0] < 4 && numberConst[0] >= 0 && numberConst[1] > 3 && numberConst[1] <=7)
             {
                 cout << DTMFtable[numberConst[0]] [numberConst[1]-4];
-                //    cout << "Avg: " << avg << endl;
-                //    cout << "Freq " << freqTable[jay[0]] << " : " << freqSpek[jay[0]] << endl;
-                //    cout << "Freq " << freqTable[jay[1]] << " : " << freqSpek[jay[1]] <<  endl;
+
+              //      cout << "Avg: " << avg << endl;
+               //     cout << "Freq " << freqTabel[numberConst[0]] << " : " << freqSpek[numberConst[0]] << endl;
+               //     cout << "Freq " << freqTabel[numberConst[1]] << " : " << freqSpek[numberConst[1]] <<  endl << endl;
 
             }
         }

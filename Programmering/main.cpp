@@ -23,21 +23,17 @@ int main()
     cin >> mystring;
 
 while (1) {
-    vector<int> HexBuffer = {0, 15, 0, 15, 0, 15, 0, 15, 0, 15, 0, 15, 0, 15, 0, 15, 0 , 15, 0, 15, 0, 15 , 0, 15, 0, 15};
+    vector<int> HexBuffer = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 
-
-    /*
+  /*
     TextHandler myTest;
     vector<int> HexIntVec = myTest.InputText(mystring);
 
     for (int i = 0; i < (mystring.length() * 2); ++i) {
         HexBuffer.push_back(HexIntVec[i]);
     }
-     */
-
-
+*/
     mySound.makeSound(HexBuffer);
-
 
     vector<sf::Int16> inputSamples = mySound.getSound();
 
@@ -49,7 +45,7 @@ while (1) {
     sound.play();
 
     HexBuffer.clear();
-//    HexIntVec.clear();
+  //  HexIntVec.clear();
 
     cout << "Skriv tekst: ";
     cin >> mystring;

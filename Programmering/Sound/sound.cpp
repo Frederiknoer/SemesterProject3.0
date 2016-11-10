@@ -25,13 +25,13 @@ void Sound::setSamplingRate(double SR) {
 
 
 
-short Sound::sinWave(double time, double timePrTone, double freqLast, double freqNext) {
+short Sound::sinWave(double amp, double time, double timePrTone, double freqLast, double freqNext) {
 
 
     double transformedFreqLast = freqLast/samplingRate;
     double transformedFreqNext = freqNext/samplingRate;
 
-    return (short)(0.5*32767 * sin(TWOPI * (transformedFreqLast*timePrTone + time * transformedFreqNext)));
+    return (short)(amp * 32767 * sin(TWOPI * (transformedFreqLast*timePrTone + time * transformedFreqNext)));
 }
 
 
@@ -44,16 +44,27 @@ void Sound::makeSound(vector<int> inputVector)
                          1209, 1336, 1447, 1633,
                          1209, 1336, 1447, 1633};
 
+    double freqFirst[16] = {0.7, 0.95, 0.7, 0.9,
+                            0.7, 0.95, 0.7, 0.9,
+                            0.7, 0.95, 0.7, 0.9,
+                            0.7, 0.95, 0.7, 0.9};
+
     int toneSecound[16] = {697, 697, 697, 697,
                            770, 770, 770, 770,
                            852, 852, 852, 852,
                            941, 941, 941, 941};
 
+    double freqSecound[16] = {1, 1, 1, 1,
+                           1, 1, 1, 1,
+                           1, 1, 1, 1,
+                           1, 1, 1, 1};
 
     double timePrTone = 100;
     double numberOfSamples = (samplingRate * timePrTone) / 1000; //44100 = the number of sampels for 1 sekund
     double freqSumFirst = 0;
     double freqSumSecound = 0;
+    double amplitude = 0.5;
+
 
     vector <sf::Int16> bufferSamples;
 
@@ -61,8 +72,8 @@ void Sound::makeSound(vector<int> inputVector)
 
         for (int i = 0; i < numberOfSamples; ++i){
             bufferSamples.push_back(
-                    sinWave(i, numberOfSamples, freqSumFirst, toneFirst[inputVector[j]]) +
-                    sinWave(i, numberOfSamples, freqSumSecound, toneSecound[inputVector[j]])
+                    sinWave(amplitude, i, numberOfSamples, freqSumFirst, toneFirst[inputVector[j]]) +
+                    sinWave(amplitude,  i, numberOfSamples, freqSumSecound, toneSecound[inputVector[j]])
             );
 
         }
