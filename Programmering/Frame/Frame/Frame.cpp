@@ -1,7 +1,5 @@
 #include "Frame.h"
 
-
-
 Frame::Frame()
 {
 }
@@ -14,16 +12,16 @@ void Frame::makeFrame()
 	//Hvis data ligner et flag, indsættes en plads med 0 imellem dem. 
 	for (int i = 0;i < getLength()-1;i++)
 	{
-		if (getElement(i) == 0b0111 && getElement(i+1) == 0b1110)
+		if (getElement(i) == 0b0111)
 		{
 			data.insert(data.begin() + i + 1, 0);
 		}
 	}
 	// Redundante bits tilføjes, med generatiopolynomiet 10001001:
-	unsigned long sum = 0;
-	int checkSum = 0;
-	bitset<8> checkSumBit = 0;
-	bitset<4> checkSumHN = 0;
+	unsigned long sum = 0;						// Variabel til summen af alle pladser på vektortabellen
+	int checkSum = 0;	
+	bitset<8> checkSumBit = 0;					//Følgende udregner tjeksummen og deler den op i nipples på en noget besværlig måde 
+	bitset<4> checkSumHN = 0;					// Det hele laves eventuelt om til Frederiks metode fra TextHandler 
 	bitset<4> checkSumLN = 0;
 	int checkSumLNint = 0;
 	int checkSumHNint = 0;
@@ -31,7 +29,7 @@ void Frame::makeFrame()
 	{
 		sum = sum + data[i];
 	}
-	checkSum = sum % 0b10001001;
+	checkSum = sum % 0b10001001;				//Tjek-summen bestemmes ved at heltalsdividere med generatorpolynomiet og resten er den tjeksummen.
 	checkSumBit = checkSum;
 	checkSumLN[0] = checkSumBit[0];
 	checkSumLN[1] = checkSumBit[1];
@@ -45,30 +43,47 @@ void Frame::makeFrame()
 	checkSumLNint = (int)(checkSumLN.to_ulong());
 	data.push_back(checkSumHNint);
 	data.push_back(checkSumLNint);
-	data.insert(data.begin(), 0b1110);
+	//Startflaget indsættes:
+	data.insert(data.begin(), 0b1110);			
 	data.insert(data.begin(), 0b0111);
+	//Slutflaget indsættes:
 	data.push_back(0b0111);
 	data.push_back(0b1110);
 	return;
 }
 bool Frame::validataFrame()
 {
+	//Først kontrolleres start- og slut-flaget 
 	if (data[0] != 0b0111 && data[1] != 0b1110 && data[data.size() - 2] != 0b0111 && data[data.size() - 1] != 0b1110)
 		return false;
+	//Herefter lægges selve dataen sammen for at validere dataen med generatorpolynomiet.
+	unsigned long sum = 0;
+	int checkSum = (data[data.size() - 3] | (data[data.size() - 4] << 4));
+	for (int i = 2;i < getLength()-4;i++)
+	{
+		sum = sum + data[i];
+	}
+	if ((sum - checkSum) % 0b10001001 != 0) // Hvis dataen ar valid, skal summen minus tjeksummen være dividerbart med generatorpolynomiet.
+		return false;
 	return true;
+
+
+
+
 }
 void Frame::unFrame()
 {
+	//Hvis framet er valid, kan flagene og tjeksummen fjernes:
 	data.erase(data.begin());
 	data.erase(data.begin());
 	data.pop_back();
 	data.pop_back();
 	data.pop_back();
 	data.pop_back();
-
+	// Hvis der blev tilføjet en plads med værdien 0, for at data ikke kunne forstås som et flag, fjernes det igen:
 	for (int i = 0;i < getLength() - 2;i++)
 	{
-		if (getElement(i) == 0b0111 && getElement(i + 2) == 0b1110)
+		if (getElement(i) == 0b0111)
 		{
 			data.erase(data.begin() + i + 1);
 		}
@@ -91,7 +106,6 @@ int Frame::getLength()
 {
 	return data.size();
 }
-
 Frame::~Frame()
 {
 }
