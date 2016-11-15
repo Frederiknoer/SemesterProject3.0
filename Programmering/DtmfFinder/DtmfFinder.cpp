@@ -65,7 +65,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
 
             if(DTMFCounter.size() == 1)
             {
-                cout << DTMFCounter[0];
+             //   cout << DTMFCounter[0];
                 DTMFbuffer.push_back(DTMFCounter[0]);
 
             }
@@ -75,7 +75,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
                 if((DTMFCounter[DTMFCounter.size()-2]) != (DTMFCounter[DTMFCounter.size()-1]))
                 {
 
-                    cout << DTMFCounter[DTMFCounter.size()-1];
+                  //  cout << DTMFCounter[DTMFCounter.size()-1];
                     DTMFbuffer.push_back(DTMFCounter.size()-1);
 
                     DTMFCounter.clear();
@@ -84,13 +84,13 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
                 }else{
                     if (DTMFCounter.size() == 3)
                     {
-                        cout << DTMFCounter[DTMFCounter.size()-1];
+                      //  cout << DTMFCounter[DTMFCounter.size()-1];
                         DTMFbuffer.push_back(DTMFCounter.size()-1);
                     }
 
                     if(DTMFCounter.size() == 6)
                     {
-                        cout << DTMFCounter[DTMFCounter.size()-1];
+                       // cout << DTMFCounter[DTMFCounter.size()-1];
                         DTMFbuffer.push_back(DTMFCounter.size()-1);
                     }
                 }
@@ -102,6 +102,54 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
     }
 }
 
-DtmfFinder::~DtmfFinder(){
+bool DtmfFinder::pairFinder(vector<int> dtmfVec)
+{
+    int pairCheck = 0;
+    for (int l = 1; l < dtmfVec.size(); l++)
+    {
+        if (dtmfVec[l - 1] == 7 && dtmfVec[l] == 14)
+            pairCheck++;
+        if (pairCheck == 2 || pairCheck == 4 || pairCheck == 6)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<int> DtmfFinder::getDTMFBuffer() {
+    return DTMFbuffer;
+}
+
+
+
+vector< vector<int> > DtmfFinder::pairGetter(vector<int> inData)
+{
+    vector<int> dataBuffer;
+    for (int i = 1; i < inData.size(); i++)
+    {
+        if (inData[i - 1] == 7 && inData[i] == 14) //Start byte fundet
+        {
+            dataBuffer.push_back(inData[i - 1]);
+            dataBuffer.push_back(inData[i]);
+            i++;
+            for (int j = i; j < inData.size(); j++)
+            {
+                dataBuffer.push_back(inData[j]);
+                if (inData[j - 1] == 7 && inData[j] == 14)
+                {
+                    i = j + 1;
+                    finalData.push_back(dataBuffer);
+                    dataBuffer.clear();
+                    break;
+                }
+            }
+        }
+    }
+    return finalData;
+}
+
+DtmfFinder::~DtmfFinder()
+{
 
 }

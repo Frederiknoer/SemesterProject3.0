@@ -8,12 +8,16 @@ class DtmfFinder {
 public:
     DtmfFinder();
     void findDtmfTones(vector<double> freqencySpek);
+    bool pairFinder(vector<int>);
+    vector< vector<int> > pairGetter(vector<int>);
+    vector<int> getDTMFBuffer();
 
     ~DtmfFinder();
 
 private:
     vector <double> DTMFCounter;
-    vector <double> DTMFbuffer;
+    vector <int> DTMFbuffer;
+    vector< vector<int> > finalData;
 };
 
 

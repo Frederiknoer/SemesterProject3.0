@@ -24,7 +24,7 @@ int main()
     cin >> mystring;
 
 while (1) {
-    vector<int> HexBuffer = {1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 10};
+    vector<int> HexBuffer = { 1,1,4,3,7,2,4,7,14,12,11,3,3,5,7,4,5,7,14,3,1,5,4,7,14,3,4,5,6,7,14,5,6,5,7,14,5,3 };
 
   /*
     TextHandler myTest;
