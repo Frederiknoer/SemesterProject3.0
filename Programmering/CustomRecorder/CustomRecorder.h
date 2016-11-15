@@ -2,6 +2,7 @@
 #include "SFML/Audio.hpp"
 #include "../DFT/DFT.h"
 #include <chrono>
+#include "../DtmfFinder.h"
 
 using namespace std;
 
@@ -10,14 +11,13 @@ class CustomRecorder : public sf::SoundRecorder
 
 public:
     CustomRecorder();
-    virtual bool onStart();
-    virtual bool onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount);
+    bool onStart();
+    bool onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount);
     void onStop();
 
     ~CustomRecorder();
 
-public:
-
-
+private:
+    DtmfFinder findTones;
 };
 

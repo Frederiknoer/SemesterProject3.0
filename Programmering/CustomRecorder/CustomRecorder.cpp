@@ -1,4 +1,5 @@
 #include "CustomRecorder.h"
+#include "fstream"
 
 
 CustomRecorder::CustomRecorder()
@@ -20,74 +21,14 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         double N = sampleCount;
 
         DFT DiskretFourierTrans;
-        DiskretFourierTrans.DFTrans(samples, N, samplingFreq);
+        DiskretFourierTrans.DFTrans8(samples, N, samplingFreq);
 
         vector<double> freqSpek;
         freqSpek = DiskretFourierTrans.getFreqSpek8();
 
-        int DTMFtable[4][4];
+        findTones.findDtmfTones(freqSpek);
 
-        DTMFtable[0][0] = 0;
-        DTMFtable[0][1] = 1;
-        DTMFtable[0][2] = 2;
-        DTMFtable[0][3] = 3;
-        DTMFtable[1][0] = 4;
-        DTMFtable[1][1] = 5;
-        DTMFtable[1][2] = 6;
-        DTMFtable[1][3] = 7;
-        DTMFtable[2][0] = 8;
-        DTMFtable[2][1] = 9;
-        DTMFtable[2][2] = 10;
-        DTMFtable[2][3] = 11;
-        DTMFtable[3][0] = 12;
-        DTMFtable[3][1] = 13;
-        DTMFtable[3][2] = 14;
-        DTMFtable[3][3] = 15;
-
-
-
-        // Gennemsnit metoden
-
-        double avg = 0;
-        int counter = 0;
-        double freqs[2];
-        int numberConst[2];
-
-        int freqTabel[] = {697, 770, 852, 941, 1209, 1336, 1477, 1633};
-
-        for (int i = 0; i < 8; ++i) {
-            avg = avg + freqSpek[i];
-        }
-
-        avg = avg / 8;
-
-
-
-        double freqScale [] = {1, 1, 1, 1, 1, 1, 1, 1};
-
-        for (int j = 0; j <  8; ++j) {
-            if (((freqSpek[j] * freqScale[j]) > avg && avg > 100000))
-            {
-                freqs[counter] = freqSpek[j];
-                numberConst[counter] = j;
-                counter++;
-            }
-
-        }
-
-        if(counter == 2) {
-            if (numberConst[0] < 4 && numberConst[0] >= 0 && numberConst[1] > 3 && numberConst[1] <=7)
-            {
-                cout << DTMFtable[numberConst[0]] [numberConst[1]-4];
-
-              //      cout << "Avg: " << avg << endl;
-               //     cout << "Freq " << freqTabel[numberConst[0]] << " : " << freqSpek[numberConst[0]] << endl;
-               //     cout << "Freq " << freqTabel[numberConst[1]] << " : " << freqSpek[numberConst[1]] <<  endl << endl;
-
-            }
-        }
-
-        return true;
+    return true;
     }
 
 void CustomRecorder::onStop() {

@@ -6,6 +6,7 @@
 #include "CustomRecorder/CustomRecorder.h"
 using namespace std;
 
+#define TWOPI = 6.283185
 
 int main()
 {
@@ -23,7 +24,7 @@ int main()
     cin >> mystring;
 
 while (1) {
-    vector<int> HexBuffer = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+    vector<int> HexBuffer = {1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 10};
 
   /*
     TextHandler myTest;

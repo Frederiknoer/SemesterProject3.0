@@ -59,7 +59,7 @@ void Sound::makeSound(vector<int> inputVector)
                            1, 1, 1, 1,
                            1, 1, 1, 1};
 
-    double timePrTone = 100;
+    double timePrTone = 30;
     double numberOfSamples = (samplingRate * timePrTone) / 1000; //44100 = the number of sampels for 1 sekund
     double freqSumFirst = 0;
     double freqSumSecound = 0;
