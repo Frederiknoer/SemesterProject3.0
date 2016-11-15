@@ -2,7 +2,7 @@
 #include "SFML/Audio.hpp"
 #include "../DFT/DFT.h"
 #include <chrono>
-#include "../DtmfFinder.h"
+#include "../DtmfFinder/DtmfFinder.h"
 
 using namespace std;
 

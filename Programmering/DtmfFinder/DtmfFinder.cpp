@@ -1,4 +1,4 @@
-#include "DtmfFinder.h"
+#include "../DtmfFinder/DtmfFinder.h"
 
 #include <iostream>
 
