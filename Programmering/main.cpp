@@ -1,49 +1,59 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 #include "Sound/sound.h"
 #include "TextHandler/TextHandler.h"
-#include "Frame/Frame/Frame.h"
+#include "CustomRecorder/CustomRecorder.h"
 using namespace std;
+
+#define TWOPI = 6.283185
 
 int main()
 {
-    //Oprettelse af konstanter
-    string inputText;
-    vector<int> HexBuffer;
-    vector<int> FrameBuffer;
-    TextHandler dataIn;
-    HexBuffer.clear();
+    unsigned int recordSampleRate = 96000;
+    unsigned int playSampleRate = 44100;
 
-    while(true) {
-        //Læser input
-        getline(cin, inputText);
+    Sound mySound;
+    mySound.setSamplingRate(playSampleRate);
 
-        if (inputText == "stop")
-            break;
+    CustomRecorder recorder;
+    recorder.start(recordSampleRate);
 
-        //Ligger teksten ind i HexBuffer som decimaler fra 0-15
-        vector<int> HexIntVec = dataIn.InputText(inputText);
-        for (int i = 0; i < (inputText.length() * 2); i++) {
-            HexBuffer.push_back(HexIntVec[i]);
-        }
+    string mystring;
+    cout << "Skriv tekst: ";
+    cin >> mystring;
 
-        //Opretter frame objekt
-        Frame framing(HexBuffer);
-        framing.makeFrame();
+while (1) {
+    vector<int> HexBuffer = {1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 10};
 
-        //Ligger hexbuffer ind i framebuffer med frame rundt om
-        for (int i = 0; i < framing.getLength(); i++) {
-            FrameBuffer.push_back(framing.getFrame().getElement(i));
-        }
+  /*
+    TextHandler myTest;
+    vector<int> HexIntVec = myTest.InputText(mystring);
 
-        //Afspiller lyd
-        Sound SoundOne;
-        SoundOne.playSound(FrameBuffer);
-
-        //Tømmer bufferne
-        HexBuffer.clear();
-        HexIntVec.clear();
-        FrameBuffer.clear();
+    for (int i = 0; i < (mystring.length() * 2); ++i) {
+        HexBuffer.push_back(HexIntVec[i]);
     }
+*/
+    mySound.makeSound(HexBuffer);
+
+    vector<sf::Int16> inputSamples = mySound.getSound();
+
+    sf::SoundBuffer bufferInput;
+    bufferInput.loadFromSamples(&inputSamples[0], inputSamples.size(), 1, playSampleRate);
+
+    sf::Sound sound;
+    sound.setBuffer(bufferInput);
+    sound.play();
+
+    HexBuffer.clear();
+  //  HexIntVec.clear();
+
+    cout << "Skriv tekst: ";
+    cin >> mystring;
+
+}
+
+    recorder.stop();
+
     return 0;
 }
