@@ -3,6 +3,8 @@
 #include "../DFT/DFT.h"
 #include <chrono>
 #include "../DtmfFinder/DtmfFinder.h"
+#include "../Frame/Frame/Frame.h"
+#include "../TextHandler/TextHandler.h"
 
 using namespace std;
 
@@ -21,5 +23,6 @@ private:
     DtmfFinder findTones;
     DtmfFinder lyddata;
     vector< vector<int> > udData;
+
 };
 

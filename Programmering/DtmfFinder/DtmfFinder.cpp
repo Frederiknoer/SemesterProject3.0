@@ -49,7 +49,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
 
     for (int j = 0; j < 8; ++j)
     {
-        if (((freqSpek[j]) > avg && avg > 200))
+        if (((freqSpek[j]) > avg && avg > 100))
         {
             freqs[counter] = freqSpek[j];
             numberConst[counter] = j;
@@ -75,23 +75,23 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
                 if((DTMFCounter[DTMFCounter.size()-2]) != (DTMFCounter[DTMFCounter.size()-1]))
                 {
 
-                    // cout << DTMFCounter[DTMFCounter.size()-1];
-                    DTMFbuffer.push_back(DTMFCounter.size()-1);
+                   // cout << DTMFCounter[DTMFCounter.size()-1];
+                    DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
 
                     DTMFCounter.clear();
 
                     DTMFCounter.push_back(DTMFtable[numberConst[0]] [numberConst[1]-4]);
                 }else{
-                    if (DTMFCounter.size() == 3)
+                    if (DTMFCounter.size() == 4)
                     {
                       //  cout << DTMFCounter[DTMFCounter.size()-1];
-                        DTMFbuffer.push_back(DTMFCounter.size()-1);
+                        DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
                     }
 
                     if(DTMFCounter.size() == 6)
                     {
                        // cout << DTMFCounter[DTMFCounter.size()-1];
-                        DTMFbuffer.push_back(DTMFCounter.size()-1);
+                        DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
                     }
                 }
 
@@ -121,7 +121,9 @@ vector<int> DtmfFinder::getDTMFBuffer() {
     return DTMFbuffer;
 }
 
-
+void DtmfFinder::clearDTMFbuffer() {
+    DTMFbuffer.clear();
+}
 
 vector< vector<int> > DtmfFinder::pairGetter(vector<int> inData)
 {
@@ -147,6 +149,11 @@ vector< vector<int> > DtmfFinder::pairGetter(vector<int> inData)
         }
     }
     return finalData;
+}
+
+void DtmfFinder::clearFinalData()
+{
+    finalData.clear();
 }
 
 DtmfFinder::~DtmfFinder()

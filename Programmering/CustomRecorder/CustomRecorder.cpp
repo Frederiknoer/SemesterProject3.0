@@ -17,39 +17,55 @@ bool CustomRecorder::onStart() {
 
 bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount) {
 
-        int samplingFreq = sf::SoundRecorder::getSampleRate();
-        double N = sampleCount;
+    int samplingFreq = sf::SoundRecorder::getSampleRate();
+    double N = sampleCount;
 
-        DFT DiskretFourierTrans;
-        DiskretFourierTrans.DFTrans8(samples, N, samplingFreq);
+    DFT DiskretFourierTrans;
+    DiskretFourierTrans.DFTrans8(samples, N, samplingFreq);
 
-        vector<double> freqSpek;
-        freqSpek = DiskretFourierTrans.getFreqSpek8();
+    vector<double> freqSpek;
+    freqSpek = DiskretFourierTrans.getFreqSpek8();
 
-        findTones.findDtmfTones(freqSpek);
+    findTones.findDtmfTones(freqSpek);
 
-        vector<int> DTMFbuffer = findTones.getDTMFBuffer();
+    vector<int> DTMFbuffer;
+    DTMFbuffer = findTones.getDTMFBuffer();
 
-    for (int k = 0; k < ; ++k) {
-        
+
+    if (lyddata.pairFinder(DTMFbuffer) == true)
+    {
+
+        udData = lyddata.pairGetter(DTMFbuffer);
+
+              for (int i = 0; i < udData.size(); i++)
+       {
+           cout << endl << "OUTPUT: " ;
+           for (int j = 0; j < udData[i].size(); j++)
+           {
+               cout << udData[i][j];
+           }
+           cout << endl;
+       }
+
+
+        Frame unframing(udData[0]);
+
+        if(unframing.validataFrame() == true) {
+            unframing.unFrame();
+            TextHandler outputText;
+            cout << outputText.OutputText(unframing.getFrame()) << endl;
+        } else{
+            cout << "Error" << endl;
+        }
+
+
+        findTones.clearDTMFbuffer();
+        udData.clear();
+        lyddata.clearFinalData();
     }
 
 
-         if (lyddata.pairFinder(DTMFbuffer) == true)
-         {
-                cout << "Hej" << endl; 
-                udData = lyddata.pairGetter(DTMFbuffer);
 
-                DTMFbuffer.clear();
-                for (int i = 0; i < udData.size(); i++)
-                {
-                    for (int j = 0; j < udData[i].size(); j++)
-                    {
-                        cout << udData[i][j] << endl;
-                    }
-                    cout << endl;
-                }
-         }
 
     return true;
     }

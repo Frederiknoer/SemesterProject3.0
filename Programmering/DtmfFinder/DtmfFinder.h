@@ -11,6 +11,8 @@ public:
     bool pairFinder(vector<int>);
     vector< vector<int> > pairGetter(vector<int>);
     vector<int> getDTMFBuffer();
+    void clearDTMFbuffer();
+    void clearFinalData();
 
     ~DtmfFinder();
 

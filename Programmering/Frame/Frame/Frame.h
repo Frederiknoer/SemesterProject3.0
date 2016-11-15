@@ -10,13 +10,13 @@ class Frame
 public:
 	Frame();
 	Frame(vector<int>); // Atributten "data" bliver defineret som en vektortabel. 
-	void makeFrame(); // Start-/stop-bit og tjek-summen bliver tilføjet.
+	void makeFrame(); // Start-/stop-bit og tjek-summen bliver tilfï¿½jet.
 	bool validataFrame(); //Validerer en modtaget frame.
 	void unFrame(); // Fjerner start-/stop-bit og tjek-summen.
-	Frame getFrame(); // Retunerer vektortabellen "data"
-	int getFirst(); // Retunerer det første element i vektortabellem.
-	int getElement(int); // Retunerer elementet på parameterets plads. 
-	int getLength(); // Retunerer længden af vektortabellen 
+	vector<int> getFrame(); // Retunerer vektortabellen "data"
+	int getFirst(); // Retunerer det fï¿½rste element i vektortabellem.
+	int getElement(int); // Retunerer elementet pï¿½ parameterets plads. 
+	int getLength(); // Retunerer lï¿½ngden af vektortabellen 
 	~Frame();
 private:
 	vector<int> data; 
