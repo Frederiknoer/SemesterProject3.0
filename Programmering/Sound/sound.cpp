@@ -80,7 +80,6 @@ void Sound::makeSound(vector<int> inputVector)
         freqSumSecound = freqSumSecound + toneSecound[inputVector[j]];
     }
 
-
     inputSamples = bufferSamples;
 }
 

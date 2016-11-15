@@ -19,5 +19,7 @@ public:
 
 private:
     DtmfFinder findTones;
+    DtmfFinder lyddata;
+    vector< vector<int> > udData;
 };
 

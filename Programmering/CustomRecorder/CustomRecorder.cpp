@@ -28,14 +28,19 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         findTones.findDtmfTones(freqSpek);
 
-        DtmfFinder lyddata;
-        vector< vector<int> > udData;
         vector<int> DTMFbuffer = findTones.getDTMFBuffer();
+
+    for (int k = 0; k < ; ++k) {
+        
+    }
 
 
          if (lyddata.pairFinder(DTMFbuffer) == true)
          {
+                cout << "Hej" << endl; 
                 udData = lyddata.pairGetter(DTMFbuffer);
+
+                DTMFbuffer.clear();
                 for (int i = 0; i < udData.size(); i++)
                 {
                     for (int j = 0; j < udData[i].size(); j++)
@@ -43,9 +48,8 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                         cout << udData[i][j] << endl;
                     }
                     cout << endl;
-        }
-
-    }
+                }
+         }
 
     return true;
     }
