@@ -5,7 +5,7 @@
 #include "../DtmfFinder/DtmfFinder.h"
 #include "../Frame/Frame/Frame.h"
 #include "../TextHandler/TextHandler.h"
-
+#pragma once
 using namespace std;
 
 class CustomRecorder : public sf::SoundRecorder

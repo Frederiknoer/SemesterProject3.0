@@ -1,0 +1,285 @@
+#include "csmaCA.h"
+
+using namespace std;
+
+
+csmaCA::csmaCA()
+{
+	srand(time(NULL));		//initalisere random gen seed
+
+	switch (rand() % 4)		//Random ID
+	{
+	case 0:
+		ID = { 0xf, 0xf };
+		break;
+	case 1:
+		ID = { 0xb, 0x4 };
+		break;
+	case 2:
+		ID = { 0xa, 0xa };
+		break;
+	case 3:
+		ID = {0x3, 0x0};
+		break;
+	case 4:
+		ID = { 0x2, 0xf };
+		break;
+	}
+}
+
+
+
+csmaCA::csmaCA(vector<int> newID, CustomRecorder R)
+{
+	if (newID.size() > 2)
+		cout << "Fejl! - intastede ID overskrider maximum l�ngde p� 2 x 4bits" << endl;
+	else
+		ID = newID;
+
+	recorder = R;
+}
+
+
+
+csmaCA::csmaCA(vector<int> newID, vector<int> TagetID, CustomRecorder R)
+{
+	if (newID.size() > 2)
+		cout << "Fejl! - intastede (ID) overskrider maximum l�ngde p� 2 x 4bits" << endl;
+	else
+		ID = newID;
+
+	if (TagetID.size() > 2)
+		cout << "Fejl! - intastede (Taget ID) overskrider maximum l�ngde p� 2 x 4bits" << endl;
+	else
+		tagetID = TagetID;
+
+	recorder = R;
+}
+
+
+
+void csmaCA::setTagetID(vector<int> tID)
+{
+	if (tID.size() > 2)
+		cout << "Fejl! - intastede ID overskrider maximum l�ngde p� 2 x 4bits" << endl;
+	else
+		tagetID = tID;
+}
+
+
+
+vector<int> csmaCA::getTagetID()
+{
+	return tagetID;
+}
+
+
+
+void csmaCA::setID(vector<int> newID)
+{
+	if (newID.size() > 2)
+		cout << "Fejl! - intastede ID overskrider maximum l�ngde p� 2 x 4bits" << endl;
+	else
+		ID = newID;
+}
+
+
+
+vector<int> csmaCA::getID()
+{
+	return ID;
+}
+
+
+
+bool csmaCA::sendData(vector<int> Data)
+{
+	Sound mySound;						//opretter sound objekt (til delay)
+	if (!makeHandShake())				//retunere false hvis handshake fejler
+		return false;
+	Frame csmaCAframer(Data);			//Opretter frame objekt
+	csmaCAframer.makeFrame();			//framer data
+
+	bool ackModtaget = false;		//hvis "ACT" modtages siddes denne variabel til "true"
+
+									//vent p� at et ack modtages
+	for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//fors�ger data 3 gange
+	{
+		//stop recorder
+		sendSound(csmaCAframer.getFrame());						//sender framet data
+		//start recorder
+		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
+		{
+			mySound.delay(10);									//venter 10 ms
+			if (ackModtaget)									//hvis ack modtages
+			{
+				busy = false;									//signalere at maskinen er klar til ny forbindelse
+				ackModtaget = false;							//nulstiller "flag"
+				return true;									//retunere true
+			}
+
+		}
+		cout << "csmaCA.cpp [sendData()] - " << dataAttempts << ". sendData fejlet.." << endl;
+	}
+	//hvis ACK ikke modtages
+	cout << endl << "csmaCA.cpp [sendData()] -  ingen ACK er modtaget efter 3 * Data attempts... troede jeg havde f�et en ven.. )-; " << endl << endl;
+	return false;
+}
+
+
+
+bool csmaCA::makeHandShake()
+{
+	Sound mySound;											//opretter soundobjekt (brugt til delay)
+	int x = 1;												//bruges s� der kun sendes en "vente besked"
+	while (busy)											//venter p� enheden ikke l�ngere har travlt
+	{
+		if (x == 1)											//s�rger for "vente" besked kun vises 1 gang i terminalen
+		{
+			cout << "csmaCA.cpp [makeHandShake()] -  enheden har travlt, besked lagt i k�" << endl; //vente besked
+			x = 0;
+		}
+	}
+	Frame csmaCAframer(RTS);			//Opretter frame objekt
+	csmaCAframer.makeFrame();			//Frame RTS
+
+										// vent p� at et svar modtages
+	bool ctsModtaget = true;			//hvis "CTS" modtages siddes denne variabel til "true"
+
+	for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
+	{
+		sendSound(csmaCAframer.getFrame());						//sender framet Rts
+		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
+		{
+			mySound.delay(10);									//venter 10 ms
+
+			if (ctsModtaget)									//hvis CTS modtages
+			{
+				ctsModtaget = false;							//nulstiller "flag"
+				return true;									//retunere true
+			}
+
+		}
+		cout << "csmaCA.cpp [makeHandShake()] - " << rtsAttempts << ". RTS fejlet.." << endl;
+	}
+																//hvis CTS ikke modtages
+	cout << endl << "csmaCA.cpp [makeHandShake()] -  ingen CTS er modtagfet efter 3 RTS... er jeg helt alene i verden? :/ " << endl << endl;
+	return false;												//retunere false
+}
+
+
+
+void csmaCA::sendSound(vector<int> d)
+{
+	//============== ini ====================
+	unsigned int playSampleRate = 44100;        // play sample rate
+	vector<sf::Int16> inputSamples;
+	vector<int> frammedHex;
+	Sound mySound;                              //opretter mysound objekt
+	mySound.setSamplingRate(playSampleRate);    //sætter afspildnings sample rate
+
+	TextHandler myTest;                         //opretter texthandler objekt
+	//CustomRecorder recorder;                    //opretter custom recorder
+	Frame framming(ID);                         //Opretter frame objekt
+	sf::SoundBuffer bufferInput;                //laver lydboffer objekt
+	sf::Sound sound;                            //opretter sound objekt
+	//===================================
+
+	framming.setData(d);                            //ligger hexbuffer ind i framing
+	framming.makeFrame();                           //framer hexbuffer
+
+	frammedHex = framming.getFrame();          		//gemmer framet data i "framedHex"
+
+	//================ Udskriver framed data ===================
+	cout << endl << "Data played: ";
+	for (int j = 0; j < frammedHex.size(); ++j)             //udskriver frameHex til skermen
+	{                                                       //
+		cout << frammedHex[j] << " ";                       //
+	}                                                       //
+	cout << endl;                                           //
+	//========================================================
+
+	mySound.makeSound(frammedHex);                          //klargøre framed data "framedHex" til afspildning
+
+	inputSamples = mySound.getSound();    					//gemmer klargjordte samples i vektor "inputSamples"
+
+	bufferInput.loadFromSamples(&inputSamples[0], inputSamples.size(), 1, playSampleRate);  //loadersamples ind i lydbuffer objekt
+
+	sound.setBuffer(bufferInput);                           //initalisere bufferInput i sound klasse
+
+	sound.play();                                           //afspiller bufferInput
+	mySound.delay(playTimeCal(frammedHex));     //laver delay mens lyd spilelr
+}
+
+
+
+void csmaCA::sendACK()
+{
+	Frame csmaCAframer(ACK);						//Opretter frame objekt
+	csmaCAframer.makeFrame();						//Frame ACK
+	//stop recorder
+	sendSound(csmaCAframer.getFrame());				//afspiller framet ACK
+	//start recorder
+}
+
+
+
+int csmaCA::playTimeCal(vector<int> enV)
+{
+	return enV.size()*soundPlayTime;				//retunere afspildningstid i ms
+}
+
+
+
+bool csmaCA::checkForRTS()
+{
+	bool rtsModtaget = true;						//hvis "RTS" modtages siddes denne variabel til "true"
+	bool dataModtaget = true;						//hvis "data" modtages siddes denne variabel til "true"
+	Sound mySound;									//opretter sound objekt (bruges til delay)
+
+	if (rtsModtaget)
+	{
+		Frame csmaCAframer(CTS);						//opretter framing objekt
+		csmaCAframer.makeFrame();						//Frame CTS
+
+		for (int DataTimeouts = 1; DataTimeouts <= 3; DataTimeouts++)	//venter p� data 3 gange
+		{
+
+			//stop recorder
+			sendSound(csmaCAframer.getFrame());						//sender framet CTS
+			//start recorder
+			for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
+			{
+				mySound.delay(10);									//venter 10 ms
+				if (dataModtaget)									//hvis data modtages
+				{
+					dataModtaget = false;							//nulstiller "flag"
+					return true;									//retunere true
+				}
+
+			}
+			cout << "csmaCA.cpp [checkForRTS()] - " << DataTimeouts << ". 3 timeout's for data" << endl;
+		}
+
+	}
+	return false;
+}
+
+
+
+void csmaCA::stopRecordeer()
+{
+	recorder.stop();							//stopper recorder
+}
+
+
+void csmaCA::startRecorder()
+{
+	recorder.start(recordSampleRate);      		//starter recorder, med valgt antal sample rate
+}
+
+
+
+csmaCA::~csmaCA()
+{
+}

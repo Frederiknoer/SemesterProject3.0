@@ -2,65 +2,53 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "Sound/sound.h"
-#include "TextHandler/TextHandler.h"
 #include "CustomRecorder/CustomRecorder.h"
+#include "TextHandler/TextHandler.h"
+#include "CSMAca/CSMAca/csmaCA.h"
+
 using namespace std;
 
-#define TWOPI = 6.283185
+#define TWOPI = 6.283185                        //difinere 2 gange pi
 
 int main()
 {
-    unsigned int recordSampleRate = 96000;
-    unsigned int playSampleRate = 44100;
-
-    Sound mySound;
-    mySound.setSamplingRate(playSampleRate);
-
+    /*
+    unsigned int recordSampleRate = 96000;      // sample rate
+    unsigned int playSampleRate = 44100;        // play sample rate
+    vector<sf::Int16> inputSamples;
+     */
+    string mystring;                            //opretter string
+    vector<int> HexIntVec;
+    vector<int> HexBuffer;                      //opretter HexBuffer
+    vector<int> ID = { 14, 15 };                // computer ID
+    vector<int> tagetID = { 10, 12 };           // taget ID
     CustomRecorder recorder;
-    recorder.start(recordSampleRate);
+    csmaCA csmaHandler(ID, tagetID, recorder);  //opretter handler (parametret ID bliver overskrevet senere)
+    TextHandler myTest;                         //opretter texthandler objekt
 
-    string mystring;
-    cout << "Skriv tekst: ";
-    getline(cin, mystring);
 
-while (1) {
-    vector<int> HexBuffer;
+    cout << "Skriv tekst: ";                                //beder om input
+    getline(cin, mystring);                                 //gemmer input i mystring vektor
 
-    TextHandler myTest;
-    vector<int> HexIntVec = myTest.InputText(mystring);
 
-    for (int i = 0; i < (mystring.length() * 2); ++i) {
+    HexIntVec = myTest.InputText(mystring);                 //konvatere input text til hex og gemmer i HexInVec
+    for (int i = 0; i < (mystring.length() * 2); ++i)       //smider HexInVec ind i HexBuffer
+    {
         HexBuffer.push_back(HexIntVec[i]);
     }
 
-    Frame framming(HexBuffer);
-    framming.makeFrame();
 
-    vector<int> frammedHex = framming.getFrame();
-    for (int j = 0; j < frammedHex.size(); ++j) {
-        cout << frammedHex[j];
-    }
-    cout << endl;
+    if(csmaHandler.sendData(HexBuffer))                     //sender data. retunere true hvis data sendt korekt
+        cout << "Data sendt korekt!" << endl;
+    else
+        cout << "Fejl! - Data ikke sendt korekt" << endl;
 
-    mySound.makeSound(frammedHex);
+    cout << "anden gang" << endl;
 
-    vector<sf::Int16> inputSamples = mySound.getSound();
-
-    sf::SoundBuffer bufferInput;
-    bufferInput.loadFromSamples(&inputSamples[0], inputSamples.size(), 1, playSampleRate);
-
-    sf::Sound sound;
-    sound.setBuffer(bufferInput);
-    sound.play();
-
-    HexBuffer.clear();
-    HexIntVec.clear();
-
-    getline(cin, mystring);
-
-}
-
-    recorder.stop();
+    if(csmaHandler.sendData(HexBuffer))                     //sender data. retunere true hvis data sendt korekt
+        cout << "Data sendt korekt!" << endl;
+    else
+        cout << "Fejl! - Data ikke sendt korekt" << endl;
 
     return 0;
 }
