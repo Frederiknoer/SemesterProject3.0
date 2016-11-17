@@ -28,6 +28,69 @@ vector<int> TextHandler::InputText(string enS)
 	return transNBuffer;
 }
 
+vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
+{
+	int splitCounter = 6;
+	vector<int> rowMaker;
+	vector< vector<int> > hexBuffer;
+	int counter = 0;
+	int packageNumber = 0;
+
+	for (int i = 0; i < (textVec.size()/splitCounter); i++)
+	{
+		rowMaker.push_back(packageNumber);
+		for (int j = 0; j < splitCounter; j++)
+		{
+			rowMaker.push_back(textVec[(j + (counter*splitCounter))]);
+		}
+		hexBuffer.push_back(rowMaker);
+		counter++;
+		packageNumber++;
+		rowMaker.clear();
+		if (packageNumber > 15)
+			packageNumber = 0;
+	}
+	if (textVec.size() % counter > 0)
+	{
+		rowMaker.push_back(packageNumber);
+		for (int i = (counter*splitCounter); i < textVec.size(); i++)
+		{
+			rowMaker.push_back(textVec[i]);
+		}
+		hexBuffer.push_back(rowMaker);
+		rowMaker.clear();
+	}
+
+	return hexBuffer;
+}
+
+vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
+{
+	int packageNumber = 0;
+	int packageIndex = 0;
+	vector<int> AssembletHex;
+
+	for (int i = 0; i < packageVec.size(); i++)
+	{
+		if (packageNumber > 15)
+		{
+			packageNumber = 0;
+			packageIndex = packageIndex - 16;
+		}
+
+		if (packageNumber == (i + (1 * packageIndex)))
+		{
+			packageVec[i].erase(packageVec[i].begin());
+			for (int j = 0; j < packageVec[i].size(); j++)
+			{
+				AssembletHex.push_back(packageVec[i][j]);
+			}
+			packageNumber++;
+		}
+	}
+	return AssembletHex;
+}
+
 string TextHandler::OutputText(vector<int> vecInt)
 {
 	vector<char> inDataString;
