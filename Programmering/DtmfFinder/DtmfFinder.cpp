@@ -29,7 +29,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
     DTMFtable[3][2] = 14;
     DTMFtable[3][3] = 15;
 
-    if(timeOutCounter > 2)
+    if(timeOutCounter > 6)
     {
         DTMFbuffer.clear();
         DTMFCounter.clear();
@@ -64,6 +64,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
     }
 
 
+
     if(counter == 2)
     {
         if (numberConst[0] < 4 && numberConst[0] >= 0 && numberConst[1] > 3 && numberConst[1] <=7)
@@ -74,7 +75,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
 
             if(DTMFCounter.size() == 1)
             {
-               // cout << DTMFCounter[0];
+                cout << DTMFCounter[0];
                 DTMFbuffer.push_back(DTMFCounter[0]);
             }
 
@@ -82,14 +83,14 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
             {
                 if((DTMFCounter[DTMFCounter.size()-2]) != (DTMFCounter[DTMFCounter.size()-1]))
                 {
-                    // cout << DTMFCounter[DTMFCounter.size()-1];
+                     cout << DTMFCounter[DTMFCounter.size()-1];
                     DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
                     DTMFCounter.clear();
                     DTMFCounter.push_back(DTMFtable[numberConst[0]] [numberConst[1]-4]);
                 }else{
                     if (DTMFCounter.size() == 4 || DTMFCounter.size() == 6 || DTMFCounter.size() == 8 || DTMFCounter.size() == 10)
                     {
-                      //  cout << DTMFCounter[DTMFCounter.size()-1];
+                       cout << DTMFCounter[DTMFCounter.size()-1];
                         DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
                     }
                 }

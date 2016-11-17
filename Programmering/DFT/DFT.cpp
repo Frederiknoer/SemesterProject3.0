@@ -52,6 +52,10 @@ vector<double> DFT::getFreqSpek8(){
     return freqSpek;
 }
 
+void DFT::clearFreqSpek8() {
+    freqSpek.clear();
+}
+
 vector<double> DFT::getFreqSpek(){
     return freqSpek;
 }

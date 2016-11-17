@@ -17,6 +17,7 @@ bool CustomRecorder::onStart() {
 
 bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount) {
 
+
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
 
@@ -26,16 +27,32 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     vector<double> freqSpek;
     freqSpek = DiskretFourierTrans.getFreqSpek8();
 
+    for (int i = 0; i < 8; ++i) {
+        cout << freqSpek[i] << ", ";
+    }
+
+    cout << endl;
+
+  /*
     findTones.findDtmfTones(freqSpek);
 
     vector<int> DTMFbuffer;
     DTMFbuffer = findTones.getDTMFBuffer();
 
 
+    if(DTMFbuffer.size() == 1)
+    {
+        cout << "Buffer size: " << sampleCount << endl;
+        for (int i = 0; i < sampleCount; ++i) {
+            cout << samples[i] << ", ";
+        }
+    }
+
 
     if (lyddata.pairFinder(DTMFbuffer) == true)
     {
 
+        cout << endl;
         udData = lyddata.pairGetter(DTMFbuffer);
 
         for (int i = 0; i < udData.size(); ++i) {
@@ -62,6 +79,10 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         udData.clear();
         lyddata.clearFinalData();
     }
+
+    */
+    freqSpek.clear();
+    DiskretFourierTrans.clearFreqSpek8();
 
     return true;
 }

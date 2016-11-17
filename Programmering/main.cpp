@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-    unsigned int recordSampleRate = 96000;
+    unsigned int recordSampleRate = 4096;
     unsigned int playSampleRate = 44100;
 
     Sound mySound;
@@ -18,14 +18,19 @@ int main()
 
     CustomRecorder recorder;
     recorder.start(recordSampleRate);
-
+    mySound.delay(420);
+/*
     string mystring;
     cout << "Skriv tekst: ";
     getline(cin, mystring);
 
-while (1) {
-    vector<int> HexBuffer;
 
+while (1) {
+
+ */
+    vector<int> HexBuffer = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+
+    /*
     TextHandler myTest;
     vector<int> HexIntVec = myTest.InputText(mystring);
 
@@ -42,7 +47,8 @@ while (1) {
     }
     cout << endl;
 
-    mySound.makeSound(frammedHex);
+*/
+    mySound.makeSound(HexBuffer);
 
     vector<sf::Int16> inputSamples = mySound.getSound();
 
@@ -53,13 +59,16 @@ while (1) {
     sound.setBuffer(bufferInput);
     sound.play();
 
-    HexBuffer.clear();
-    HexIntVec.clear();
+    mySound.delay(30*16 + 100);
 
-    getline(cin, mystring);
+    HexBuffer.clear();
+    /*
+     HexIntVec.clear();
+
+     getline(cin, mystring);
 
 }
-
+*/
     recorder.stop();
 
     return 0;
