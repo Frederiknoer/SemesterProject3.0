@@ -32,23 +32,22 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     DTMFbuffer = findTones.getDTMFBuffer();
 
 
+
     if (lyddata.pairFinder(DTMFbuffer) == true)
     {
 
         udData = lyddata.pairGetter(DTMFbuffer);
 
-              for (int i = 0; i < udData.size(); i++)
-       {
-           cout << endl << "OUTPUT: " ;
-           for (int j = 0; j < udData[i].size(); j++)
-           {
-               cout << udData[i][j];
-           }
-           cout << endl;
-       }
+        for (int i = 0; i < udData.size(); ++i) {
+            for (int j = 0; j < udData[i].size(); j++) {
+                cout << udData[i][j];
+            }
+        }
+        cout << endl;
 
 
         Frame unframing(udData[0]);
+
 
         if(unframing.validataFrame() == true) {
             unframing.unFrame();
@@ -64,11 +63,8 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         lyddata.clearFinalData();
     }
 
-
-
-
     return true;
-    }
+}
 
 void CustomRecorder::onStop() {
 

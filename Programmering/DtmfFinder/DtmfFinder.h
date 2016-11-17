@@ -20,6 +20,7 @@ private:
     vector <double> DTMFCounter;
     vector <int> DTMFbuffer;
     vector< vector<int> > finalData;
+    int timeOutCounter;
 };
 
 

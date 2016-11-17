@@ -29,6 +29,12 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
     DTMFtable[3][2] = 14;
     DTMFtable[3][3] = 15;
 
+    if(timeOutCounter > 2)
+    {
+        DTMFbuffer.clear();
+        DTMFCounter.clear();
+        timeOutCounter = 0;
+    }
 
 
     // Gennemsnit metoden
@@ -58,47 +64,39 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
     }
 
 
-    if(counter == 2) {
+    if(counter == 2)
+    {
         if (numberConst[0] < 4 && numberConst[0] >= 0 && numberConst[1] > 3 && numberConst[1] <=7)
         {
+            timeOutCounter = 0;
+
             DTMFCounter.push_back(DTMFtable[numberConst[0]] [numberConst[1]-4]);
 
             if(DTMFCounter.size() == 1)
             {
-                // cout << DTMFCounter[0];
+               // cout << DTMFCounter[0];
                 DTMFbuffer.push_back(DTMFCounter[0]);
-
             }
 
             if(DTMFCounter.size() > 1)
             {
                 if((DTMFCounter[DTMFCounter.size()-2]) != (DTMFCounter[DTMFCounter.size()-1]))
                 {
-
-                   // cout << DTMFCounter[DTMFCounter.size()-1];
+                    // cout << DTMFCounter[DTMFCounter.size()-1];
                     DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
-
                     DTMFCounter.clear();
-
                     DTMFCounter.push_back(DTMFtable[numberConst[0]] [numberConst[1]-4]);
                 }else{
-                    if (DTMFCounter.size() == 4)
+                    if (DTMFCounter.size() == 4 || DTMFCounter.size() == 6 || DTMFCounter.size() == 8 || DTMFCounter.size() == 10)
                     {
                       //  cout << DTMFCounter[DTMFCounter.size()-1];
                         DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
                     }
-
-                    if(DTMFCounter.size() == 6)
-                    {
-                       // cout << DTMFCounter[DTMFCounter.size()-1];
-                        DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
-                    }
                 }
-
-
-
             }
         }
+    }else {
+        timeOutCounter++;
     }
 }
 
@@ -123,6 +121,7 @@ vector<int> DtmfFinder::getDTMFBuffer() {
 
 void DtmfFinder::clearDTMFbuffer() {
     DTMFbuffer.clear();
+    DTMFCounter.clear();
 }
 
 vector< vector<int> > DtmfFinder::pairGetter(vector<int> inData)

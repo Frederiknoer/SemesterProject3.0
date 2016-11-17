@@ -21,7 +21,7 @@ int main()
 
     string mystring;
     cout << "Skriv tekst: ";
-    cin >> mystring;
+    getline(cin, mystring);
 
 while (1) {
     vector<int> HexBuffer;
@@ -56,8 +56,7 @@ while (1) {
     HexBuffer.clear();
     HexIntVec.clear();
 
-    cout << "Skriv tekst: ";
-    cin >> mystring;
+    getline(cin, mystring);
 
 }
 
