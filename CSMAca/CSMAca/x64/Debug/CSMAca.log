@@ -1,0 +1,8 @@
+﻿  Source.cpp
+  Frame.cpp
+c:\users\lapt\google drive\skole\software udvikling\csmaca\csmaca\frame.cpp(113): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  csmaCA.cpp
+c:\users\lapt\google drive\skole\software udvikling\csmaca\csmaca\csmaca.cpp(8): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  CSMAca.vcxproj -> C:\Users\LapT\Google Drive\skole\Software udvikling\CSMAca\x64\Debug\CSMAca.exe
+  CSMAca.vcxproj -> C:\Users\LapT\Google Drive\skole\Software udvikling\CSMAca\x64\Debug\CSMAca.pdb (Full PDB)
