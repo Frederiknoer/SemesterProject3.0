@@ -30,7 +30,7 @@ short Sound::sinWave(double amp, double time, double timePrTone, double freqLast
     double transformedFreqLast = freqLast/samplingRate;
     double transformedFreqNext = freqNext/samplingRate;
 
-    return (short)(amp * 32767 * sin(TWOPI * (transformedFreqLast*timePrTone + time * transformedFreqNext)));
+    return (short)(amp * 32767 * cos(TWOPI * (transformedFreqLast*timePrTone + time * transformedFreqNext)));
 }
 
 
