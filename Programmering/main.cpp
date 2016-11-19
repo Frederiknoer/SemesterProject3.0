@@ -23,7 +23,7 @@ int main()
     vector<int> ID = { 14, 15 };                // computer ID
     vector<int> tagetID = { 10, 12 };           // taget ID
     CustomRecorder recorder;
-    csmaCA csmaHandler(ID, tagetID);  //opretter handler (parametret ID bliver overskrevet senere)
+    csmaCA csmaHandler(ID, tagetID);            //opretter handler (parametret ID bliver overskrevet senere)
     TextHandler myTest;                         //opretter texthandler objekt
 
 
