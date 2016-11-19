@@ -23,7 +23,7 @@ int main()
     vector<int> ID = { 14, 15 };                // computer ID
     vector<int> tagetID = { 10, 12 };           // taget ID
     CustomRecorder recorder;
-    csmaCA csmaHandler(ID, tagetID, recorder);  //opretter handler (parametret ID bliver overskrevet senere)
+    csmaCA csmaHandler(ID, tagetID);  //opretter handler (parametret ID bliver overskrevet senere)
     TextHandler myTest;                         //opretter texthandler objekt
 
 
@@ -37,18 +37,10 @@ int main()
         HexBuffer.push_back(HexIntVec[i]);
     }
 
-
     if(csmaHandler.sendData(HexBuffer))                     //sender data. retunere true hvis data sendt korekt
-        cout << "Data sendt korekt!" << endl;
+        cout << "Main.cpp [main()]  -  Data sendt korekt!" << endl;
     else
-        cout << "Fejl! - Data ikke sendt korekt" << endl;
-
-    cout << "anden gang" << endl;
-
-    if(csmaHandler.sendData(HexBuffer))                     //sender data. retunere true hvis data sendt korekt
-        cout << "Data sendt korekt!" << endl;
-    else
-        cout << "Fejl! - Data ikke sendt korekt" << endl;
+        cout << "Main.cpp [main()]  -  Fejl! Data ikke sendt korekt" << endl;
 
     return 0;
 }

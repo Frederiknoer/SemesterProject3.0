@@ -18,8 +18,8 @@ class csmaCA
 {
 public:
 	csmaCA();														//	done!	Sidder ID til en af de 5 "default ID's"
-	csmaCA(vector<int> ID, CustomRecorder R);						//	done!	sideer �D til ID
-	csmaCA(vector<int> ID, vector<int> TagetID, CustomRecorder R);	//	done!	sidder ID og taget ID
+	csmaCA(vector<int> ID);						//	done!	sideer �D til ID
+	csmaCA(vector<int> ID, vector<int> TagetID);	//	done!	sidder ID og taget ID
 
 	void setTagetID(vector<int> tID);				//	done!
 	vector<int> getTagetID();						//	done!
@@ -30,11 +30,9 @@ public:
 	void sendACK();									//	done! 	sender NACK
 	int playTimeCal(vector<int> enV);				//	done!	beregner afspildnings (at lave til lyd) tid for vector [ms]
 	bool checkForRTS();								//	done!	tjekker om et "RTS" er modtager
-
+	bool isPlaying();								//	done!	retunere tur hvis denne pc afspiller lyd (sender)
 	~csmaCA();
 private:
-	void stopRecordeer();							//	done!	stopper CostemRecorder
-	void startRecorder();							//			starter CostemRecorder
 	void sendSound(vector<int>);					//	done!	indenholder bla. alex's lyd
 	vector<int> tagetID = { 0 };					//Modtagerns bruger ID
 	vector<int> ID = { 0 };							//Denne pc's bruger ID
@@ -49,7 +47,7 @@ private:
 	int soundPlayTime = 30;							//tiden hver inudviduelle lyde afspilles i ms
 	bool busy = false;								//signalere om enheden komunikere med anden enhed
 	bool ini = false;								//siddes true hvis initalisering har fundet sted
-	CustomRecorder recorder;						//CustomRecorder recorder objekt
+	bool playing = false;							//siddes true hvis denne pc afspiller lyd
 	unsigned int recordSampleRate = 96000;      	//sample rate for recorder
 };
 

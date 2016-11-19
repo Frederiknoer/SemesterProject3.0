@@ -29,31 +29,29 @@ csmaCA::csmaCA()
 
 
 
-csmaCA::csmaCA(vector<int> newID, CustomRecorder R)
+csmaCA::csmaCA(vector<int> newID)
 {
 	if (newID.size() > 2)
 		cout << "Fejl! - intastede ID overskrider maximum l�ngde p� 2 x 4bits" << endl;
 	else
 		ID = newID;
 
-	recorder = R;
 }
 
 
 
-csmaCA::csmaCA(vector<int> newID, vector<int> TagetID, CustomRecorder R)
+csmaCA::csmaCA(vector<int> newID, vector<int> TagetID)
 {
 	if (newID.size() > 2)
-		cout << "Fejl! - intastede (ID) overskrider maximum l�ngde p� 2 x 4bits" << endl;
+		cout << "csmaCA.cpp [csmaCA(vector<int>, vector<int>)]  -  Fejl! intastede (ID) overskrider maximum l�ngde p� 2 x 4bits" << endl;
 	else
 		ID = newID;
 
 	if (TagetID.size() > 2)
-		cout << "Fejl! - intastede (Taget ID) overskrider maximum l�ngde p� 2 x 4bits" << endl;
+		cout << "csmaCA.cpp [csmaCA(vector<int>, vector<int>)]  -  Fejl! intastede (Taget ID) overskrider maximum l�ngde p� 2 x 4bits" << endl;
 	else
 		tagetID = TagetID;
 
-	recorder = R;
 }
 
 
@@ -61,7 +59,7 @@ csmaCA::csmaCA(vector<int> newID, vector<int> TagetID, CustomRecorder R)
 void csmaCA::setTagetID(vector<int> tID)
 {
 	if (tID.size() > 2)
-		cout << "Fejl! - intastede ID overskrider maximum l�ngde p� 2 x 4bits" << endl;
+		cout << "csmaCA.cpp [setTagetID(vector<int>)]  -  Fejl! intastede ID overskrider maximum l�ngde p� 2 x 4bits" << endl;
 	else
 		tagetID = tID;
 }
@@ -78,7 +76,7 @@ vector<int> csmaCA::getTagetID()
 void csmaCA::setID(vector<int> newID)
 {
 	if (newID.size() > 2)
-		cout << "Fejl! - intastede ID overskrider maximum l�ngde p� 2 x 4bits" << endl;
+		cout << "csmaCA.cpp [setID()]  -  Fejl! intastede ID overskrider maximum l�ngde p� 2 x 4bits" << endl;
 	else
 		ID = newID;
 }
@@ -105,9 +103,7 @@ bool csmaCA::sendData(vector<int> Data)
 									//vent p� at et ack modtages
 	for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//fors�ger data 3 gange
 	{
-		//stop recorder
 		sendSound(csmaCAframer.getFrame());						//sender framet data
-		//start recorder
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
 			mySound.delay(10);									//venter 10 ms
@@ -119,10 +115,10 @@ bool csmaCA::sendData(vector<int> Data)
 			}
 
 		}
-		cout << "csmaCA.cpp [sendData()] - " << dataAttempts << ". sendData fejlet.." << endl;
+		cout << "csmaCA.cpp [sendData()]  -  " << dataAttempts << ". sendData fejlet.." << endl;
 	}
 	//hvis ACK ikke modtages
-	cout << endl << "csmaCA.cpp [sendData()] -  ingen ACK er modtaget efter 3 * Data attempts... troede jeg havde f�et en ven.. )-; " << endl << endl;
+	cout << endl << "csmaCA.cpp [sendData()]  -  ingen ACK er modtaget efter 3 * Data attempts... troede jeg havde faaet en ven.. )-; " << endl << endl;
 	return false;
 }
 
@@ -136,7 +132,7 @@ bool csmaCA::makeHandShake()
 	{
 		if (x == 1)											//s�rger for "vente" besked kun vises 1 gang i terminalen
 		{
-			cout << "csmaCA.cpp [makeHandShake()] -  enheden har travlt, besked lagt i k�" << endl; //vente besked
+			cout << "csmaCA.cpp [makeHandShake()] -  enheden har travlt, besked lagt i ko" << endl; //vente besked
 			x = 0;
 		}
 	}
@@ -179,25 +175,25 @@ void csmaCA::sendSound(vector<int> d)
 	mySound.setSamplingRate(playSampleRate);    //sætter afspildnings sample rate
 
 	TextHandler myTest;                         //opretter texthandler objekt
-	//CustomRecorder recorder;                    //opretter custom recorder
+	//CustomRecorder recorder;                  //opretter custom recorder
 	Frame framming(ID);                         //Opretter frame objekt
 	sf::SoundBuffer bufferInput;                //laver lydboffer objekt
 	sf::Sound sound;                            //opretter sound objekt
-	//===================================
+	//=======================================
 
 	framming.setData(d);                            //ligger hexbuffer ind i framing
 	framming.makeFrame();                           //framer hexbuffer
 
 	frammedHex = framming.getFrame();          		//gemmer framet data i "framedHex"
 
-	//================ Udskriver framed data ===================
-	cout << endl << "Data played: ";
-	for (int j = 0; j < frammedHex.size(); ++j)             //udskriver frameHex til skermen
-	{                                                       //
-		cout << frammedHex[j] << " ";                       //
-	}                                                       //
-	cout << endl;                                           //
-	//========================================================
+	//================ Udskriver framed data =========================
+	cout << endl << "csmaCA.cpp [sendSound()]  -  Data played: ";	//
+	for (int j = 0; j < frammedHex.size(); ++j)             		//udskriver frameHex til skermen
+	{                                                       		//
+		cout << frammedHex[j] << " ";                       		//
+	}                                                       		//
+	cout << endl;                                           		//
+	//================================================================
 
 	mySound.makeSound(frammedHex);                          //klargøre framed data "framedHex" til afspildning
 
@@ -207,58 +203,56 @@ void csmaCA::sendSound(vector<int> d)
 
 	sound.setBuffer(bufferInput);                           //initalisere bufferInput i sound klasse
 
+	playing = true;											//indikere at denne enhed spiller lyd
 	sound.play();                                           //afspiller bufferInput
-	mySound.delay(playTimeCal(frammedHex));     //laver delay mens lyd spilelr
+	mySound.delay(playTimeCal(frammedHex));    				//laver delay mens lyd spilelr
+	playing = false;										//indikere at denne enhed ikke spiller lyd
+
 }
 
 
 
 void csmaCA::sendACK()
 {
-	Frame csmaCAframer(ACK);						//Opretter frame objekt
-	csmaCAframer.makeFrame();						//Frame ACK
-	//stop recorder
-	sendSound(csmaCAframer.getFrame());				//afspiller framet ACK
-	//start recorder
+	Frame csmaCAframer(ACK);							//Opretter frame objekt
+	csmaCAframer.makeFrame();							//Frame ACK
+	sendSound(csmaCAframer.getFrame());					//afspiller framet ACK
 }
 
 
 
 int csmaCA::playTimeCal(vector<int> enV)
 {
-	return enV.size()*soundPlayTime;				//retunere afspildningstid i ms
+	return enV.size()*soundPlayTime;					//retunere afspildningstid i ms
 }
 
 
 
 bool csmaCA::checkForRTS()
 {
-	bool rtsModtaget = true;						//hvis "RTS" modtages siddes denne variabel til "true"
-	bool dataModtaget = true;						//hvis "data" modtages siddes denne variabel til "true"
-	Sound mySound;									//opretter sound objekt (bruges til delay)
+	bool rtsModtaget = true;							//hvis "RTS" modtages siddes denne variabel til "true"
+	bool dataModtaget = true;							//hvis "data" modtages siddes denne variabel til "true"
+	Sound mySound;										//opretter sound objekt (bruges til delay)
 
 	if (rtsModtaget)
 	{
 		Frame csmaCAframer(CTS);						//opretter framing objekt
 		csmaCAframer.makeFrame();						//Frame CTS
 
-		for (int DataTimeouts = 1; DataTimeouts <= 3; DataTimeouts++)	//venter p� data 3 gange
+		for (int DataTimeouts = 1; DataTimeouts <= 3; DataTimeouts++)	//venter paa data 3 gange
 		{
-
-			//stop recorder
 			sendSound(csmaCAframer.getFrame());						//sender framet CTS
-			//start recorder
 			for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 			{
 				mySound.delay(10);									//venter 10 ms
 				if (dataModtaget)									//hvis data modtages
 				{
-					dataModtaget = false;							//nulstiller "flag"
-					return true;									//retunere true
+					dataModtaget = false;								//nulstiller "flag"
+					return true;										//retunere true
 				}
 
 			}
-			cout << "csmaCA.cpp [checkForRTS()] - " << DataTimeouts << ". 3 timeout's for data" << endl;
+			cout << "csmaCA.cpp [checkForRTS()]  -  " << DataTimeouts << ". 3 timeout's for data" << endl;
 		}
 
 	}
@@ -266,19 +260,16 @@ bool csmaCA::checkForRTS()
 }
 
 
-
-void csmaCA::stopRecordeer()
+bool csmaCA::isPlaying()
 {
-	recorder.stop();							//stopper recorder
+	if(playing)
+	{
+		return true;
+	} else
+	{
+		return false;
+	}
 }
-
-
-void csmaCA::startRecorder()
-{
-	recorder.start(recordSampleRate);      		//starter recorder, med valgt antal sample rate
-}
-
-
 
 csmaCA::~csmaCA()
 {
