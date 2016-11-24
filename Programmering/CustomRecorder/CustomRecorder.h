@@ -16,13 +16,20 @@ public:
     bool onStart();
     bool onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount);
     void onStop();
-
+	void resetRTS();
+	void resetCTS();
+	void resetACK();
+	void resetDATA();
     ~CustomRecorder();
 
 private:
     DtmfFinder findTones;
     DtmfFinder lyddata;
     vector< vector<int> > udData;
+	bool rtsFlag = 0;
+	bool ctsFlag = 0;
+	bool ackFlag = 0;
+	bool dataFlag = 0;
 
 };
 

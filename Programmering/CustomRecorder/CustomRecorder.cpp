@@ -51,8 +51,18 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         if(unframing.validataFrame() == true) {
             unframing.unFrame();
-            TextHandler outputText;
-            cout << outputText.OutputText(unframing.getFrame()) << endl;
+			if (unframing.getFrame() == {1, 1, 1, 1})
+				rtsFlag = 1;
+			else if (unframing.getFrame() == {2, 2, 2, 2})
+				ctsFlag = 1;
+			else if (unframing.getFrame() == {3, 3, 3, 3})
+				ackFlag;
+			else
+			{
+				dataFlag = 1;
+				TextHandler outputText;
+				cout << outputText.OutputText(unframing.getFrame()) << endl;
+			}
         } else{
             cout << "Error" << endl;
         }
@@ -66,9 +76,26 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     return true;
 }
 
-void CustomRecorder::onStop() {
+void CustomRecorder::onStop() 
+{
 
 
+}
+void CustomRecorder::resetRTS()
+{
+	rtsFlag = 0;
+}
+void CustomRecorder::resetCTS()
+{
+	ctsFlag = 0;
+}
+void CustomRecorder::resetACK()
+{
+	ackFlag = 0;
+}
+void CustomRecorder::resetDATA()
+{
+	dataFlag = 0;
 }
 
 CustomRecorder::~CustomRecorder()
