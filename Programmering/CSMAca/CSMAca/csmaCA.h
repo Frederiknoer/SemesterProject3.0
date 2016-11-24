@@ -17,8 +17,8 @@ class csmaCA
 #pragma once
 {
 public:
-	csmaCA();														//	done!	Sidder ID til en af de 5 "default ID's"
-	csmaCA(vector<int> ID);						//	done!	sideer �D til ID
+	csmaCA();										//	done!	Sidder ID til en af de 5 "default ID's"
+	csmaCA(vector<int> ID);							//	done!	sideer �D til ID
 	csmaCA(vector<int> ID, vector<int> TagetID);	//	done!	sidder ID og taget ID
 
 	void setTagetID(vector<int> tID);				//	done!
