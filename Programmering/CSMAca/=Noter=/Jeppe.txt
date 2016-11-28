@@ -1,0 +1,4 @@
+	vector<int> payload;	//opretter vector payload
+	Frame f();				//Opretter Frame objekt
+	f.makeFrame();			//Framer data
+	f.getFrame();

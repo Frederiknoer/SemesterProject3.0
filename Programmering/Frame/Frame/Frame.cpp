@@ -7,6 +7,12 @@ Frame::Frame(vector<int> d)
 {
 	data = d;
 }
+
+void Frame::setData(vector<int> d)
+{
+	data = d;
+}
+
 void Frame::makeFrame()
 {
 	//Hvis data ligner et flag, inds�ttes en plads med 0 imellem dem. 

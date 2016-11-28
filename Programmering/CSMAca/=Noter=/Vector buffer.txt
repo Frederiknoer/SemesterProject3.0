@@ -1,0 +1,14 @@
+Opretter int vector ved navn "myVector":
+	vector<int> myVector;
+
+	Tilføje et ekstra elementet x på bagerste plads:
+		myVector.push_back(x);
+	
+	Henter fåreste element i vector
+		myVector[0];
+	
+	Sletter fåreste element i vector
+		myVector.erase(myVector.begin());
+		
+	Sammenligning af 2 Vektore:
+		Logiske operatore kan bruges, så som ==
