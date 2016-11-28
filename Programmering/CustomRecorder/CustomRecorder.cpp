@@ -48,14 +48,18 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         Frame unframing(udData[0]);
 
+        vector<int> RTS = {15,15,3,2};
+        vector<int> CTS = {11,8,6,10};
+        vector<int> ACK = {1,1,4,12};
+
 
         if(unframing.validataFrame() == true) {
             unframing.unFrame();
-			if (unframing.getFrame() == {1, 1, 1, 1})
+			if (unframing.getFrame() == RTS)
 				rtsFlag = 1;
-			else if (unframing.getFrame() == {2, 2, 2, 2})
+			else if (unframing.getFrame() == CTS)
 				ctsFlag = 1;
-			else if (unframing.getFrame() == {3, 3, 3, 3})
+			else if (unframing.getFrame() == ACK)
 				ackFlag;
 			else
 			{
