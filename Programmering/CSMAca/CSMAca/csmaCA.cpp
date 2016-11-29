@@ -215,6 +215,13 @@ void csmaCA::sendACK()
 }
 
 
+void csmaCA::sendCTS()
+{
+	Frame csmaCAframer(CTS);							//Opretter frame objekt
+	csmaCAframer.makeFrame();							//Frame CTS
+	sendSound(csmaCAframer.getFrame());					//afspiller framet CTS
+}
+
 
 int csmaCA::playTimeCal(vector<int> enV)
 {
@@ -283,6 +290,11 @@ void csmaCA::setCtsFlag()
 void csmaCA::setRtsFlag()
 {
 	rtsFlag = true;
+}
+
+void csmaCA::setDataFlag()
+{
+	dataFlag = true;
 }
 
 csmaCA::~csmaCA()

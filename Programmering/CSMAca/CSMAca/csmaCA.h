@@ -27,7 +27,8 @@ public:
 	vector<int> getID();							//	done!
 	bool sendData(vector<int> data);				//	done!	retunere true hvis data sendt og ACK modtaget
 	bool makeHandShake();							//	done!	sender RTS og retunere true n�r cts modtages
-	void sendACK();									//	done! 	sender NACK
+	void sendACK();									//	done! 	sender ACK
+	void sendCTS();									//			sender CTS
 	int playTimeCal(vector<int> enV);				//	done!	beregner afspildnings (at lave til lyd) tid for vector [ms]
 	bool checkForRTS();								//	done!	tjekker om et "RTS" er modtager
 	bool getTxFlag();								//	done!	retunere tur hvis denne pc afspiller lyd (sender)

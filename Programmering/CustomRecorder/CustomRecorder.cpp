@@ -7,6 +7,16 @@ CustomRecorder::CustomRecorder()
 
 }
 
+CustomRecorder::CustomRecorder(csmaCA etO)
+{
+    csmaHandler = etO;
+}
+
+csmaCA CustomRecorder::getcsmaCA()
+{
+    return csmaHandler;
+}
+
 
 bool CustomRecorder::onStart() {
 
@@ -56,16 +66,30 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         if(unframing.validataFrame() == true) {
             unframing.unFrame();
 			if (unframing.getFrame() == RTS)
-				rtsFlag = 1;
+            {
+                csmaHandler.setRtsFlag();
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
+                csmaHandler.sendCTS();
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt" << endl;
+            }
 			else if (unframing.getFrame() == CTS)
-				ctsFlag = 1;
+            {
+                csmaHandler.setCtsFlag();
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS flag sat" << endl;
+            }
 			else if (unframing.getFrame() == ACK)
-				ackFlag;
+            {
+                csmaHandler.setAckFlag();
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK flag sat" << endl;
+            }
 			else
 			{
-				dataFlag = 1;
+				csmaHandler.setDataFlag();
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  DATA flag sat" << endl;
 				TextHandler outputText;
 				cout << outputText.OutputText(unframing.getFrame()) << endl;
+                csmaHandler.sendACK();
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt" << endl;
 			}
         } else{
             cout << "Error" << endl;
