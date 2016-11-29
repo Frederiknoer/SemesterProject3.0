@@ -20,7 +20,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
 
-    cout << sampleCount << endl;
+    cout << N << endl;
 
     DFT DiskretFourierTrans;
     DiskretFourierTrans.DFTrans8(samples, N, samplingFreq);
@@ -78,6 +78,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
     return true;
 }
+
 
 void CustomRecorder::onStop() {
 
