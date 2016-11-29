@@ -144,13 +144,15 @@ bool csmaCA::makeHandShake()
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
 			mySound.delay(10);									//venter 10 ms
-
+            cout << "csmaCA.cpp [makeHandShake]  -  tjekker ctsFlag" << endl;
+            cout << "csmaCA.cpp [makeHandShake]  -  Test = " << test << endl;
 			if (ctsFlag)										//hvis CTS modtages
 			{
+                cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag == true" << endl;
 				ctsFlag = false;								//nulstiller "flag"
 				return true;									//retunere true
 			}
-
+            cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag == false" << endl;
 		}
 		cout << "csmaCA.cpp [makeHandShake()] - " << rtsAttempts << ". RTS fejlet.." << endl;
 	}
@@ -313,6 +315,24 @@ vector<int> csmaCA::getCTSverdi()
 vector<int> csmaCA::getRTSverdi()
 {
     return RTS;
+}
+
+
+bool csmaCA::getAckFlagStatus()
+{
+    return ackFlag;
+}
+
+
+bool csmaCA::getCtsFlagStatus()
+{
+    return ctsFlag;
+}
+
+
+bool csmaCA::getRtsFlagStatus()
+{
+    return rtsFlag;
 }
 
 

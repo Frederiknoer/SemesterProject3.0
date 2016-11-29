@@ -25,7 +25,13 @@ bool CustomRecorder::onStart() {
 
 }
 
-bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount) {
+bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount)
+{
+
+    //===================== Eksperimentalt =========================
+    csmaHandler.setCtsFlag();                                          //snyder customrecorder til at tro at CTS er modtaget
+    csmaHandler.setTest(3);
+    //==============================================================
 
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
