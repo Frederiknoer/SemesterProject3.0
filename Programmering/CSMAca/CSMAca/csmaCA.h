@@ -38,13 +38,16 @@ public:
 	void setDataFlag();								//			siddes dataFlag til true
 	int getTest();									//			[eksperimental]	retunere værdi af variablen test
 	void setTest(int etT);							//			[eksperimental]	ændre værdien af variablen tur
+	vector<int> getACKverdi();						//			retunere ACK værdien
+	vector<int> getRTSverdi();						//			retunere RTS værdien
+	vector<int> getCTSverdi();						//			retunere CTS værdien
 
 	~csmaCA();
 private:
 	void sendSound(vector<int>);					//	done!	indenholder bla. alex's lyd
 	vector<int> tagetID = { 0 };					//Modtagerns bruger ID
 	vector<int> ID = { 0 };							//Denne pc's bruger ID
-	vector<int> RTS = { 0xf, 0xf, 0x3, 0x2 };		//difinere RTS
+	vector<int> RTS = {8};					//difinere RTS
 	vector<int> CTS = { 0xb, 0x8, 0x6, 0xa };		//difinere CTS
 	vector<int> ACK = { 0x1, 0x1, 0x4, 0xc };		//difinere ACK
 	vector<int> NACK = { 0x4, 0x8, 0x1, 0x1 };		//difinere NACK

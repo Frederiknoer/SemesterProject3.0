@@ -133,14 +133,12 @@ bool csmaCA::makeHandShake()
 			x = 0;
 		}
 	}
-	Frame csmaCAframer(RTS);			//Opretter frame objekt
-	csmaCAframer.makeFrame();			//Frame RTS
 
 										// vent p� at et svar modtages
 
 	for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
 	{
-		sendSound(csmaCAframer.getFrame());						//sender framet Rts
+		sendSound(RTS);						//sender framet Rts
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
 			mySound.delay(10);									//venter 10 ms
@@ -209,17 +207,13 @@ void csmaCA::sendSound(vector<int> d)
 
 void csmaCA::sendACK()
 {
-	Frame csmaCAframer(ACK);							//Opretter frame objekt
-	csmaCAframer.makeFrame();							//Frame ACK
-	sendSound(csmaCAframer.getFrame());					//afspiller framet ACK
+	sendSound(ACK);										//afspiller framet ACK
 }
 
 
 void csmaCA::sendCTS()
 {
-	Frame csmaCAframer(CTS);							//Opretter frame objekt
-	csmaCAframer.makeFrame();							//Frame CTS
-	sendSound(csmaCAframer.getFrame());					//afspiller framet CTS
+	sendSound(CTS);										//afspiller CTS
 }
 
 
@@ -296,6 +290,25 @@ void csmaCA::setDataFlag()
 {
 	dataFlag = true;
 }
+
+
+vector<int> csmaCA::getACKverdi()
+{
+	return ACK;
+}
+
+
+vector<int> csmaCA::getCTSverdi()
+{
+	return CTS;
+}
+
+
+vector<int> csmaCA::getRTSverdi()
+{
+	return RTS;
+}
+
 
 csmaCA::~csmaCA()
 {

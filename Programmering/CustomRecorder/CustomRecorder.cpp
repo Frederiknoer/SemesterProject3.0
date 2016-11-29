@@ -58,26 +58,22 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         Frame unframing(udData[0]);
 
-        vector<int> RTS = {15,15,3,2};
-        vector<int> CTS = {11,8,6,10};
-        vector<int> ACK = {1,1,4,12};
-
 
         if(unframing.validataFrame() == true) {
             unframing.unFrame();
-			if (unframing.getFrame() == RTS)
+			if (unframing.getFrame() == csmaHandler.getRTSverdi())
             {
                 csmaHandler.setRtsFlag();
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
                 csmaHandler.sendCTS();
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt" << endl;
             }
-			else if (unframing.getFrame() == CTS)
+			else if (unframing.getFrame() == csmaHandler.getCTSverdi())
             {
                 csmaHandler.setCtsFlag();
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS flag sat" << endl;
             }
-			else if (unframing.getFrame() == ACK)
+			else if (unframing.getFrame() == csmaHandler.getACKverdi())
             {
                 csmaHandler.setAckFlag();
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK flag sat" << endl;
