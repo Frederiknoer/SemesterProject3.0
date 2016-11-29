@@ -26,6 +26,8 @@ public:
     ~CustomRecorder();
 
 private:
+	int index = 0;	// <=================== eksperimental
+
     DtmfFinder findTones;
     DtmfFinder lyddata;
     vector< vector<int> > udData;

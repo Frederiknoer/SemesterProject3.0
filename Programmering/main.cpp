@@ -27,6 +27,7 @@ int main()
 
     TextHandler myTest;                                         //opretter texthandler objekt
     CustomRecorder recorder(csmaHandler);                       //opretter costum recorder objekt
+    recorder.start(44100);
 
     cout << "Skriv tekst: ";                                //beder om input
     getline(cin, mystring);                                 //gemmer input i mystring vektor
