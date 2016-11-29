@@ -19,10 +19,6 @@ public:
     bool onStart();
     bool onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount);
     void onStop();
-	void resetRTS();
-	void resetCTS();
-	void resetACK();
-	void resetDATA();
     ~CustomRecorder();
 
 private:

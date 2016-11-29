@@ -38,6 +38,9 @@ public:
 	void setDataFlag();								//			siddes dataFlag til true
 	int getTest();									//			[eksperimental]	retunere værdi af variablen test
 	void setTest(int etT);							//			[eksperimental]	ændre værdien af variablen tur
+    vector<int> getACKverdi();                      //          retunere ACK værdi
+    vector<int> getCTSverdi();                      //          retunere CTS værdi
+    vector<int> getRTSverdi();                      //          retunere RTS værdi
 
 	~csmaCA();
 private:

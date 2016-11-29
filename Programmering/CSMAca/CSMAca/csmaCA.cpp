@@ -297,6 +297,25 @@ void csmaCA::setDataFlag()
 	dataFlag = true;
 }
 
+
+vector<int> csmaCA::getACKverdi()
+{
+    return ACK;
+}
+
+
+vector<int> csmaCA::getCTSverdi()
+{
+    return CTS;
+}
+
+
+vector<int> csmaCA::getRTSverdi()
+{
+    return RTS;
+}
+
+
 csmaCA::~csmaCA()
 {
 }
