@@ -8,7 +8,7 @@ DtmfFinder::DtmfFinder(){
 
 }
 
-void DtmfFinder::findDtmfTones(vector<double> freqSpek){
+void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
 
     int DTMFtable[4][4];
 
@@ -29,74 +29,57 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
     DTMFtable[3][2] = 14;
     DTMFtable[3][3] = 15;
 
-    if(timeOutCounter > 6)
-    {
+    if (timeOutCounter > 6) {
         DTMFbuffer.clear();
         DTMFCounter.clear();
         timeOutCounter = 0;
     }
 
+    double freqLow = 0;
+    double freqHigh = 0;
+    int numberLow = 0;
+    int numberHigh = 0;
+    int amplitudeFaktor = 1500;
 
-    // Gennemsnit metoden
-
-    double avg = 0;
-    int counter = 0;
-    double freqs[2];
-    int numberConst[2];
-
-    for (int i = 0; i < 8; ++i) {
-        avg += freqSpek[i];
-    }
-
-    avg = avg / 8;
-
-
-
-
-    for (int j = 0; j < 8; ++j)
-    {
-        if (((freqSpek[j]) > avg && avg > 100))
-        {
-            freqs[counter] = freqSpek[j];
-            numberConst[counter] = j;
-            counter++;
+    for (int j = 0; j < 4; ++j) {
+        if (freqSpek[j] > freqLow) {
+            freqLow = freqSpek[j];
+            numberLow = j;
         }
     }
 
+    for (int i = 4; i < 8; ++i) {
+        if (freqSpek[i] > freqHigh) {
+            freqHigh = freqSpek[i];
+            numberHigh = i;
+        }
+    }
 
+    if (freqHigh > amplitudeFaktor && freqLow > amplitudeFaktor) {
+        //  cout << "FreqHigh: " << freqHigh << ", FreqLow: " << freqLow << endl;
+        timeOutCounter = 0;
+        DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
 
-    if(counter == 2)
-    {
-        if (numberConst[0] < 4 && numberConst[0] >= 0 && numberConst[1] > 3 && numberConst[1] <=7)
-        {
-            timeOutCounter = 0;
+        if (DTMFCounter.size() == 1) {
+            // cout << DTMFCounter[0];
+            DTMFbuffer.push_back(DTMFCounter[0]);
+        }
 
-            DTMFCounter.push_back(DTMFtable[numberConst[0]] [numberConst[1]-4]);
-
-            if(DTMFCounter.size() == 1)
-            {
-                // cout << DTMFCounter[0];
-                DTMFbuffer.push_back(DTMFCounter[0]);
-            }
-
-            if(DTMFCounter.size() > 1)
-            {
-                if((DTMFCounter[DTMFCounter.size()-2]) != (DTMFCounter[DTMFCounter.size()-1]))
-                {
+        if (DTMFCounter.size() > 1) {
+            if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
+                // cout << DTMFCounter[DTMFCounter.size()-1];
+                DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
+                DTMFCounter.clear();
+                DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
+            } else {
+                if (DTMFCounter.size() == 5 || DTMFCounter.size() == 7 || DTMFCounter.size() == 10 ||
+                    DTMFCounter.size() == 12) {
                     // cout << DTMFCounter[DTMFCounter.size()-1];
-                    DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
-                    DTMFCounter.clear();
-                    DTMFCounter.push_back(DTMFtable[numberConst[0]] [numberConst[1]-4]);
-                }else{
-                    if (DTMFCounter.size() == 4 || DTMFCounter.size() == 6 || DTMFCounter.size() == 8 || DTMFCounter.size() == 10)
-                    {
-                      // cout << DTMFCounter[DTMFCounter.size()-1];
-                        DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
-                    }
+                    DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
                 }
             }
         }
-    }else {
+    } else {
         timeOutCounter++;
     }
 }

@@ -26,10 +26,13 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     vector<double> freqSpek;
     freqSpek = DiskretFourierTrans.getFreqSpek8();
 
+
+    /*
     for (int k = 0; k < 8; ++k) {
         cout << freqSpek[k] << ", "; 
     }
     cout << endl;
+     */
 
     findTones.findDtmfTones(freqSpek);
 

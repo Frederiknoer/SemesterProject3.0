@@ -19,17 +19,14 @@ int main()
     CustomRecorder recorder;
     recorder.start(recordSampleRate);
 
+
     string mystring;
+    cout << "Skriv tekst: ";
+    getline(cin, mystring);
 
-  //  cout << "Skriv tekst: ";
-   //  getline(cin, mystring);
+while (1) {
+    vector<int> HexBuffer;
 
-
-//while (1) {
-
-    vector<int> HexBuffer = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-
-   /*
     TextHandler myTest;
     vector<int> HexIntVec = myTest.InputText(mystring);
 
@@ -45,9 +42,9 @@ int main()
         cout << frammedHex[j];
     }
     cout << endl;
-*/
 
-    mySound.makeSound(HexBuffer);
+
+    mySound.makeSound(frammedHex);
 
     vector<sf::Int16> inputSamples = mySound.getSound();
 
@@ -57,14 +54,14 @@ int main()
     sf::Sound sound;
     sound.setBuffer(bufferInput);
     sound.play();
-    mySound.delay(900);
+
 
 
     HexBuffer.clear();
-  //  HexIntVec.clear();
+    HexIntVec.clear();
 
-   // getline(cin, mystring);
-// }
+    getline(cin, mystring);
+}
 
     recorder.stop();
 

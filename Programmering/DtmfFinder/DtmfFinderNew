@@ -1,0 +1,49 @@
+ double freqLow = 0;
+    double freqHigh = 0;
+    int numberLow = 0;
+    int numberHigh = 0;
+    int amplitudeFaktor = 2000;
+
+    for (int j = 0; j < 4; ++j)
+    {
+        if(freqSpek[j] > freqLow) {
+            freqLow = freqSpek[j];
+            numberLow = j;
+        }
+    }
+
+    for (int i = 4; i < 8; ++i) {
+        if(freqSpek[i] > freqHigh)
+        {
+            freqHigh = freqSpek[i];
+            numberHigh = i;
+        }
+    }
+
+    if(freqHigh > amplitudeFaktor && freqLow > amplitudeFaktor) {
+     //  cout << "FreqHigh: " << freqHigh << ", FreqLow: " << freqLow << endl;
+        timeOutCounter = 0;
+        DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
+
+        if (DTMFCounter.size() == 1) {
+            // cout << DTMFCounter[0];
+            DTMFbuffer.push_back(DTMFCounter[0]);
+        }
+
+        if (DTMFCounter.size() > 1) {
+            if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
+                // cout << DTMFCounter[DTMFCounter.size()-1];
+                DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
+                DTMFCounter.clear();
+                DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
+            } else {
+                if (DTMFCounter.size() == 4 || DTMFCounter.size() == 6 || DTMFCounter.size() == 8 ||
+                    DTMFCounter.size() == 10) {
+                    // cout << DTMFCounter[DTMFCounter.size()-1];
+                    DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
+                }
+            }
+        }
+    }else {
+        timeOutCounter++;
+    }
