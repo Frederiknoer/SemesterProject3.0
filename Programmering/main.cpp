@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define TWOPI = 6.283185                        //definere 2 gange pi
+#define TWOPI = 6.283185                        //difinere 2 gange pi
 
 int main()
 {
@@ -39,7 +39,7 @@ int main()
         HexBuffer.push_back(HexIntVec[i]);
     }
 
-    if(csmaHandler.sendData(HexBuffer))                     //sender data. returnere true hvis data sendt korekt
+    if(csmaHandler.sendData(HexBuffer))                     //sender data. retunere true hvis data sendt korekt
         cout << "Main.cpp [main()]  -  Data sendt korekt!" << endl;
     else
         cout << "Main.cpp [main()]  -  Fejl! Data ikke sendt korekt" << endl;
