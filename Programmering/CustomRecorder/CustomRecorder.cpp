@@ -41,15 +41,6 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     vector<int> DTMFbuffer;
     DTMFbuffer = findTones.getDTMFBuffer();
 
-
-    //======================= Eksperimental =======================
-    //index++;
-    //if(index == 1000)
-    //    DTMFbuffer = csmaHandler.getCTSverdi();
-    //else
-    //    DTMFbuffer = {0, 0, 0, 0};
-    //=============================================================
-
     if (lyddata.pairFinder(DTMFbuffer) == true)
     {
 
@@ -63,17 +54,8 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         cout << endl;
 
 
-        //Frame unframing(udData[0]);       //<====== skal unkomenteres
+        Frame unframing(udData[0]);
 
-
-
-        //========= Eksperimental ===============
-        Frame test(csmaHandler.getCTSverdi());
-        test.makeFrame();
-        cout << "CustomRecorder.cpp [onProcessSamples]  -  Falsk frame lavet" << endl;
-        //=======================================
-
-        Frame unframing(test.getFrame());
 
         if(unframing.validataFrame() == true)                             //tjekker modtaget lyde igennem for bestemte frekvenser
         {
