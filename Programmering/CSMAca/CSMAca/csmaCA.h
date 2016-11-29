@@ -9,12 +9,12 @@
 #include <SFML/Graphics.hpp>
 #include "../../Sound/sound.h"
 #include "../../TextHandler/TextHandler.h"
-#include "../../CustomRecorder/CustomRecorder.h"
-
+//#include "../../CustomRecorder/CustomRecorder.h"
+#pragma once
 using namespace std;
 class csmaCA
 
-#pragma once
+
 {
 public:
 	csmaCA();										//	done!	Sidder ID til en af de 5 "default ID's"
@@ -30,7 +30,14 @@ public:
 	void sendACK();									//	done! 	sender NACK
 	int playTimeCal(vector<int> enV);				//	done!	beregner afspildnings (at lave til lyd) tid for vector [ms]
 	bool checkForRTS();								//	done!	tjekker om et "RTS" er modtager
-	bool isPlaying();								//	done!	retunere tur hvis denne pc afspiller lyd (sender)
+	bool getTxFlag();								//	done!	retunere tur hvis denne pc afspiller lyd (sender)
+	void setRtsFlag();								//			sidder rtsFlag til true
+	void setCtsFlag();								//			sidder ctsFlag til true
+	void setAckFlag();								//			sidder ackFlag til true
+	void setDataFlag();								//			siddes dataFlag til true
+	int getTest();									//			[eksperimental]	retunere værdi af variablen test
+	void setTest(int etT);							//			[eksperimental]	ændre værdien af variablen tur
+
 	~csmaCA();
 private:
 	void sendSound(vector<int>);					//	done!	indenholder bla. alex's lyd
@@ -49,6 +56,12 @@ private:
 	bool ini = false;								//siddes true hvis initalisering har fundet sted
 	bool playing = false;							//siddes true hvis denne pc afspiller lyd
 	unsigned int recordSampleRate = 96000;      	//sample rate for recorder
+	bool ackFlag = false;							//flag sætte til true hvsi er modtaget
+	bool ctsFlag = false;							//flag sætte til true hvsi er modtaget
+	bool rtsFlag = false;							//flag sætte til true hvsi er modtaget
+	bool dataFlag = false;							//flag sættes til true hvis data er modtaget
+	bool txFlag = false;							//flag sættes til true hvis denne enhed afspiller lyd (transmitere)
+	int test = 0;									//[eksperimental]
 };
 
 

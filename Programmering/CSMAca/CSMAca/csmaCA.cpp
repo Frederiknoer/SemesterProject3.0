@@ -51,7 +51,6 @@ csmaCA::csmaCA(vector<int> newID, vector<int> TagetID)
 		cout << "csmaCA.cpp [csmaCA(vector<int>, vector<int>)]  -  Fejl! intastede (Taget ID) overskrider maximum l�ngde p� 2 x 4bits" << endl;
 	else
 		tagetID = TagetID;
-
 }
 
 
@@ -98,8 +97,6 @@ bool csmaCA::sendData(vector<int> Data)
 	Frame csmaCAframer(Data);			//Opretter frame objekt
 	csmaCAframer.makeFrame();			//framer data
 
-	bool ackModtaget = false;		//hvis "ACT" modtages siddes denne variabel til "true"
-
 									//vent p� at et ack modtages
 	for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//fors�ger data 3 gange
 	{
@@ -107,10 +104,10 @@ bool csmaCA::sendData(vector<int> Data)
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
 			mySound.delay(10);									//venter 10 ms
-			if (ackModtaget)									//hvis ack modtages
+			if (ackFlag)									//hvis ack modtages
 			{
 				busy = false;									//signalere at maskinen er klar til ny forbindelse
-				ackModtaget = false;							//nulstiller "flag"
+				ackFlag = false;								//nulstiller "flag"
 				return true;									//retunere true
 			}
 
@@ -140,7 +137,6 @@ bool csmaCA::makeHandShake()
 	csmaCAframer.makeFrame();			//Frame RTS
 
 										// vent p� at et svar modtages
-	bool ctsModtaget = true;			//hvis "CTS" modtages siddes denne variabel til "true"
 
 	for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
 	{
@@ -149,9 +145,9 @@ bool csmaCA::makeHandShake()
 		{
 			mySound.delay(10);									//venter 10 ms
 
-			if (ctsModtaget)									//hvis CTS modtages
+			if (ctsFlag)										//hvis CTS modtages
 			{
-				ctsModtaget = false;							//nulstiller "flag"
+				ctsFlag = false;								//nulstiller "flag"
 				return true;									//retunere true
 			}
 
@@ -175,7 +171,6 @@ void csmaCA::sendSound(vector<int> d)
 	mySound.setSamplingRate(playSampleRate);    //sætter afspildnings sample rate
 
 	TextHandler myTest;                         //opretter texthandler objekt
-	//CustomRecorder recorder;                  //opretter custom recorder
 	Frame framming(ID);                         //Opretter frame objekt
 	sf::SoundBuffer bufferInput;                //laver lydboffer objekt
 	sf::Sound sound;                            //opretter sound objekt
@@ -203,10 +198,10 @@ void csmaCA::sendSound(vector<int> d)
 
 	sound.setBuffer(bufferInput);                           //initalisere bufferInput i sound klasse
 
-	playing = true;											//indikere at denne enhed spiller lyd
+	txFlag = true;											//indikere at denne enhed sender (spiller lyd)
 	sound.play();                                           //afspiller bufferInput
 	mySound.delay(playTimeCal(frammedHex));    				//laver delay mens lyd spilelr
-	playing = false;										//indikere at denne enhed ikke spiller lyd
+	txFlag = false;											//indikere at denne enhed ikke længere sender
 
 }
 
@@ -230,11 +225,9 @@ int csmaCA::playTimeCal(vector<int> enV)
 
 bool csmaCA::checkForRTS()
 {
-	bool rtsModtaget = true;							//hvis "RTS" modtages siddes denne variabel til "true"
-	bool dataModtaget = true;							//hvis "data" modtages siddes denne variabel til "true"
 	Sound mySound;										//opretter sound objekt (bruges til delay)
 
-	if (rtsModtaget)
+	if (rtsFlag)
 	{
 		Frame csmaCAframer(CTS);						//opretter framing objekt
 		csmaCAframer.makeFrame();						//Frame CTS
@@ -245,9 +238,9 @@ bool csmaCA::checkForRTS()
 			for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 			{
 				mySound.delay(10);									//venter 10 ms
-				if (dataModtaget)									//hvis data modtages
+				if (dataFlag)										//hvis data modtages
 				{
-					dataModtaget = false;								//nulstiller "flag"
+					dataFlag = false;								//nulstiller "flag"
 					return true;										//retunere true
 				}
 
@@ -260,15 +253,36 @@ bool csmaCA::checkForRTS()
 }
 
 
-bool csmaCA::isPlaying()
+bool csmaCA::getTxFlag()
 {
-	if(playing)
-	{
-		return true;
-	} else
-	{
-		return false;
-	}
+	return txFlag;
+}
+
+
+void csmaCA::setTest(int etT)				//[eksperimental]
+{
+	test = etT;
+}
+
+
+int csmaCA::getTest()					//[eksperimental]
+{
+	return test;
+}
+
+void csmaCA::setAckFlag()
+{
+	ackFlag = true;
+}
+
+void csmaCA::setCtsFlag()
+{
+	ctsFlag = true;
+}
+
+void csmaCA::setRtsFlag()
+{
+	rtsFlag = true;
 }
 
 csmaCA::~csmaCA()

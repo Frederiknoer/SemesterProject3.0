@@ -22,10 +22,11 @@ int main()
     vector<int> HexBuffer;                      //opretter HexBuffer
     vector<int> ID = { 14, 15 };                // computer ID
     vector<int> tagetID = { 10, 12 };           // taget ID
-    CustomRecorder recorder;
-    csmaCA csmaHandler(ID, tagetID);            //opretter handler (parametret ID bliver overskrevet senere)
-    TextHandler myTest;                         //opretter texthandler objekt
 
+    csmaCA csmaHandler(ID, tagetID);            //opretter handler (parametret ID bliver overskrevet senere)
+
+    TextHandler myTest;                                         //opretter texthandler objekt
+    CustomRecorder recorder(csmaHandler);                       //opretter costum recorder objekt
 
     cout << "Skriv tekst: ";                                //beder om input
     getline(cin, mystring);                                 //gemmer input i mystring vektor
@@ -41,6 +42,8 @@ int main()
         cout << "Main.cpp [main()]  -  Data sendt korekt!" << endl;
     else
         cout << "Main.cpp [main()]  -  Fejl! Data ikke sendt korekt" << endl;
+
+
 
     return 0;
 }
