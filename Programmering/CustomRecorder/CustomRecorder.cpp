@@ -56,6 +56,10 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         Frame unframing(udData[0]);
 
+        vector<int> RTS = {15,15,3,2};
+        vector<int> CTS = {11,8,6,10};
+        vector<int> ACK = {1,1,4,12};
+
 
         if(unframing.validataFrame() == true)                             //tjekker modtaget lyde igennem for bestemte frekvenser
         {
