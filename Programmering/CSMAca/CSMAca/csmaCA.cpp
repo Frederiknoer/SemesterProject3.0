@@ -100,6 +100,7 @@ bool csmaCA::sendData(vector<int> Data)
 									//vent p� at et ack modtages
 	for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//fors�ger data 3 gange
 	{
+		cout << "csmaCA.cpp [makeHandShake]  -  sender Data |" << endl;
 		sendSound(csmaCAframer.getFrame());						//sender framet data
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
@@ -136,23 +137,21 @@ bool csmaCA::makeHandShake()
 	Frame csmaCAframer(RTS);			//Opretter frame objekt
 	csmaCAframer.makeFrame();			//Frame RTS
 
-										// vent p� at et svar modtages
 
 	for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
 	{
+		cout << "csmaCA.cpp [makeHandShake]  -  sender RTS |" << endl;
 		sendSound(csmaCAframer.getFrame());						//sender framet Rts
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
 			mySound.delay(10);									//venter 10 ms
-            cout << "csmaCA.cpp [makeHandShake]  -  tjekker ctsFlag" << endl;
-            cout << "csmaCA.cpp [makeHandShake]  -  Test = " << test << endl;
 			if (ctsFlag)										//hvis CTS modtages
 			{
-                cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag == true" << endl;
+                cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag er True" << endl;
 				ctsFlag = false;								//nulstiller "flag"
 				return true;									//retunere true
 			}
-            cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag == false" << endl;
+            cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag er false" << endl;
 		}
 		cout << "csmaCA.cpp [makeHandShake()] - " << rtsAttempts << ". RTS fejlet.." << endl;
 	}
@@ -184,7 +183,7 @@ void csmaCA::sendSound(vector<int> d)
 	frammedHex = framming.getFrame();          		//gemmer framet data i "framedHex"
 
 	//================ Udskriver framed data =========================
-	cout << endl << "csmaCA.cpp [sendSound()]  -  Data played: ";	//
+	cout << "csmaCA.cpp [sendSound()]  -  Data played: ";	//
 	for (int j = 0; j < frammedHex.size(); ++j)             		//udskriver frameHex til skermen
 	{                                                       		//
 		cout << frammedHex[j] << " ";                       		//

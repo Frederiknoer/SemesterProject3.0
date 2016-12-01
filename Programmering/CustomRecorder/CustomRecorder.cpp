@@ -7,12 +7,14 @@ CustomRecorder::CustomRecorder()
 
 }
 
-CustomRecorder::CustomRecorder(csmaCA etO)
+//CustomRecorder::CustomRecorder(csmaCA etO)
+CustomRecorder::CustomRecorder(csmaCA * enP)
 {
-    csmaHandler = etO;
+    //csmaHandler = etO;
+    csmaHandler = enP;
 }
 
-csmaCA CustomRecorder::getcsmaCA()
+csmaCA * CustomRecorder::getcsmaCA()
 {
     return csmaHandler;
 }
@@ -29,8 +31,9 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 {
 
     //===================== Eksperimentalt =========================
-    csmaHandler.setCtsFlag();                                          //snyder customrecorder til at tro at CTS er modtaget
-    csmaHandler.setTest(3);
+    (*csmaHandler).setCtsFlag();                                          //snyder customrecorder til at tro at CTS er modtaget
+    //cout << "CustomRecorder.cpp [onProcessSamples]  -  CTSflag sat true" << endl;
+    //cout << "CustomRecorder.cpp [onProcessSamples]  -  Test sat til 3" << endl;
     //==============================================================
 
     int samplingFreq = sf::SoundRecorder::getSampleRate();
@@ -66,30 +69,30 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         if(unframing.validataFrame() == true)                             //tjekker modtaget lyde igennem for bestemte frekvenser
         {
             unframing.unFrame();
-			if (unframing.getFrame() == csmaHandler.getRTSverdi())        // Tjekker for RTS
+			if (unframing.getFrame() == (*csmaHandler).getRTSverdi())        // Tjekker for RTS
             {
-                csmaHandler.setRtsFlag();                                   //sidder RTS modtaget flag
+                (*csmaHandler).setRtsFlag();                                   //sidder RTS modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
-                csmaHandler.sendCTS();                                      //sender CTS
+                (*csmaHandler).sendCTS();                                      //sender CTS
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt" << endl;
             }
-			else if (unframing.getFrame() == csmaHandler.getCTSverdi())     //tjekker for CTS
+			else if (unframing.getFrame() == (*csmaHandler).getCTSverdi())     //tjekker for CTS
             {
-                csmaHandler.setCtsFlag();                                   //sidder CTS modtaget flag
+                (*csmaHandler).setCtsFlag();                                   //sidder CTS modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS flag sat" << endl;
             }
-			else if (unframing.getFrame() == csmaHandler.getACKverdi())     //tjekker for ACK
+			else if (unframing.getFrame() == (*csmaHandler).getACKverdi())     //tjekker for ACK
             {
-                csmaHandler.setAckFlag();                                   //sidder ACK modtaget flag
+                (*csmaHandler).setAckFlag();                                   //sidder ACK modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK flag sat" << endl;
             }
 			else                                                            //ellers er det data
 			{
-				csmaHandler.setDataFlag();                                  //sidder Data modtaget flag
+                (*csmaHandler).setDataFlag();                                  //sidder Data modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  DATA flag sat" << endl;
 				TextHandler outputText;                                     //opretter texthandler onjekt
 				cout << outputText.OutputText(unframing.getFrame()) << endl;
-                csmaHandler.sendACK();                                      //sender ACK
+                (*csmaHandler).sendACK();                                      //sender ACK
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt" << endl;
 			}
         } else{
