@@ -16,11 +16,26 @@ int main()
 
     Sound mySound;
     mySound.setSamplingRate(playSampleRate);
-
     CustomRecorder recorder;
     recorder.start(recordSampleRate);
 
-    string mystring;
+    vector<int> input = {8, 9, 11, 11, 10, 10,7,14, 10, 12, 13, 14, 15, 15};
+
+
+    mySound.makeSound(input);
+    vector<sf::Int16> inputSamples = mySound.getSound();
+
+    sf::SoundBuffer bufferInput;
+    bufferInput.loadFromSamples(&inputSamples[0], inputSamples.size(), 1, playSampleRate);
+
+    sf::Sound sound;
+    sound.setBuffer(bufferInput);
+    sound.play();
+
+    mySound.delay(input.size() * 44 + 350);
+
+
+    /*string mystring;
     cout << "Skriv tekst: ";
     getline(cin, mystring);
 
@@ -62,10 +77,9 @@ while (1) {
     HexIntVec.clear();
 
     getline(cin, mystring);
-}
+}*/
 
 
-    recorder.stop();
 
     return 0;
 }

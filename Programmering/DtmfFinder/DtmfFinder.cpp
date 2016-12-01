@@ -1,6 +1,7 @@
 #include "../DtmfFinder/DtmfFinder.h"
-
+#include <ctime>
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -35,16 +36,29 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
         timeOutCounter = 0;
     }
 
+    int diffFactor = 200;
     double freqLow = 0;
+    double freqSecLow = 0;
     double freqHigh = 0;
+    double freqSecHigh = 0;
     int numberLow = 0;
+    int numberSecLow = 0;
     int numberHigh = 0;
-    int amplitudeFaktor = 100;
+    int numberSecHigh = 0;
+    int amplitudeFaktorH = 175;
+    int amplitudeFaktorL = 175;
+
 
     for (int j = 0; j < 4; ++j) {
         if (freqSpek[j] > freqLow) {
             freqLow = freqSpek[j];
             numberLow = j;
+        }
+    }
+    for (int j = 0; j < 4; ++j) {
+        if (freqSpek[j] > freqLow && j != numberLow) {
+            freqSecLow = freqSpek[j];
+            numberSecLow = j;
         }
     }
 
@@ -54,35 +68,23 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
             numberHigh = i;
         }
     }
-
-    if (freqHigh > amplitudeFaktor && freqLow > amplitudeFaktor) {
-        //cout << DTMFtable[numberLow][numberHigh - 4];
-        //  cout << "FreqHigh: " << freqHigh << ", FreqLow: " << freqLow << endl;
-        timeOutCounter = 0;
-        DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
-
-        if (DTMFCounter.size() == 1) {
-            // cout << DTMFCounter[0];
-            DTMFbuffer.push_back(DTMFCounter[0]);
+    for (int i = 4; i < 8; ++i) {
+        if (freqSpek[i] > freqHigh && i != numberHigh) {
+            freqSecHigh = freqSpek[i];
+            numberSecHigh = i;
         }
-
-        if (DTMFCounter.size() > 1) {
-            if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
-                // cout << DTMFCounter[DTMFCounter.size()-1];
-                DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
-                DTMFCounter.clear();
-                DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
-            } else {
-                if (DTMFCounter.size() == 4 || DTMFCounter.size() == 6 || DTMFCounter.size() == 9 ||
-                    DTMFCounter.size() == 12) {
-                    // cout << DTMFCounter[DTMFCounter.size()-1];
-                    DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
-                }
-            }
-        }
-    } else {
-        timeOutCounter++;
     }
+
+    if (freqHigh > amplitudeFaktorH && freqLow > amplitudeFaktorL && freqHigh - freqSecHigh > diffFactor &&
+            freqLow - freqSecLow > diffFactor)
+    {
+
+       // Alle DTMF TONER.
+        // IF last= 14 you have a flag
+        // Samme fejl gentager sig.... ikke! ofte ihvertfal, som regel. måske. WHUAWHAWAWAAAA - Alex
+
+    }
+
 }
 
 bool DtmfFinder::pairFinder(vector<int> dtmfVec)
