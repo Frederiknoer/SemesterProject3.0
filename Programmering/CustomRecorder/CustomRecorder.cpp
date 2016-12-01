@@ -1,5 +1,5 @@
 #include "CustomRecorder.h"
-#include "fstream"
+
 
 
 CustomRecorder::CustomRecorder()
@@ -16,12 +16,13 @@ bool CustomRecorder::onStart() {
 
 bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount) {
 
-
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
+
     counter++;
     cout << "countervaerdi: " << counter << endl;
     cout << N << endl;
+
 
     DFT DiskretFourierTrans;
     DiskretFourierTrans.DFTrans8(samples, N, samplingFreq);
