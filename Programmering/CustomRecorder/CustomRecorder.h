@@ -17,11 +17,13 @@ public:
     bool onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount);
     void onStop();
 
+
     ~CustomRecorder();
 
 private:
     DtmfFinder findTones;
     DtmfFinder lyddata;
     vector< vector<int> > udData;
+    int counter = 0;
 };
 
