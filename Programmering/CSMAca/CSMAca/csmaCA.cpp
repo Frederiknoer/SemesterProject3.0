@@ -97,9 +97,10 @@ bool csmaCA::sendData(vector<int> Data)
 	Frame csmaCAframer(Data);			//Opretter frame objekt
 	csmaCAframer.makeFrame();			//framer data
 
-									//vent p� at et ack modtages
+										//vent p� at et ack modtages
 	for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//fors�ger data 3 gange
 	{
+		cout << "csmaCA.cpp [makeHandShake]  -  sender Data |" << endl;
 		sendSound(csmaCAframer.getFrame());						//sender framet data
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
@@ -136,26 +137,26 @@ bool csmaCA::makeHandShake()
 	Frame csmaCAframer(RTS);			//Opretter frame objekt
 	csmaCAframer.makeFrame();			//Frame RTS
 
-										// vent p� at et svar modtages
 
 	for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
 	{
+		cout << "csmaCA.cpp [makeHandShake]  -  sender RTS |" << endl;
 		sendSound(csmaCAframer.getFrame());						//sender framet Rts
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
 			mySound.delay(10);									//venter 10 ms
-
 			if (ctsFlag)										//hvis CTS modtages
 			{
+                //cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag er True" << endl;			//kan unkomenteres for debugging
 				ctsFlag = false;								//nulstiller "flag"
 				return true;									//retunere true
 			}
-
+            //cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag er false" << endl;			//kan unkomenteres for debugging
 		}
 		cout << "csmaCA.cpp [makeHandShake()] - " << rtsAttempts << ". RTS fejlet.." << endl;
 	}
 																//hvis CTS ikke modtages
-	cout << endl << "csmaCA.cpp [makeHandShake()] -  ingen CTS er modtagfet efter 3 RTS... er jeg helt alene i verden? :/ " << endl << endl;
+	cout << "csmaCA.cpp [makeHandShake()] -  ingen CTS er modtagfet efter 3 RTS... er jeg helt alene i verden? :/ " << endl;
 	return false;												//retunere false
 }
 
@@ -182,7 +183,7 @@ void csmaCA::sendSound(vector<int> d)
 	frammedHex = framming.getFrame();          		//gemmer framet data i "framedHex"
 
 	//================ Udskriver framed data =========================
-	cout << endl << "csmaCA.cpp [sendSound()]  -  Data played: ";	//
+	cout << "csmaCA.cpp [sendSound()]  -  Data played: ";	//
 	for (int j = 0; j < frammedHex.size(); ++j)             		//udskriver frameHex til skermen
 	{                                                       		//
 		cout << frammedHex[j] << " ";                       		//
@@ -313,6 +314,24 @@ vector<int> csmaCA::getCTSverdi()
 vector<int> csmaCA::getRTSverdi()
 {
     return RTS;
+}
+
+
+bool csmaCA::getAckFlagStatus()
+{
+    return ackFlag;
+}
+
+
+bool csmaCA::getCtsFlagStatus()
+{
+    return ctsFlag;
+}
+
+
+bool csmaCA::getRtsFlagStatus()
+{
+    return rtsFlag;
 }
 
 

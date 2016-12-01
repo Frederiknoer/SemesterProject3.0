@@ -14,8 +14,9 @@ class CustomRecorder : public sf::SoundRecorder
 
 public:
     CustomRecorder();
-	CustomRecorder(csmaCA etO);
-	csmaCA getcsmaCA();
+	//CustomRecorder(csmaCA etO);
+	CustomRecorder(csmaCA * enP);
+	csmaCA * getcsmaCA();
     bool onStart();
     bool onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount);
     void onStop();
@@ -29,7 +30,8 @@ private:
 	bool ctsFlag = 0;
 	bool ackFlag = 0;
 	bool dataFlag = 0;
-	csmaCA csmaHandler;
+	//csmaCA csmaHandler;
+	csmaCA * csmaHandler;
 
 
 

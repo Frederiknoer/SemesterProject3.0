@@ -32,15 +32,18 @@ public:
 	int playTimeCal(vector<int> enV);				//	done!	beregner afspildnings (at lave til lyd) tid for vector [ms]
 	bool checkForRTS();								//	done!	tjekker om et "RTS" er modtager
 	bool getTxFlag();								//	done!	retunere tur hvis denne pc afspiller lyd (sender)
-	void setRtsFlag();								//			sidder rtsFlag til true
-	void setCtsFlag();								//			sidder ctsFlag til true
-	void setAckFlag();								//			sidder ackFlag til true
-	void setDataFlag();								//			siddes dataFlag til true
+	void setRtsFlag();								//	done!	sidder rtsFlag til true
+	void setCtsFlag();								//	done!	sidder ctsFlag til true
+	void setAckFlag();								//	done!	sidder ackFlag til true
+	void setDataFlag();								//	done!	siddes dataFlag til true
+    bool getAckFlagStatus();                        //          retunere værdi af ACK flag
+    bool getCtsFlagStatus();                        //          retunere værdi af CTS flag
+    bool getRtsFlagStatus();                        //          retunere værdi af RTS flag
 	int getTest();									//			[eksperimental]	retunere værdi af variablen test
 	void setTest(int etT);							//			[eksperimental]	ændre værdien af variablen tur
-    vector<int> getACKverdi();                      //          retunere ACK værdi
-    vector<int> getCTSverdi();                      //          retunere CTS værdi
-    vector<int> getRTSverdi();                      //          retunere RTS værdi
+    vector<int> getACKverdi();                      //  done!   retunere ACK værdi
+    vector<int> getCTSverdi();                      //  done!   retunere CTS værdi
+    vector<int> getRTSverdi();                      //  done!   retunere RTS værdi
 
 	~csmaCA();
 private:
