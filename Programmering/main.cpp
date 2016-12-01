@@ -22,16 +22,13 @@ int main()
     mySound.delay(2000);
 
 
-<<<<<<< Updated upstream
+
     //string mystring;
     //cout << "Skriv tekst: ";
     //getline(cin, mystring);
 
 /*while (1) {
-=======
 
-    while (1) {
->>>>>>> Stashed changes
     vector<int> HexBuffer;
 
     TextHandler myTest;
