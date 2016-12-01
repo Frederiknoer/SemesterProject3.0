@@ -4,6 +4,7 @@
 #include "Sound/sound.h"
 #include "TextHandler/TextHandler.h"
 #include "CustomRecorder/CustomRecorder.h"
+#include <time.h>
 using namespace std;
 
 #define TWOPI = 6.283185
@@ -18,8 +19,9 @@ int main()
 
     CustomRecorder recorder;
     recorder.start(recordSampleRate);
-
+    int tid = clock();
     mySound.delay(2000);
+
 
 
     //string mystring;
@@ -67,6 +69,6 @@ int main()
 
 
     recorder.stop();
-
+    cout << clock() - tid << endl;
     return 0;
 }
