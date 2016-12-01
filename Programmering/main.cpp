@@ -19,16 +19,13 @@ int main()
 
     CustomRecorder recorder;
     recorder.start(recordSampleRate);
-    int tid = clock();
-    mySound.delay(2000);
+
+    string mystring;
+    cout << "Skriv tekst: ";
+    getline(cin, mystring);
 
 
-
-    //string mystring;
-    //cout << "Skriv tekst: ";
-    //getline(cin, mystring);
-
-/*while (1) {
+while (1) {
     vector<int> HexBuffer;
 
     TextHandler myTest;
@@ -65,10 +62,10 @@ int main()
     HexIntVec.clear();
 
     getline(cin, mystring);
-} */
+}
 
 
     recorder.stop();
-    cout << clock() - tid << endl;
+
     return 0;
 }
