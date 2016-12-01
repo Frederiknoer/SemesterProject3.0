@@ -37,20 +37,18 @@ int main()
 
     //cout << "Skriv tekst: ";                                //beder om input
     //getline(cin, mystring);                                 //gemmer input i mystring vektor
-    mystring = "hej";
+    vector<vector<int> > pakkeV;
+    pakkeV.push_back({1, 1, 1, 1}); //tilføjer 4 pakker
+    pakkeV.push_back({2, 2, 2, 2});
+    pakkeV.push_back({3, 3, 3, 3});
+    pakkeV.push_back({0, 0, 0, 0}); // <-- pakke stop
 
-    HexIntVec = myTest.InputText(mystring);                 //konvatere input text til hex og gemmer i HexInVec
-    for (int i = 0; i < (mystring.length() * 2); ++i)       //smider HexInVec ind i HexBuffer
-    {
-        HexBuffer.push_back(HexIntVec[i]);
-    }
+    cout << "pakkeV.size() = " << pakkeV.size() << endl;
 
-    if(csmaHandler.sendData(HexBuffer))                     //sender data. retunere true hvis data sendt korekt
-        cout << "Main.cpp [main()]  -  Data sendt korekt!" << endl;
+    if(csmaHandler.sendPakker(pakkeV))                     //sender data. retunere true hvis data sendt korekt
+        cout << "Main.cpp [main()]  -  alle pakker sendt korekt!" << endl;
     else
-        cout << "Main.cpp [main()]  -  Fejl! Data ikke sendt korekt" << endl;
-
-
+        cout << "Main.cpp [main()]  -  Fejl! alle pakker kunne ikke sendes.. anal rytter!" << endl;
 
     return 0;
 }

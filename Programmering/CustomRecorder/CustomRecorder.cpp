@@ -31,8 +31,8 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 {
 
     //===================== Eksperimentalt =========================
-    //(*csmaHandler).setCtsFlag();                                          //snyder customrecorder til at tro at CTS er modtaget
-    //(*csmaHandler).setAckFlag();                                          //snyder customrecorder til at tro at ACK er modtaget
+    (*csmaHandler).setCtsFlag();                                          //snyder customrecorder til at tro at CTS er modtaget
+    (*csmaHandler).setAckFlag();                                          //snyder customrecorder til at tro at ACK er modtaget
     //cout << "CustomRecorder.cpp [onProcessSamples]  -  CTSflag sat true" << endl;
     //cout << "CustomRecorder.cpp [onProcessSamples]  -  Test sat til 3" << endl;
     //==============================================================
@@ -87,11 +87,16 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                 (*csmaHandler).setAckFlag();                                   //sidder ACK modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK flag sat" << endl;
             }
+            else if(unframing.getFrame() == (*csmaHandler).getPSTOPverdi())     //tjekker for Pstop
+            {
+                (*csmaHandler).setPstopFlag();                                  //sidder "pakke stop" modtaget flag
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  Pstop flag sat" << endl;
+            }
 			else                                                            //ellers er det data
 			{
                 (*csmaHandler).setDataFlag();                                  //sidder Data modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  DATA flag sat" << endl;
-				TextHandler outputText;                                     //opretter texthandler onjekt
+				TextHandler outputText;                                        //opretter texthandler objekt
 				cout << outputText.OutputText(unframing.getFrame()) << endl;
                 (*csmaHandler).sendACK();                                      //sender ACK
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt" << endl;

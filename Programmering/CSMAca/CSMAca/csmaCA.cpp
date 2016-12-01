@@ -94,13 +94,14 @@ bool csmaCA::sendData(vector<int> Data)
 	Sound mySound;						//opretter sound objekt (til delay)
 	if (!makeHandShake())				//retunere false hvis handshake fejler
 		return false;
+
 	Frame csmaCAframer(Data);			//Opretter frame objekt
 	csmaCAframer.makeFrame();			//framer data
 
 										//vent p� at et ack modtages
 	for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//fors�ger data 3 gange
 	{
-		cout << "csmaCA.cpp [makeHandShake]  -  sender Data |" << endl;
+		cout << "csmaCA.cpp [sendData()]  -  sender Data |" << endl;
 		sendSound(csmaCAframer.getFrame());						//sender framet data
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
@@ -120,6 +121,51 @@ bool csmaCA::sendData(vector<int> Data)
 	return false;
 }
 
+bool csmaCA::sendPakker(vector<vector<int> > Data)
+{
+	Sound mySound;						//opretter sound objekt (til delay)
+	if (!makeHandShake())				//retunere false hvis handshake fejler
+		return false;
+	int pakkeAntal = Data.size();			//gemmer størelsen af pakken, da den hele tiden bliver reduseret (.pop_back)
+	for(int pakkeNr = 0; pakkeNr < pakkeAntal; pakkeNr++)	//køre alle pakker igennem
+	{
+		pakkeHolder = Data.back();			//gemmer sidste element fra Data vector
+		Data.pop_back();					//sletter sidste elemetn fra Data vector
+
+		Frame csmaCAframer(pakkeHolder);	//Opretter frame objekt
+		csmaCAframer.makeFrame();			//framer data
+
+
+		bool pakkeSendtKorekt = false;								//siddes til true i polling loop hvis pakken er sendt korekt
+		for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//3 forsøg til at sende pakke korekt
+		{
+			cout << "csmaCA.cpp [sendPakker()]  -  sender Pakke " << (pakkeNr + 1) << "/" << pakkeAntal << " |" << endl;
+			sendSound(csmaCAframer.getFrame());						//sender framet data
+			for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
+			{
+				mySound.delay(10);									//venter 10 ms
+				if (ackFlag)										//hvis ack modtages
+				{
+					busy = false;									//signalere at maskinen er klar til ny forbindelse
+					ackFlag = false;								//nulstiller ACK "flag"
+					pakkeSendtKorekt = true;						//indikere at pakke er sendt korekt
+					break;											//stopper ACK flag polling
+				}
+
+			}
+			if(pakkeSendtKorekt)									//tjekker om pakke sendt korekt
+				break;												//stopper gensendings loop
+			cout << "csmaCA.cpp [sendPakker()]  -  " << dataAttempts << ". send attempt brugt.." << endl;
+		}
+		if (!pakkeSendtKorekt)
+		{
+			cout << "csmaCA.cpp [sendPakker()]  -  ingen ACK er modtaget efter 3 * pakke attempts... Fu*k julemanden.. " << endl;
+			return false;
+		}
+		cout << "csmaCA.cpp [sendPakker()]  -  pakke " << (pakkeNr+1) << " sendt korekt!" << endl;
+	}
+	return true;
+}
 
 
 bool csmaCA::makeHandShake()
@@ -183,7 +229,7 @@ void csmaCA::sendSound(vector<int> d)
 	frammedHex = framming.getFrame();          		//gemmer framet data i "framedHex"
 
 	//================ Udskriver framed data =========================
-	cout << "csmaCA.cpp [sendSound()]  -  Data played: ";	//
+	cout << "csmaCA.cpp [sendSound()]  -  Data played: ";			//
 	for (int j = 0; j < frammedHex.size(); ++j)             		//udskriver frameHex til skermen
 	{                                                       		//
 		cout << frammedHex[j] << " ";                       		//
@@ -299,6 +345,12 @@ void csmaCA::setDataFlag()
 }
 
 
+void csmaCA::setPstopFlag()
+{
+	pstopFlag = true;
+}
+
+
 vector<int> csmaCA::getACKverdi()
 {
     return ACK;
@@ -314,6 +366,12 @@ vector<int> csmaCA::getCTSverdi()
 vector<int> csmaCA::getRTSverdi()
 {
     return RTS;
+}
+
+
+vector<int> csmaCA::getPSTOPverdi()
+{
+	return Pstop;
 }
 
 
