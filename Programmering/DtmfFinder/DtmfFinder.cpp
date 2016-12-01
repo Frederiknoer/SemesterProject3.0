@@ -39,7 +39,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     double freqHigh = 0;
     int numberLow = 0;
     int numberHigh = 0;
-    int amplitudeFaktor = 1000;
+    int amplitudeFaktor = 100;
 
     for (int j = 0; j < 4; ++j) {
         if (freqSpek[j] > freqLow) {
@@ -56,7 +56,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     }
 
     if (freqHigh > amplitudeFaktor && freqLow > amplitudeFaktor) {
-        cout << DTMFtable[numberLow][numberHigh - 4];
+        //cout << DTMFtable[numberLow][numberHigh - 4];
         //  cout << "FreqHigh: " << freqHigh << ", FreqLow: " << freqLow << endl;
         timeOutCounter = 0;
         DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
