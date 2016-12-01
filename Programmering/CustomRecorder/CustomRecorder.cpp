@@ -31,7 +31,8 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 {
 
     //===================== Eksperimentalt =========================
-    (*csmaHandler).setCtsFlag();                                          //snyder customrecorder til at tro at CTS er modtaget
+    //(*csmaHandler).setCtsFlag();                                          //snyder customrecorder til at tro at CTS er modtaget
+    //(*csmaHandler).setAckFlag();                                          //snyder customrecorder til at tro at ACK er modtaget
     //cout << "CustomRecorder.cpp [onProcessSamples]  -  CTSflag sat true" << endl;
     //cout << "CustomRecorder.cpp [onProcessSamples]  -  Test sat til 3" << endl;
     //==============================================================
@@ -74,7 +75,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                 (*csmaHandler).setRtsFlag();                                   //sidder RTS modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
                 (*csmaHandler).sendCTS();                                      //sender CTS
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt" << endl;
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt |" << endl;
             }
 			else if (unframing.getFrame() == (*csmaHandler).getCTSverdi())     //tjekker for CTS
             {
