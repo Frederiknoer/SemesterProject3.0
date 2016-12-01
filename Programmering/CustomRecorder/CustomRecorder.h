@@ -26,6 +26,5 @@ private:
     vector< vector<int> > udData;
     vector<double> leftOverSamples;
     vector<double> dataToProcess;
-    int counter = 0;
 };
 

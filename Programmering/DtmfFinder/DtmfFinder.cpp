@@ -56,25 +56,26 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     }
 
     if (freqHigh > amplitudeFaktor && freqLow > amplitudeFaktor) {
+        cout << DTMFtable[numberLow][numberHigh - 4];
         //  cout << "FreqHigh: " << freqHigh << ", FreqLow: " << freqLow << endl;
         timeOutCounter = 0;
         DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
 
         if (DTMFCounter.size() == 1) {
-             cout << DTMFCounter[0];
+            // cout << DTMFCounter[0];
             DTMFbuffer.push_back(DTMFCounter[0]);
         }
 
         if (DTMFCounter.size() > 1) {
             if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
-                 cout << DTMFCounter[DTMFCounter.size()-1];
+                // cout << DTMFCounter[DTMFCounter.size()-1];
                 DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
                 DTMFCounter.clear();
                 DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
             } else {
-                if (DTMFCounter.size() == 5 || DTMFCounter.size() == 7 || DTMFCounter.size() == 10 ||
+                if (DTMFCounter.size() == 4 || DTMFCounter.size() == 6 || DTMFCounter.size() == 9 ||
                     DTMFCounter.size() == 12) {
-                     cout << DTMFCounter[DTMFCounter.size()-1];
+                    // cout << DTMFCounter[DTMFCounter.size()-1];
                     DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
                 }
             }
