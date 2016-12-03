@@ -106,6 +106,10 @@ int Frame::getLength()
 {
 	return data.size();
 }
+void Frame::setData(vector<int> d)
+{
+	data = d;
+}
 Frame::~Frame()
 {
 }

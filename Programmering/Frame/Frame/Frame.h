@@ -16,7 +16,8 @@ public:
 	vector<int> getFrame(); // Retunerer vektortabellen "data"
 	int getFirst(); // Retunerer det f�rste element i vektortabellem.
 	int getElement(int); // Retunerer elementet p� parameterets plads. 
-	int getLength(); // Retunerer l�ngden af vektortabellen 
+	int getLength(); // Retunerer l�ngden af vektortabellen
+	void setData(vector<int>); //tilføjer ny data til objektet
 	~Frame();
 private:
 	vector<int> data; 

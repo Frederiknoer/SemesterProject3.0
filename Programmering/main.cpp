@@ -22,7 +22,14 @@ int main()
     mySound.setSamplingRate(playSampleRate);
     mySound.setSamplePrTone(samplePlayTime);
 
-    CustomRecorder recorder;
+    vector<int> ID = { 14, 15 };                // computer ID
+    vector<int> tagetID = { 10, 12 };           // taget ID
+    csmaCA csmaHandler(ID, tagetID);            //opretter handler (parametret ID bliver overskrevet senere)
+    csmaCA * csmaPointer = 0;                   //initalisere nul pointer til csmaHandler
+
+    csmaPointer = &csmaHandler;                 //binder opinter til csmaHandler
+    CustomRecorder recorder(csmaPointer);       //opretter costum recorder objekt
+
     recorder.start((unsigned int)recordSampleRate);
     recorder.setSamplesPrDFT((int)samplesPrDTF);
 
@@ -43,7 +50,7 @@ int main()
 
 
     string mystring;
-    cout << "Skriv tekst: ";
+    //cout << "Skriv tekst: ";
     getline(cin, mystring);
 
 
@@ -61,11 +68,11 @@ while (1) {
     framming.makeFrame();
 
     vector<int> frammedHex = framming.getFrame();
-    for (int j = 0; j < frammedHex.size(); ++j) {
+  /* for (int j = 0; j < frammedHex.size(); ++j) {
         cout << frammedHex[j];
     }
     cout << endl;
-
+*/
 
     mySound.makeSound(frammedHex);
 
