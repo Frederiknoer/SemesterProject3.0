@@ -171,15 +171,7 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
 bool csmaCA::makeHandShake()
 {
 	Sound mySound;											//opretter soundobjekt (brugt til delay)
-	int x = 1;												//bruges s� der kun sendes en "vente besked"
-	while (busy)											//venter p� enheden ikke l�ngere har travlt
-	{
-		if (x == 1)											//s�rger for "vente" besked kun vises 1 gang i terminalen
-		{
-			cout << "csmaCA.cpp [makeHandShake()] -  enheden har travlt, besked lagt i ko" << endl; //vente besked
-			x = 0;
-		}
-	}
+
 	Frame csmaCAframer(RTS);			//Opretter frame objekt
 	csmaCAframer.makeFrame();			//Frame RTS
 
@@ -351,6 +343,18 @@ void csmaCA::setPstopFlag()
 }
 
 
+void csmaCA::setBusy()
+{
+	busy = true;
+}
+
+
+void csmaCA::clearBusy()
+{
+	busy = false;
+}
+
+
 vector<int> csmaCA::getACKverdi()
 {
     return ACK;
@@ -390,6 +394,12 @@ bool csmaCA::getCtsFlagStatus()
 bool csmaCA::getRtsFlagStatus()
 {
     return rtsFlag;
+}
+
+
+bool csmaCA::isBusy()
+{
+	return busy;
 }
 
 

@@ -25,13 +25,13 @@ public:
 private:
     DtmfFinder findTones;
     DtmfFinder lyddata;
-    vector< vector<int> > udData;
+    vector<vector<int> > udData;
 	bool rtsFlag = 0;
 	bool ctsFlag = 0;
 	bool ackFlag = 0;
 	bool dataFlag = 0;
-	//csmaCA csmaHandler;
 	csmaCA * csmaHandler;
+	vector<vector<int> > modtagetPakker;				//indenholder dtmf værdier for den modtaget data
 
 
 

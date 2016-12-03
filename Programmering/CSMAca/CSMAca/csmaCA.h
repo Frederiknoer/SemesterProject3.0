@@ -38,9 +38,12 @@ public:
 	void setAckFlag();								//	done!	sidder ackFlag til true
 	void setDataFlag();								//	done!	siddes dataFlag til true
 	void setPstopFlag();							//			sidder PstopFlag til true
+	void setBusy();									//			sidder busy til true
+	void clearBusy();								//			sidder busy til false
     bool getAckFlagStatus();                        //          retunere værdi af ACK flag
     bool getCtsFlagStatus();                        //          retunere værdi af CTS flag
     bool getRtsFlagStatus();                        //          retunere værdi af RTS flag
+	bool isBusy();									//			retunere værdien af busy
 	int getTest();									//			[eksperimental]	retunere værdi af variablen test
 	void setTest(int etT);							//			[eksperimental]	ændre værdien af variablen tur
     vector<int> getACKverdi();                      //  done!   retunere ACK værdi (ikke status!)
@@ -60,10 +63,8 @@ private:
 	vector<int> Pstop = { 0, 0, 0, 0 };				//difinere pakke stop væri
 	vector<int> bufferTextIn;						//Buffer til data fra frede
 	vector<int> bFramedData;						//Buffer hvor framet data gennes
-	vector<int> pakkeHolder;							//holder pakken midlertidigt, imens elementet bliver poppet
-	int dataAttempts = 0;							//antal DATA fors�gt
-	int nackAttempt = 0;							//antal NAC fors�gt
-	int soundPlayTime = 30;							//tiden hver inudviduelle lyde afspilles i ms
+	vector<int> pakkeHolder;						//holder pakken midlertidigt, imens elementet bliver poppet
+	int soundPlayTime = 44;							//tiden hver inudviduelle lyde afspilles i ms
 	bool busy = false;								//signalere om enheden komunikere med anden enhed
 	bool ini = false;								//siddes true hvis initalisering har fundet sted
 	bool playing = false;							//siddes true hvis denne pc afspiller lyd

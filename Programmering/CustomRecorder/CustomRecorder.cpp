@@ -10,7 +10,6 @@ CustomRecorder::CustomRecorder()
 //CustomRecorder::CustomRecorder(csmaCA etO)
 CustomRecorder::CustomRecorder(csmaCA * enP)
 {
-    //csmaHandler = etO;
     csmaHandler = enP;
 }
 
@@ -33,8 +32,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     //===================== Eksperimentalt =========================
     (*csmaHandler).setCtsFlag();                                          //snyder customrecorder til at tro at CTS er modtaget
     (*csmaHandler).setAckFlag();                                          //snyder customrecorder til at tro at ACK er modtaget
-    //cout << "CustomRecorder.cpp [onProcessSamples]  -  CTSflag sat true" << endl;
-    //cout << "CustomRecorder.cpp [onProcessSamples]  -  Test sat til 3" << endl;
+    //(*csmaHandler).setBusy();                                             //snyder customrecorder til at tro at busy er sat
     //==============================================================
 
     int samplingFreq = sf::SoundRecorder::getSampleRate();
@@ -74,6 +72,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
             {
                 (*csmaHandler).setRtsFlag();                                   //sidder RTS modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
+                (*csmaHandler).setBusy();                                      //indikere at pc er laver noget
                 (*csmaHandler).sendCTS();                                      //sender CTS
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt |" << endl;
             }
@@ -91,15 +90,23 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
             {
                 (*csmaHandler).setPstopFlag();                                  //sidder "pakke stop" modtaget flag
                 cout << "CustomRecorder.cpp [onProcessSamples]  -  Pstop flag sat" << endl;
+
+                //Frede pakke handler på modtagetPakker (udskriv til skerment)
+
+                modtagetPakker = {};                                            //nulstiller pakke vektor
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  modtaget pakkeVector cleared" << endl;
+                (*csmaHandler).sendACK();                                      //sender ACK
+                (*csmaHandler).clearBusy();                                    //indikere at computeren ikke laver noget
             }
-			else                                                            //ellers er det data
+			else                                                               //ellers er det data
 			{
                 (*csmaHandler).setDataFlag();                                  //sidder Data modtaget flag
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  DATA flag sat" << endl;
 				TextHandler outputText;                                        //opretter texthandler objekt
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  data modtaget |" << endl;
 				cout << outputText.OutputText(unframing.getFrame()) << endl;
+                modtagetPakker.push_back(unframing.getFrame());                //ligger modtaget pakke ind i modtagetPakker vector
                 (*csmaHandler).sendACK();                                      //sender ACK
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt" << endl;
+                cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt |" << endl;
 			}
         } else{
             cout << "Error" << endl;
