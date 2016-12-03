@@ -44,10 +44,14 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     int numberLow = 0;
     int numberSecLow = 0;
     int numberHigh = 0;
+<<<<<<< Updated upstream
     int numberSecHigh = 0;
     int amplitudeFaktorH = 175;
     int amplitudeFaktorL = 175;
 
+=======
+    int amplitudeFaktor = 100;
+>>>>>>> Stashed changes
 
     for (int j = 0; j < 4; ++j) {
         if (freqSpek[j] > freqLow) {
@@ -75,9 +79,17 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
         }
     }
 
+<<<<<<< Updated upstream
     if (freqHigh > amplitudeFaktorH && freqLow > amplitudeFaktorL && freqHigh - freqSecHigh > diffFactor &&
             freqLow - freqSecLow > diffFactor)
     {
+=======
+    if (freqHigh > amplitudeFaktor && freqLow > amplitudeFaktor) {
+        // cout << DTMFtable[numberLow][numberHigh - 4];
+        //  cout << "FreqHigh: " << freqHigh << ", FreqLow: " << freqLow << endl;
+        timeOutCounter = 0;
+        DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
+>>>>>>> Stashed changes
 
        // Alle DTMF TONER.
         // IF last= 14 you have a flag

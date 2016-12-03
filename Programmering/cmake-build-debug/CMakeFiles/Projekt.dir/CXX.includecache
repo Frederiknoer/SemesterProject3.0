@@ -1,0 +1,106 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.cpp
+CustomRecorder.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.h
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.h
+iostream
+-
+SFML/Audio.hpp
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/SFML/Audio.hpp
+../DFT/DFT.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DFT/DFT.h
+chrono
+-
+../DtmfFinder/DtmfFinder.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.h
+../Frame/Frame/Frame.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Frame/Frame/Frame.h
+../TextHandler/TextHandler.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DFT/DFT.cpp
+DFT.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DFT/DFT.h
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DFT/DFT.h
+SFML/Audio.hpp
+-
+iostream
+-
+complex
+-
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.cpp
+../DtmfFinder/DtmfFinder.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.h
+iostream
+-
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.h
+vector
+-
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Frame/Frame/Frame.cpp
+Frame.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Frame/Frame/Frame.h
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Frame/Frame/Frame.h
+iostream
+-
+string
+-
+vector
+-
+bitset
+-
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.cpp
+iostream
+-
+math.h
+-
+SFML/Audio.hpp
+-
+sound.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.h
+windows.h
+-
+unistd.h
+-
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.h
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.cpp
+TextHandler.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
+vector
+-
+iostream
+-
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/main.cpp
+iostream
+-
+SFML/Audio.hpp
+-
+SFML/Graphics.hpp
+-
+Sound/sound.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.h
+TextHandler/TextHandler.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
+CustomRecorder/CustomRecorder.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.h
+time.h
+-
+
