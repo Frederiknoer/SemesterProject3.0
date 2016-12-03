@@ -127,16 +127,22 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
         //// Hvis DTMFcounter er større end 2, så tjek om de to nyeste værdier i counter er ens ////
 
         if (DTMFCounter.size() > 2) {
+
+            ///// Hvis den nyeste og næstnyeste værdi IKKE er ens, så kør følgende kode ////
+
             if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
 
-                nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
+                ///// Hvis den nyeste værdi og den 3. nyeste værdi er ens, så slet den imellem ////
 
-                for (int i = 0; i < DTMFCounter.size() - 1; ++i) {
-                    tempDTMFCounter.push_back(DTMFCounter[i]);
+                if(DTMFCounter[DTMFCounter.size() - 3] == DTMFCounter[DTMFCounter.size() - 1])
+                {
+                    DTMFCounter.erase(DTMFCounter.begin() + 1 );
+
+                }else{
+                    nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
+                    DTMFCounter.clear();
+                    DTMFCounter.push_back(nextDtmfTone);
                 }
-
-                DTMFCounter.clear();
-                DTMFCounter.push_back(nextDtmfTone);
 
             } else {
                 if (DTMFCounter.size() == 5 || DTMFCounter.size() == 8 || DTMFCounter.size() == 11 ||
