@@ -12,7 +12,7 @@ using namespace std;
 int main()
 {
     double recordSampleRate = 4096; // IKKE RØR!
-    int playSampleRate = 44100;
+    double playSampleRate = 44100;
     double samplesPrDTF = 60;
     int windowSize = 3;
     int samplePlayTime = (int)(samplesPrDTF * windowSize);
@@ -23,8 +23,8 @@ int main()
     mySound.setSamplePrTone(samplePlayTime);
 
     CustomRecorder recorder;
-    recorder.start(recordSampleRate);
-    recorder.setSamplesPrDFT(samplesPrDTF);
+    recorder.start((unsigned int)recordSampleRate);
+    recorder.setSamplesPrDFT((int)samplesPrDTF);
 
     /*vector<int> input = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 

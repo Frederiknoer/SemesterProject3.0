@@ -86,13 +86,29 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
         /// Hvis lig med hinanden så gem værdien, ellers slet værdien /////
 
         if (DTMFCounter.size() == 2) {
+
+            //// Hvis de to værdier i Counter IKKE er ens, så er der sket en fejl ////
+
             if (DTMFCounter[0] != DTMFCounter[1])
             {
-                DTMFCounter.erase(DTMFCounter.begin());
+                if(tempDTMFCounter.size() == 0)
+                {
+                    DTMFCounter.erase(DTMFCounter.begin());
+
+                }else{
+                    DTMFCounter.erase(DTMFCounter.begin());
+
+                    for (int i = 0; i < tempDTMFCounter.size(); ++i) {
+                        DTMFCounter.push_back(tempDTMFCounter[i]);
+                    }
+
+                    tempDTMFCounter.clear();
+                }
+
             }else {
-                //cout << DTMFCounter[0];
                 DTMFbuffer.push_back(DTMFCounter[0]);
             }
+
         }
 
         //// Hvis DTMFcounter er større end 2, så tjek om de to nyeste værdier i counter er ens ////
@@ -100,6 +116,11 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
         if (DTMFCounter.size() > 2) {
             if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
                 nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
+
+                for (int i = 0; i < DTMFCounter.size() - 1; ++i) {
+                    tempDTMFCounter.push_back(DTMFCounter[i]);
+                }
+
                 DTMFCounter.clear();
                 DTMFCounter.push_back(nextDtmfTone);
 
