@@ -91,21 +91,34 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
 
             if (DTMFCounter[0] != DTMFCounter[1])
             {
-                if(tempDTMFCounter.size() == 0)
+                /// Hvis der størrelsen af vores midlertidige buffer er lig 0, så slet den nye værdi ////
+
+                if(tempDTMFCounter.size() != 0)
                 {
-                    DTMFCounter.erase(DTMFCounter.begin());
+                    if(DTMFCounter[1] == tempDTMFCounter[0])
+                    {
+                        DTMFCounter.erase(DTMFCounter.begin());
 
-                }else{
-                    DTMFCounter.erase(DTMFCounter.begin());
+                        for (int i = 0; i < tempDTMFCounter.size(); ++i)
+                        {
+                            DTMFCounter.push_back(tempDTMFCounter[i]);
+                        }
 
-                    for (int i = 0; i < tempDTMFCounter.size(); ++i) {
-                        DTMFCounter.push_back(tempDTMFCounter[i]);
+                        tempDTMFCounter.clear();
+
+                    }else{
+                        tempDTMFCounter.clear();
+                        tempDTMFCounter.push_back(DTMFCounter[0]);
                     }
-
-                    tempDTMFCounter.clear();
+                }else{
+                    if (DTMFCounter[0] != DTMFCounter[1])
+                    {
+                        tempDTMFCounter.push_back(DTMFCounter[0]);
+                        DTMFCounter.erase(DTMFCounter.begin());
+                    }
                 }
 
-            }else {
+            }else{
                 DTMFbuffer.push_back(DTMFCounter[0]);
             }
 
@@ -115,6 +128,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
 
         if (DTMFCounter.size() > 2) {
             if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
+
                 nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
 
                 for (int i = 0; i < DTMFCounter.size() - 1; ++i) {
