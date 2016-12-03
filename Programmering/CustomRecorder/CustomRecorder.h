@@ -15,6 +15,7 @@ public:
     CustomRecorder();
     bool onStart();
     bool onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount);
+    void setSamplesPrDFT(int SamplesPerDTF);
     void onStop();
 
 
@@ -26,5 +27,6 @@ private:
     vector< vector<int> > udData;
     vector<double> leftOverSamples;
     vector<double> dataToProcess;
+    int samplesPrDFT;
 };
 

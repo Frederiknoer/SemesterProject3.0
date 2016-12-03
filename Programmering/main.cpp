@@ -11,15 +11,23 @@ using namespace std;
 
 int main()
 {
-    unsigned int recordSampleRate = 4096;
-    unsigned int playSampleRate = 44100;
+    double recordSampleRate = 4096; // IKKE RØR!
+    int playSampleRate = 44100;
+    double samplesPrDTF = 60;
+    int windowSize = 3;
+    int samplePlayTime = (int)(samplesPrDTF * windowSize);
+
+    cout << samplePlayTime;
 
     Sound mySound;
     mySound.setSamplingRate(playSampleRate);
+    mySound.setSamplePrTone(samplePlayTime);
+
     CustomRecorder recorder;
     recorder.start(recordSampleRate);
+    recorder.setSamplesPrDFT(samplesPrDTF);
 
-    vector<int> input = {8, 9, 11, 11, 10, 10,7,14, 10, 12, 13, 14, 15, 15};
+    vector<int> input = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
 
     mySound.makeSound(input);

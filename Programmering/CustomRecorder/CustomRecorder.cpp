@@ -18,7 +18,6 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
-    int samplesPrDFT = 60;
     int numberOfProcessingSamples = 0;
     int samplePointer = 0;
 
@@ -125,6 +124,10 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     return true;
 }
 
+
+void CustomRecorder::setSamplesPrDFT(int SamplesPerDTF) {
+    samplesPrDFT = SamplesPerDTF;
+}
 
 void CustomRecorder::onStop() {
 

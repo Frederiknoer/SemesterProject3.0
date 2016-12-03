@@ -41,7 +41,11 @@ complex
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.cpp
 ../DtmfFinder/DtmfFinder.h
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.h
+ctime
+-
 iostream
+-
+cstdlib
 -
 
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.h

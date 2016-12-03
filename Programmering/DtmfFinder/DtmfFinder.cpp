@@ -44,14 +44,10 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     int numberLow = 0;
     int numberSecLow = 0;
     int numberHigh = 0;
-<<<<<<< Updated upstream
     int numberSecHigh = 0;
     int amplitudeFaktorH = 175;
     int amplitudeFaktorL = 175;
-
-=======
-    int amplitudeFaktor = 100;
->>>>>>> Stashed changes
+    int nextDtmfTone = 0;
 
     for (int j = 0; j < 4; ++j) {
         if (freqSpek[j] > freqLow) {
@@ -79,23 +75,43 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
         }
     }
 
-<<<<<<< Updated upstream
     if (freqHigh > amplitudeFaktorH && freqLow > amplitudeFaktorL && freqHigh - freqSecHigh > diffFactor &&
             freqLow - freqSecLow > diffFactor)
     {
-=======
-    if (freqHigh > amplitudeFaktor && freqLow > amplitudeFaktor) {
-        // cout << DTMFtable[numberLow][numberHigh - 4];
-        //  cout << "FreqHigh: " << freqHigh << ", FreqLow: " << freqLow << endl;
         timeOutCounter = 0;
         DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
->>>>>>> Stashed changes
 
-       // Alle DTMF TONER.
-        // IF last= 14 you have a flag
-        // Samme fejl gentager sig.... ikke! ofte ihvertfal, som regel. måske. WHUAWHAWAWAAAA - Alex
+        //// Hvis DTMFcounter = 2, så tjek om de er lig med hinanden eller ej /////
+        /// Hvis lig med hinanden så gem værdien, ellers slet værdien /////
 
+        if (DTMFCounter.size() == 2) {
+            if (DTMFCounter[0] != DTMFCounter[1])
+            {
+                DTMFCounter.erase(DTMFCounter.begin());
+            }else {
+                DTMFbuffer.push_back(DTMFCounter[0]);
+            }
+        }
+
+        if (DTMFCounter.size() > 2) {
+            if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
+                nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
+                DTMFCounter.clear();
+                DTMFCounter.push_back(nextDtmfTone);
+
+            } else {
+                if (DTMFCounter.size() == 5 || DTMFCounter.size() == 7 || DTMFCounter.size() == 10 ||
+                    DTMFCounter.size() == 12) {
+                    // cout << DTMFCounter[DTMFCounter.size()-1];
+                    DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
+                }
+            }
+        }
+    } else {
+        timeOutCounter++;
     }
+
+
 
 }
 
