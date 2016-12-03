@@ -16,11 +16,11 @@ int main()
     double playSampleRate = 44100;
     double samplesPrDTF = 60;
     int windowSize = 3;
-    //int samplePlayTime = (int)(samplesPrDTF * windowSize);
+    int samplePlayTime = (int)(samplesPrDTF * windowSize);
 
     //=========== INIT ==============
     vector<vector<int> > pakkeV;    //opretter Test pakke
-    pakkeV.push_back({1, 1, 1, 1}); //tilføjer 4 pakke elementer
+    pakkeV.push_back({3, 1, 3, 1}); //tilføjer 4 pakke elementer
     pakkeV.push_back({2, 2, 2, 2});
     pakkeV.push_back({3, 3, 3, 3});
     pakkeV.push_back({0, 0, 0, 0}); // <-- "pakke stop" element
@@ -32,11 +32,14 @@ int main()
     csmaCA * pointerHolder = 0;
     csmaPointer = &csmaHandler;                 //binder opinter til csmaHandler
     CustomRecorder recorder(csmaPointer);       //opretter costum recorder objekt
-    recorder.start(44100);                      //starter recorder med samplingrate på 44100Hz
+    recorder.setSamplesPrDFT(samplesPrDTF);
+    recorder.start(recordSampleRate);                      //starter recorder med samplingrate på 44100Hz
     string myString;                            //holder bruger input
 
     //===============================
-    /*
+    int hej;
+    cin >> hej;
+
     while(true)
     {
         cout << "skriv besked: ";
@@ -47,7 +50,9 @@ int main()
         else
             cout << "Main.cpp [main()]  -  Fejl! alle pakker kunne ikke sendes.. anal rytter!" << endl;
     }
-     */
+
+
+
     if(csmaHandler.sendData({}))
         cout << "main.cpp [min()]  -  Fejl! program har escaped while(true) loop..." << endl;
     return 0;

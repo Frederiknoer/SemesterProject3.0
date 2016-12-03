@@ -90,29 +90,23 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                     //cout << udData[i][j];
                 }
             }
-            //cout << endl;
+
+
 
 
             Frame unframing(udData[0]);
 
-            cout << "TJEK"<< endl;
-
- /*        FOR AT TØMME UNFRAME OG CSMAHANDLER
-
+            /*unframing.unFrame();
             for (int l = 0; l < unframing.getFrame().size(); ++l) {
                 cout <<": "<< unframing.getFrame()[l];
-               // cout << "handler " << l << " : " << (*csmaHandler).getRTSverdi()[l]<<endl<<endl;
+                // cout << "handler " << l << " : " << (*csmaHandler).getRTSverdi()[l]<<endl<<endl;
             }
-            cout << endl;
-            for (int l = 0; l < (*csmaHandler).getRTSverdi().size(); ++l) {
-                //cout <<" : "<< unframing.getFrame()[l];
-                 cout << ": " << (*csmaHandler).getRTSverdi()[l];
-            }
-            cout << endl;
 */
+
             if (unframing.validataFrame() == true)
             {
                 unframing.unFrame();
+
                 //TextHandler outputText;
                 //cout << outputText.OutputText(unframing.getFrame()) << endl;
                 if (unframing.getFrame() == (*csmaHandler).getRTSverdi())        // Tjekker for RTS
@@ -121,7 +115,6 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                     cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
                     (*csmaHandler).setBusy();                                      //indikere at pc er laver noget
                     cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt |" << endl;
-
                     (*csmaHandler).sendCTS();                                      //sender CTS
 
                 }

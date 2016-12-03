@@ -123,6 +123,33 @@ Projekt/fast:
 	$(MAKE) -f CMakeFiles/Projekt.dir/build.make CMakeFiles/Projekt.dir/build
 .PHONY : Projekt/fast
 
+CSMAca/CSMAca/csmaCA.o: CSMAca/CSMAca/csmaCA.cpp.o
+
+.PHONY : CSMAca/CSMAca/csmaCA.o
+
+# target to build an object file
+CSMAca/CSMAca/csmaCA.cpp.o:
+	$(MAKE) -f CMakeFiles/Projekt.dir/build.make CMakeFiles/Projekt.dir/CSMAca/CSMAca/csmaCA.cpp.o
+.PHONY : CSMAca/CSMAca/csmaCA.cpp.o
+
+CSMAca/CSMAca/csmaCA.i: CSMAca/CSMAca/csmaCA.cpp.i
+
+.PHONY : CSMAca/CSMAca/csmaCA.i
+
+# target to preprocess a source file
+CSMAca/CSMAca/csmaCA.cpp.i:
+	$(MAKE) -f CMakeFiles/Projekt.dir/build.make CMakeFiles/Projekt.dir/CSMAca/CSMAca/csmaCA.cpp.i
+.PHONY : CSMAca/CSMAca/csmaCA.cpp.i
+
+CSMAca/CSMAca/csmaCA.s: CSMAca/CSMAca/csmaCA.cpp.s
+
+.PHONY : CSMAca/CSMAca/csmaCA.s
+
+# target to generate assembly for a file
+CSMAca/CSMAca/csmaCA.cpp.s:
+	$(MAKE) -f CMakeFiles/Projekt.dir/build.make CMakeFiles/Projekt.dir/CSMAca/CSMAca/csmaCA.cpp.s
+.PHONY : CSMAca/CSMAca/csmaCA.cpp.s
+
 CustomRecorder/CustomRecorder.o: CustomRecorder/CustomRecorder.cpp.o
 
 .PHONY : CustomRecorder/CustomRecorder.o
@@ -321,6 +348,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Projekt"
+	@echo "... CSMAca/CSMAca/csmaCA.o"
+	@echo "... CSMAca/CSMAca/csmaCA.i"
+	@echo "... CSMAca/CSMAca/csmaCA.s"
 	@echo "... CustomRecorder/CustomRecorder.o"
 	@echo "... CustomRecorder/CustomRecorder.i"
 	@echo "... CustomRecorder/CustomRecorder.s"

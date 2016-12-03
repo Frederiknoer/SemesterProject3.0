@@ -6,6 +6,32 @@
 
 #IncludeRegexTransform: 
 
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CSMAca/CSMAca/csmaCA.cpp
+csmaCA.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CSMAca/CSMAca/csmaCA.h
+
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CSMAca/CSMAca/csmaCA.h
+../../Frame/Frame/Frame.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Frame/Frame/Frame.h
+iostream
+-
+string
+-
+vector
+-
+cstdlib
+-
+ctime
+-
+SFML/Audio.hpp
+-
+SFML/Graphics.hpp
+-
+../../Sound/sound.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.h
+../../TextHandler/TextHandler.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
+
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.cpp
 CustomRecorder.h
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.h
@@ -13,6 +39,10 @@ CustomRecorder.h
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.h
 iostream
 -
+SFML/Audio.hpp
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/SFML/Audio.hpp
+../DFT/DFT.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DFT/DFT.h
 SFML/Audio.hpp
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/SFML/Audio.hpp
 ../DFT/DFT.h
@@ -25,6 +55,8 @@ chrono
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Frame/Frame/Frame.h
 ../TextHandler/TextHandler.h
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
+../CSMAca/CSMAca/csmaCA.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CSMAca/CSMAca/csmaCA.h
 
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DFT/DFT.cpp
 DFT.h
@@ -101,10 +133,10 @@ SFML/Graphics.hpp
 -
 Sound/sound.h
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.h
-TextHandler/TextHandler.h
-/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
 CustomRecorder/CustomRecorder.h
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.h
-time.h
--
+TextHandler/TextHandler.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
+CSMAca/CSMAca/csmaCA.h
+/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CSMAca/CSMAca/csmaCA.h
 

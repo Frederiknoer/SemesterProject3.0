@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CSMAca/CSMAca/csmaCA.cpp">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CSMAca/CSMAca/csmaCA.h">
+			<Option target="Projekt"/>
+		</Unit>
 		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.cpp">
 			<Option target="Projekt"/>
 		</Unit>

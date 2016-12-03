@@ -4,7 +4,6 @@
 #include <vector>
 #include <cstdlib>			//random gen
 #include <ctime>			//random gen
-#include <windows.h>		//delay "makeHandShake()"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "../../Sound/sound.h"
