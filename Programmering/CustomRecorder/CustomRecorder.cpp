@@ -57,9 +57,9 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         vector<double> freqSpek;
         freqSpek = DiskretFourierTrans.getFreqSpek8();
 
-        for(int i = 0; i < freqSpek.size(); i++)
+        /*for(int i = 0; i < freqSpek.size(); i++)
             cout << freqSpek[i] << ",";
-        cout << endl;
+        cout << endl;*/
         findTones.findDtmfTones(freqSpek);
 
         vector<int> DTMFbuffer;
@@ -69,7 +69,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         if (lyddata.pairFinder(DTMFbuffer) == true)
         {
-
+            cout << endl;
             udData = lyddata.pairGetter(DTMFbuffer);
 
             for (int i = 0; i < udData.size(); ++i) {

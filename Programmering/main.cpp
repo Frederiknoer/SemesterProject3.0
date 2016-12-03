@@ -17,7 +17,6 @@ int main()
     int windowSize = 3;
     int samplePlayTime = (int)(samplesPrDTF * windowSize);
 
-    cout << samplePlayTime;
 
     Sound mySound;
     mySound.setSamplingRate(playSampleRate);
@@ -27,7 +26,7 @@ int main()
     recorder.start(recordSampleRate);
     recorder.setSamplesPrDFT(samplesPrDTF);
 
-    vector<int> input = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    /*vector<int> input = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
 
     mySound.makeSound(input);
@@ -40,10 +39,10 @@ int main()
     sound.setBuffer(bufferInput);
     sound.play();
 
-    mySound.delay(input.size() * 44 + 350);
+    mySound.delay(input.size() * 44 + 350);*/
 
 
-    /*string mystring;
+    string mystring;
     cout << "Skriv tekst: ";
     getline(cin, mystring);
 
@@ -85,7 +84,7 @@ while (1) {
     HexIntVec.clear();
 
     getline(cin, mystring);
-}*/
+}
 
 
 

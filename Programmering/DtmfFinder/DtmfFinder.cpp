@@ -36,7 +36,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
         timeOutCounter = 0;
     }
 
-    int diffFactor = 200;
+    int diffFactor = 150;
     double freqLow = 0;
     double freqSecLow = 0;
     double freqHigh = 0;
@@ -45,8 +45,8 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     int numberSecLow = 0;
     int numberHigh = 0;
     int numberSecHigh = 0;
-    int amplitudeFaktorH = 175;
-    int amplitudeFaktorL = 175;
+    int amplitudeFaktorH = 150;
+    int amplitudeFaktorL = 150;
     int nextDtmfTone = 0;
 
     for (int j = 0; j < 4; ++j) {
@@ -78,6 +78,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     if (freqHigh > amplitudeFaktorH && freqLow > amplitudeFaktorL && freqHigh - freqSecHigh > diffFactor &&
             freqLow - freqSecLow > diffFactor)
     {
+
         timeOutCounter = 0;
         DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
 
@@ -89,6 +90,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
             {
                 DTMFCounter.erase(DTMFCounter.begin());
             }else {
+                //cout << DTMFCounter[0];
                 DTMFbuffer.push_back(DTMFCounter[0]);
             }
         }
@@ -105,6 +107,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
                 if (DTMFCounter.size() == 5 || DTMFCounter.size() == 8 || DTMFCounter.size() == 11 ||
                     DTMFCounter.size() == 14)
                 {
+                    //cout << DTMFCounter[DTMFCounter.size() - 1];
                     DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
 
                     if(DTMFCounter.size() > 14)
