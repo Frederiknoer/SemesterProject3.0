@@ -2,12 +2,13 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "Sound/sound.h"
-#include "TextHandler/TextHandler.h"
 #include "CustomRecorder/CustomRecorder.h"
-#include <time.h>
+#include "TextHandler/TextHandler.h"
+#include "CSMAca/CSMAca/csmaCA.h"
+
 using namespace std;
 
-#define TWOPI = 6.283185
+#define TWOPI = 6.283185                        //difinere 2 gange pi
 
 int main()
 {
@@ -15,85 +16,39 @@ int main()
     double playSampleRate = 44100;
     double samplesPrDTF = 60;
     int windowSize = 3;
-    int samplePlayTime = (int)(samplesPrDTF * windowSize);
+    //int samplePlayTime = (int)(samplesPrDTF * windowSize);
 
-
-    Sound mySound;
-    mySound.setSamplingRate(playSampleRate);
-    mySound.setSamplePrTone(samplePlayTime);
+    //=========== INIT ==============
+    vector<vector<int> > pakkeV;    //opretter Test pakke
+    pakkeV.push_back({1, 1, 1, 1}); //tilføjer 4 pakke elementer
+    pakkeV.push_back({2, 2, 2, 2});
+    pakkeV.push_back({3, 3, 3, 3});
+    pakkeV.push_back({0, 0, 0, 0}); // <-- "pakke stop" element
 
     vector<int> ID = { 14, 15 };                // computer ID
     vector<int> tagetID = { 10, 12 };           // taget ID
     csmaCA csmaHandler(ID, tagetID);            //opretter handler (parametret ID bliver overskrevet senere)
     csmaCA * csmaPointer = 0;                   //initalisere nul pointer til csmaHandler
-
+    csmaCA * pointerHolder = 0;
     csmaPointer = &csmaHandler;                 //binder opinter til csmaHandler
     CustomRecorder recorder(csmaPointer);       //opretter costum recorder objekt
+    recorder.start(44100);                      //starter recorder med samplingrate på 44100Hz
+    string myString;                            //holder bruger input
 
-    recorder.start((unsigned int)recordSampleRate);
-    recorder.setSamplesPrDFT((int)samplesPrDTF);
-
-    /*vector<int> input = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-
-
-    mySound.makeSound(input);
-    vector<sf::Int16> inputSamples = mySound.getSound();
-
-    sf::SoundBuffer bufferInput;
-    bufferInput.loadFromSamples(&inputSamples[0], inputSamples.size(), 1, playSampleRate);
-
-    sf::Sound sound;
-    sound.setBuffer(bufferInput);
-    sound.play();
-
-    mySound.delay(input.size() * 44 + 350);*/
-
-
-    string mystring;
-    //cout << "Skriv tekst: ";
-    getline(cin, mystring);
-
-
-while (1) {
-    vector<int> HexBuffer;
-
-    TextHandler myTest;
-    vector<int> HexIntVec = myTest.InputText(mystring);
-
-    for (int i = 0; i < (mystring.length() * 2); ++i) {
-        HexBuffer.push_back(HexIntVec[i]);
+    //===============================
+    /*
+    while(true)
+    {
+        cout << "skriv besked: ";
+        getline(cin, myString);
+        //frede pakke handler
+        if(csmaHandler.sendPakker(pakkeV))                         //sender data. retunere true hvis data sendt korekt
+            cout << "Main.cpp [main()]  -  alle pakker sendt korekt!" << endl;
+        else
+            cout << "Main.cpp [main()]  -  Fejl! alle pakker kunne ikke sendes.. anal rytter!" << endl;
     }
-
-    Frame framming(HexBuffer);
-    framming.makeFrame();
-
-    vector<int> frammedHex = framming.getFrame();
-  /* for (int j = 0; j < frammedHex.size(); ++j) {
-        cout << frammedHex[j];
-    }
-    cout << endl;
-*/
-
-    mySound.makeSound(frammedHex);
-
-    vector<sf::Int16> inputSamples = mySound.getSound();
-
-    sf::SoundBuffer bufferInput;
-    bufferInput.loadFromSamples(&inputSamples[0], inputSamples.size(), 1, playSampleRate);
-
-    sf::Sound sound;
-    sound.setBuffer(bufferInput);
-    sound.play();
-
-
-
-    HexBuffer.clear();
-    HexIntVec.clear();
-
-    getline(cin, mystring);
-}
-
-
-
+     */
+    if(csmaHandler.sendData({}))
+        cout << "main.cpp [min()]  -  Fejl! program har escaped while(true) loop..." << endl;
     return 0;
 }

@@ -23,7 +23,11 @@ bool CustomRecorder::onStart() {
 
 }
 
-bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount) {
+bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount)
+{
+
+    if((*csmaHandler).getTxFlag() == true)
+        return false;
 
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
@@ -117,6 +121,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                     cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
                     (*csmaHandler).setBusy();                                      //indikere at pc er laver noget
                     cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt |" << endl;
+
                     (*csmaHandler).sendCTS();                                      //sender CTS
 
                 }

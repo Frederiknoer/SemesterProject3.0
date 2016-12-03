@@ -198,6 +198,8 @@ bool csmaCA::makeHandShake()
 
 void csmaCA::sendSound(vector<int> d)
 {
+    txFlag = true;											//indikere at denne enhed sender (spiller lyd)
+
     //============== ini ====================
     unsigned int playSampleRate = 44100;        // play sample rate
     vector<sf::Int16> inputSamples;
@@ -210,7 +212,7 @@ void csmaCA::sendSound(vector<int> d)
     sf::SoundBuffer bufferInput;                //laver lydbuffer objekt
     sf::Sound sound1;                            //opretter sound objekt
     //=======================================
-
+    mySound1.delay(500);
     framming.setData(d);                            //ligger hexbuffer ind i framing
     framming.makeFrame();                           //framer hexbuffer
 
@@ -234,11 +236,10 @@ void csmaCA::sendSound(vector<int> d)
 
     sound1.setBuffer(bufferInput);                           //initalisere bufferInput i sound klasse
 
-    txFlag = true;											//indikere at denne enhed sender (spiller lyd)
 
     sound1.play();                                           //afspiller bufferInput
 
-    mySound1.delay(playTimeCal(frammedHex));    				//laver delay mens lyd spilelr
+    mySound1.delay(playTimeCal(frammedHex) + 500);    				//laver delay mens lyd spilelr
     txFlag = false;											//indikere at denne enhed ikke længere sender
 
 }
