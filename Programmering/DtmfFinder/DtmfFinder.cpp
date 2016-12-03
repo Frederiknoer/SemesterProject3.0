@@ -93,6 +93,8 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
             }
         }
 
+        //// Hvis DTMFcounter er større end 2, så tjek om de to nyeste værdier i counter er ens ////
+
         if (DTMFCounter.size() > 2) {
             if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
                 nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
@@ -100,10 +102,15 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
                 DTMFCounter.push_back(nextDtmfTone);
 
             } else {
-                if (DTMFCounter.size() == 5 || DTMFCounter.size() == 7 || DTMFCounter.size() == 10 ||
-                    DTMFCounter.size() == 12) {
-                    // cout << DTMFCounter[DTMFCounter.size()-1];
+                if (DTMFCounter.size() == 5 || DTMFCounter.size() == 8 || DTMFCounter.size() == 11 ||
+                    DTMFCounter.size() == 14)
+                {
                     DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
+
+                    if(DTMFCounter.size() > 14)
+                    {
+                        cout << "DTMFcounter size excided it's max" << endl;
+                    }
                 }
             }
         }
