@@ -104,22 +104,31 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
                             DTMFCounter.push_back(tempDTMFCounter[i]);
                         }
 
+                        if(DTMFCounter.size() == 2)
+                        {
+                            DTMFbuffer.push_back(DTMFCounter[0]);
+                        }
+
                         tempDTMFCounter.clear();
 
                     }else{
                         tempDTMFCounter.clear();
                         tempDTMFCounter.push_back(DTMFCounter[0]);
+                        DTMFCounter.erase(DTMFCounter.begin());
                     }
                 }else{
                     if (DTMFCounter[0] != DTMFCounter[1])
                     {
                         tempDTMFCounter.push_back(DTMFCounter[0]);
                         DTMFCounter.erase(DTMFCounter.begin());
+                    }else{
+                        tempDTMFCounter.clear();
                     }
                 }
 
             }else{
                 DTMFbuffer.push_back(DTMFCounter[0]);
+                tempDTMFCounter.clear();
             }
 
         }
@@ -139,6 +148,13 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
                     DTMFCounter.erase(DTMFCounter.begin() + 1 );
 
                 }else{
+                    if((DTMFCounter[DTMFCounter.size() - 3]) == (DTMFCounter[DTMFCounter.size() - 2]))
+                    {
+                        for (int i = 0; i < DTMFCounter.size() - 1; ++i) {
+                            tempDTMFCounter.push_back(DTMFCounter[i]);
+                        }
+                    }
+
                     nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
                     DTMFCounter.clear();
                     DTMFCounter.push_back(nextDtmfTone);
@@ -161,9 +177,26 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     } else {
         timeOutCounter++;
     }
+/*
+    cout << "DTMF toner fundet: ";
+    for (int m = 0; m < DTMFbuffer.size(); ++m) {
+        cout << DTMFbuffer[m];
+    }
+
+    cout << endl;
 
 
+    cout << "  DTMFcounter: ";
+    for (int k = 0; k < DTMFCounter.size(); ++k) {
+        cout << DTMFCounter[k];
+    }
 
+    cout << endl << "  - Temp counter: ";
+    for (int l = 0; l < tempDTMFCounter.size(); ++l) {
+        cout << tempDTMFCounter[l];
+    }
+    cout << endl << endl;
+*/
 }
 
 bool DtmfFinder::pairFinder(vector<int> dtmfVec)
