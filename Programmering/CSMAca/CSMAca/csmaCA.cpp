@@ -172,14 +172,10 @@ bool csmaCA::makeHandShake()
 {
     Sound mySound5;											//opretter soundobjekt (brugt til delay)
 
-    Frame csmaCAframer(RTS);			//Opretter frame objekt
-    csmaCAframer.makeFrame();			//Frame RTS
-
-
     for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
     {
         cout << "csmaCA.cpp [makeHandShake]  -  sender RTS |" << endl;
-        sendSound(csmaCAframer.getFrame());						//sender framet Rts
+        sendSound(RTS);						//sender framet Rts
         for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
         {
             mySound5.delay(10);									//venter 10 ms
@@ -251,17 +247,13 @@ void csmaCA::sendSound(vector<int> d)
 
 void csmaCA::sendACK()
 {
-    Frame csmaCAframer(ACK);							//Opretter frame objekt
-    csmaCAframer.makeFrame();							//Frame ACK
-    sendSound(csmaCAframer.getFrame());					//afspiller framet ACK
+    sendSound(ACK);					//afspiller ACK
 }
 
 
 void csmaCA::sendCTS()
 {
-    Frame csmaCAframer(CTS);							//Opretter frame objekt
-    csmaCAframer.makeFrame();							//Frame CTS
-    sendSound(csmaCAframer.getFrame());					//afspiller framet CTS
+    sendSound(CTS);					//afspiller CTS
 }
 
 

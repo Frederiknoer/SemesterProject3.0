@@ -56,9 +56,9 @@ private:
     void sendSound(vector<int>);					//	done!	indenholder bla. alex's lyd
     vector<int> tagetID = { 0 };					//Modtagerns bruger ID
     vector<int> ID = { 0 };							//Denne pc's bruger ID
-    vector<int> RTS = { 3, 1, 3, 1 };		//difinere RTS
-    vector<int> CTS = { 4, 1, 4, 1 };		//difinere CTS
-    vector<int> ACK = { 5, 1, 5, 1 };		//difinere ACK
+    vector<int> RTS = { 3, 1, 3, 1 };		        //difinere RTS
+    vector<int> CTS = { 4, 1, 4, 1 };		        //difinere CTS
+    vector<int> ACK = { 5, 1, 5, 1 };		        //difinere ACK
     vector<int> NACK = { 0x4, 0x8, 0x1, 0x1 };		//difinere NACK
     vector<int> Pstop = { 0, 0, 0, 0 };				//difinere pakke stop væri
     vector<int> bufferTextIn;						//Buffer til data fra frede
