@@ -6,21 +6,11 @@ CustomRecorder::CustomRecorder()
 {
 }
 
-CustomRecorder::CustomRecorder(csmaCA etO)
-{
-    csmaHandler = etO;
-}
-
-csmaCA CustomRecorder::getcsmaCA()
-{
-    return csmaHandler;
-}
-
 
 bool CustomRecorder::onStart() {
 
-        setProcessingInterval(sf::milliseconds(50));
-        return true;
+    setProcessingInterval(sf::milliseconds(50));
+    return true;
 
 }
 
@@ -43,10 +33,6 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
     ///////////////////////////////////////////////////////////////////////////////
 
-<<<<<<< HEAD
-    if (lyddata.pairFinder(DTMFbuffer) == true)
-    {
-=======
     ///// Vi starter med at bruge de tidligere samples fra sidste onProcess call /////
 
     for (int l = 0; l < leftOverSamples.size() ; ++l) {
@@ -55,7 +41,6 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     leftOverSamples.clear();
     //////////////////////////////////////////////////////////////////////////////////
 
->>>>>>> windowsTestEnvironment
 
     for (int k = 0; k < numberOfProcessingSamples; ++k) {
 
@@ -84,58 +69,64 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         if (lyddata.pairFinder(DTMFbuffer) == true)
         {
-            cout << endl;
-            udData = lyddata.pairGetter(DTMFbuffer);
 
+            udData = lyddata.pairGetter(DTMFbuffer);
+            cout << endl;
             for (int i = 0; i < udData.size(); ++i) {
                 for (int j = 0; j < udData[i].size(); j++) {
                     cout << udData[i][j];
                 }
             }
-            cout << endl;
-
 
             Frame unframing(udData[0]);
 
 
-<<<<<<< HEAD
-        if(unframing.validataFrame() == true)                             //tjekker modtaget lyde igennem for bestemte frekvenser
-        {
-            unframing.unFrame();
-			if (unframing.getFrame() == csmaHandler.getRTSverdi())        // Tjekker for RTS
+            if(unframing.validataFrame() == true)                             //tjekker modtaget lyde igennem for bestemte frekvenser
             {
-                csmaHandler.setRtsFlag();                                   //sidder RTS modtaget flag
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
-                csmaHandler.sendCTS();                                      //sender CTS
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt" << endl;
-            }
-			else if (unframing.getFrame() == csmaHandler.getCTSverdi())     //tjekker for CTS
-            {
-                csmaHandler.setCtsFlag();                                   //sidder CTS modtaget flag
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS flag sat" << endl;
-            }
-			else if (unframing.getFrame() == csmaHandler.getACKverdi())     //tjekker for ACK
-            {
-                csmaHandler.setAckFlag();                                   //sidder ACK modtaget flag
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK flag sat" << endl;
-            }
-			else                                                            //ellers er det data
-			{
-				csmaHandler.setDataFlag();                                  //sidder Data modtaget flag
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  DATA flag sat" << endl;
-				TextHandler outputText;                                     //opretter texthandler onjekt
-				cout << outputText.OutputText(unframing.getFrame()) << endl;
-                csmaHandler.sendACK();                                      //sender ACK
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt" << endl;
-			}
-        } else{
-            cout << "Error" << endl;
-=======
-            if (unframing.validataFrame() == true) {
                 unframing.unFrame();
-                TextHandler outputText;
-                cout << outputText.OutputText(unframing.getFrame()) << endl;
-            } else {
+                if (unframing.getFrame() == (*csmaHandler).getRTSverdi())        // Tjekker for RTS
+                {
+                    (*csmaHandler).setRtsFlag();                                   //sidder RTS modtaget flag
+                    cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
+                    (*csmaHandler).setBusy();                                      //indikere at pc er laver noget
+                    (*csmaHandler).sendCTS();                                      //sender CTS
+                    cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt |" << endl;
+                }
+                else if (unframing.getFrame() == (*csmaHandler).getCTSverdi())     //tjekker for CTS
+                {
+                    (*csmaHandler).setCtsFlag();                                   //sidder CTS modtaget flag
+                    cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS flag sat" << endl;
+                }
+                else if (unframing.getFrame() == (*csmaHandler).getACKverdi())     //tjekker for ACK
+                {
+                    (*csmaHandler).setAckFlag();                                   //sidder ACK modtaget flag
+                    cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK flag sat" << endl;
+                }
+                else if(unframing.getFrame() == (*csmaHandler).getPSTOPverdi())     //tjekker for Pstop
+                {
+                    (*csmaHandler).setPstopFlag();                                  //sidder "pakke stop" modtaget flag
+                    cout << "CustomRecorder.cpp [onProcessSamples]  -  Pstop flag sat" << endl;
+
+                    //Frede pakke handler på modtagetPakker (udskriv til skerment)
+
+                    modtagetPakker = {};                                            //nulstiller pakke vektor
+                    cout << "CustomRecorder.cpp [onProcessSamples]  -  modtaget pakkeVector cleared" << endl;
+                    (*csmaHandler).sendACK();                                      //sender ACK
+                    (*csmaHandler).clearBusy();                                    //indikere at computeren ikke laver noget
+                }
+                else                                                               //ellers er det data
+                {
+                    (*csmaHandler).setDataFlag();                                  //sidder Data modtaget flag
+                    TextHandler outputText;                                        //opretter texthandler objekt
+                    cout << "CustomRecorder.cpp [onProcessSamples]  -  data modtaget |" << endl;
+                    cout << outputText.OutputText(unframing.getFrame()) << endl;
+                    modtagetPakker.push_back(unframing.getFrame());                //ligger modtaget pakke ind i modtagetPakker vector
+                    (*csmaHandler).sendACK();                                      //sender ACK
+                    cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt |" << endl;
+                }
+            }
+            else
+            {
                 cout << "Error" << endl;
             }
 
@@ -143,7 +134,6 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
             findTones.clearDTMFbuffer();
             udData.clear();
             lyddata.clearFinalData();
->>>>>>> windowsTestEnvironment
         }
 
         freqSpek.clear();
@@ -160,7 +150,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         for (int i = 0; i < (sampleCount-samplePointer); ++i) {
             leftOverSamples.push_back(samples[samplePointer]);
         }
-     //   cout << "Left over samples: " << leftOverSamples.size() << endl;
+        //   cout << "Left over samples: " << leftOverSamples.size() << endl;
     }else{
         if(samplePointer == sampleCount){
             // cout << "No leftovers" << endl;
@@ -173,11 +163,6 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     return true;
 }
 
-<<<<<<< HEAD
-void CustomRecorder::onStop() 
-{
-=======
->>>>>>> windowsTestEnvironment
 
 void CustomRecorder::setSamplesPrDFT(int SamplesPerDTF) {
     samplesPrDFT = SamplesPerDTF;
@@ -191,4 +176,3 @@ CustomRecorder::~CustomRecorder()
 {
     stop();
 }
-

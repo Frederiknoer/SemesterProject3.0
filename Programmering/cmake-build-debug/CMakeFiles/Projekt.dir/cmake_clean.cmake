@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Projekt.dir/DFT/DFT.cpp.o"
   "CMakeFiles/Projekt.dir/CustomRecorder/CustomRecorder.cpp.o"
   "CMakeFiles/Projekt.dir/DtmfFinder/DtmfFinder.cpp.o"
+  "CMakeFiles/Projekt.dir/CSMAca/CSMAca/csmaCA.cpp.o"
   "Projekt.pdb"
   "Projekt"
 )

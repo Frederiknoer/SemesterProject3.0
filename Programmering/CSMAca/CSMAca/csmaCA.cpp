@@ -9,21 +9,21 @@ csmaCA::csmaCA()
 
 	switch (rand() % 4)		//Random ID
 	{
-	case 0:
-		ID = { 0xf, 0xf };
-		break;
-	case 1:
-		ID = { 0xb, 0x4 };
-		break;
-	case 2:
-		ID = { 0xa, 0xa };
-		break;
-	case 3:
-		ID = {0x3, 0x0};
-		break;
-	case 4:
-		ID = { 0x2, 0xf };
-		break;
+		case 0:
+			ID = { 0xf, 0xf };
+			break;
+		case 1:
+			ID = { 0xb, 0x4 };
+			break;
+		case 2:
+			ID = { 0xa, 0xa };
+			break;
+		case 3:
+			ID = {0x3, 0x0};
+			break;
+		case 4:
+			ID = { 0x2, 0xf };
+			break;
 	}
 }
 
@@ -94,12 +94,14 @@ bool csmaCA::sendData(vector<int> Data)
 	Sound mySound;						//opretter sound objekt (til delay)
 	if (!makeHandShake())				//retunere false hvis handshake fejler
 		return false;
+
 	Frame csmaCAframer(Data);			//Opretter frame objekt
 	csmaCAframer.makeFrame();			//framer data
 
-									//vent p� at et ack modtages
+	//vent p� at et ack modtages
 	for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//fors�ger data 3 gange
 	{
+		cout << "csmaCA.cpp [sendData()]  -  sender Data |" << endl;
 		sendSound(csmaCAframer.getFrame());						//sender framet data
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
@@ -119,43 +121,80 @@ bool csmaCA::sendData(vector<int> Data)
 	return false;
 }
 
+bool csmaCA::sendPakker(vector<vector<int> > Data)
+{
+	Sound mySound;						//opretter sound objekt (til delay)
+	if (!makeHandShake())				//retunere false hvis handshake fejler
+		return false;
+	int pakkeAntal = Data.size();			//gemmer størelsen af pakken, da den hele tiden bliver reduseret (.pop_back)
+	for(int pakkeNr = 0; pakkeNr < pakkeAntal; pakkeNr++)	//køre alle pakker igennem
+	{
+		pakkeHolder = Data.back();			//gemmer sidste element fra Data vector
+		Data.pop_back();					//sletter sidste elemetn fra Data vector
+
+		Frame csmaCAframer(pakkeHolder);	//Opretter frame objekt
+		csmaCAframer.makeFrame();			//framer data
+
+
+		bool pakkeSendtKorekt = false;								//siddes til true i polling loop hvis pakken er sendt korekt
+		for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//3 forsøg til at sende pakke korekt
+		{
+			cout << "csmaCA.cpp [sendPakker()]  -  sender Pakke " << (pakkeNr + 1) << "/" << pakkeAntal << " |" << endl;
+			sendSound(csmaCAframer.getFrame());						//sender framet data
+			for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
+			{
+				mySound.delay(10);									//venter 10 ms
+				if (ackFlag)										//hvis ack modtages
+				{
+					busy = false;									//signalere at maskinen er klar til ny forbindelse
+					ackFlag = false;								//nulstiller ACK "flag"
+					pakkeSendtKorekt = true;						//indikere at pakke er sendt korekt
+					break;											//stopper ACK flag polling
+				}
+
+			}
+			if(pakkeSendtKorekt)									//tjekker om pakke sendt korekt
+				break;												//stopper gensendings loop
+			cout << "csmaCA.cpp [sendPakker()]  -  " << dataAttempts << ". send attempt brugt.." << endl;
+		}
+		if (!pakkeSendtKorekt)
+		{
+			cout << "csmaCA.cpp [sendPakker()]  -  ingen ACK er modtaget efter 3 * pakke attempts... Fu*k julemanden.. " << endl;
+			return false;
+		}
+		cout << "csmaCA.cpp [sendPakker()]  -  pakke " << (pakkeNr+1) << " sendt korekt!" << endl;
+	}
+	return true;
+}
 
 
 bool csmaCA::makeHandShake()
 {
 	Sound mySound;											//opretter soundobjekt (brugt til delay)
-	int x = 1;												//bruges s� der kun sendes en "vente besked"
-	while (busy)											//venter p� enheden ikke l�ngere har travlt
-	{
-		if (x == 1)											//s�rger for "vente" besked kun vises 1 gang i terminalen
-		{
-			cout << "csmaCA.cpp [makeHandShake()] -  enheden har travlt, besked lagt i ko" << endl; //vente besked
-			x = 0;
-		}
-	}
+
 	Frame csmaCAframer(RTS);			//Opretter frame objekt
 	csmaCAframer.makeFrame();			//Frame RTS
 
-										// vent p� at et svar modtages
 
 	for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
 	{
+		cout << "csmaCA.cpp [makeHandShake]  -  sender RTS |" << endl;
 		sendSound(csmaCAframer.getFrame());						//sender framet Rts
 		for (int time = 1; time <= 700; time++)					//polling timer 700*10ms =  7sek
 		{
 			mySound.delay(10);									//venter 10 ms
-
 			if (ctsFlag)										//hvis CTS modtages
 			{
+				//cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag er True" << endl;			//kan unkomenteres for debugging
 				ctsFlag = false;								//nulstiller "flag"
 				return true;									//retunere true
 			}
-
+			//cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag er false" << endl;			//kan unkomenteres for debugging
 		}
 		cout << "csmaCA.cpp [makeHandShake()] - " << rtsAttempts << ". RTS fejlet.." << endl;
 	}
-																//hvis CTS ikke modtages
-	cout << endl << "csmaCA.cpp [makeHandShake()] -  ingen CTS er modtagfet efter 3 RTS... er jeg helt alene i verden? :/ " << endl << endl;
+	//hvis CTS ikke modtages
+	cout << "csmaCA.cpp [makeHandShake()] -  ingen CTS er modtagfet efter 3 RTS... er jeg helt alene i verden? :/ " << endl;
 	return false;												//retunere false
 }
 
@@ -182,7 +221,7 @@ void csmaCA::sendSound(vector<int> d)
 	frammedHex = framming.getFrame();          		//gemmer framet data i "framedHex"
 
 	//================ Udskriver framed data =========================
-	cout << endl << "csmaCA.cpp [sendSound()]  -  Data played: ";	//
+	cout << "csmaCA.cpp [sendSound()]  -  Data played: ";			//
 	for (int j = 0; j < frammedHex.size(); ++j)             		//udskriver frameHex til skermen
 	{                                                       		//
 		cout << frammedHex[j] << " ";                       		//
@@ -298,21 +337,69 @@ void csmaCA::setDataFlag()
 }
 
 
+void csmaCA::setPstopFlag()
+{
+	pstopFlag = true;
+}
+
+
+void csmaCA::setBusy()
+{
+	busy = true;
+}
+
+
+void csmaCA::clearBusy()
+{
+	busy = false;
+}
+
+
 vector<int> csmaCA::getACKverdi()
 {
-    return ACK;
+	return ACK;
 }
 
 
 vector<int> csmaCA::getCTSverdi()
 {
-    return CTS;
+	return CTS;
 }
 
 
 vector<int> csmaCA::getRTSverdi()
 {
-    return RTS;
+	return RTS;
+}
+
+
+vector<int> csmaCA::getPSTOPverdi()
+{
+	return Pstop;
+}
+
+
+bool csmaCA::getAckFlagStatus()
+{
+	return ackFlag;
+}
+
+
+bool csmaCA::getCtsFlagStatus()
+{
+	return ctsFlag;
+}
+
+
+bool csmaCA::getRtsFlagStatus()
+{
+	return rtsFlag;
+}
+
+
+bool csmaCA::isBusy()
+{
+	return busy;
 }
 
 
