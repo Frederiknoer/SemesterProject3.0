@@ -1,6 +1,7 @@
 #include "../DtmfFinder/DtmfFinder.h"
-
+#include <ctime>
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -8,7 +9,7 @@ DtmfFinder::DtmfFinder(){
 
 }
 
-void DtmfFinder::findDtmfTones(vector<double> freqSpek){
+void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
 
     int DTMFtable[4][4];
 
@@ -29,75 +30,216 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek){
     DTMFtable[3][2] = 14;
     DTMFtable[3][3] = 15;
 
-    if(timeOutCounter > 2)
-    {
+    if (timeOutCounter > 6) {
         DTMFbuffer.clear();
         DTMFCounter.clear();
         timeOutCounter = 0;
     }
 
+    int diffFactor = 150;
+    double freqLow = 0;
+    double freqSecLow = 0;
+    double freqHigh = 0;
+    double freqSecHigh = 0;
+    int numberLow = 0;
+    int numberSecLow = 0;
+    int numberHigh = 0;
+    int numberSecHigh = 0;
+    int amplitudeFaktorH = 150;
+    int amplitudeFaktorL = 150;
+    int nextDtmfTone = 0;
 
-    // Gennemsnit metoden
-
-    double avg = 0;
-    int counter = 0;
-    double freqs[2];
-    int numberConst[2];
-
-    for (int i = 0; i < 8; ++i) {
-        avg += freqSpek[i];
+    for (int j = 0; j < 4; ++j) {
+        if (freqSpek[j] > freqLow) {
+            freqLow = freqSpek[j];
+            numberLow = j;
+        }
     }
-
-    avg = avg / 8;
-
-
-
-
-    for (int j = 0; j < 8; ++j)
-    {
-        if (((freqSpek[j]) > avg && avg > 100))
-        {
-            freqs[counter] = freqSpek[j];
-            numberConst[counter] = j;
-            counter++;
+    for (int j = 0; j < 4; ++j) {
+        if (freqSpek[j] > freqLow && j != numberLow) {
+            freqSecLow = freqSpek[j];
+            numberSecLow = j;
         }
     }
 
+    for (int i = 4; i < 8; ++i) {
+        if (freqSpek[i] > freqHigh) {
+            freqHigh = freqSpek[i];
+            numberHigh = i;
+        }
+    }
+    for (int i = 4; i < 8; ++i) {
+        if (freqSpek[i] > freqHigh && i != numberHigh) {
+            freqSecHigh = freqSpek[i];
+            numberSecHigh = i;
+        }
+    }
 
-    if(counter == 2)
+    if (freqHigh > amplitudeFaktorH && freqLow > amplitudeFaktorL && freqHigh - freqSecHigh > diffFactor &&
+            freqLow - freqSecLow > diffFactor)
     {
-        if (numberConst[0] < 4 && numberConst[0] >= 0 && numberConst[1] > 3 && numberConst[1] <=7)
-        {
-            timeOutCounter = 0;
 
-            DTMFCounter.push_back(DTMFtable[numberConst[0]] [numberConst[1]-4]);
+        timeOutCounter = 0;
+        DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
 
+        //// Hvis DTMFcounter størrelse = 2, så skal vi se om der er sket en fejl eller om vi har fået en DTMF tone ///
+
+        if (DTMFCounter.size() == 2) {
+
+            //// Hvis de to værdier i Counter IKKE er ens, så er der sket en fejl ////
+
+            if (DTMFCounter[0] != DTMFCounter[1])
+            {
+                ///// Hvis størrelsen af vores midlertidige buffer er større end nul, så skal vi huske at tjekke det data ///
+
+                if(tempDTMFCounter.size() > 0)
+                {
+                    /// Hvis den nyeste værdi vi har fået ind er lig med en af værdierne i vores midlertidige DTMF counter, så ved vi af den næst nyeste værdi er en fejl ///
+
+                    if(DTMFCounter[1] == tempDTMFCounter[0])
+                    {
+                        /// Vi sletter først fejlen ///
+
+                        DTMFCounter.erase(DTMFCounter.begin());
+
+                        /// Da temp og den nye værdi er ens, gemmer vi vores temp værdier over i DTMF counter ///
+
+                        for (int i = 0; i < tempDTMFCounter.size(); ++i)
+                        {
+                            DTMFCounter.push_back(tempDTMFCounter[i]);
+                        }
+
+                        /// Hvis størrelsen på DTMFcounter efter vi har flyttet værdierne over = 2, så har vi en DTMF tone, og den skal gemmes ////
+
+                        if(DTMFCounter.size() == 2)
+                        {
+                            DTMFbuffer.push_back(DTMFCounter[0]);
+                        }
+
+                        //// Til sidst slettes den midlertidige buffer ///
+
+                        tempDTMFCounter.clear();
+
+                    }else{
+
+                        //// Hvis vores nye værdi IKKE er lig med noget af det der ligger i temp, så skal temp slettes ////
+                        tempDTMFCounter.clear();
+
+                        /// Herefter gemmes den første værdi i temp, så den er klar til at blive sammenligning næste gang ////
+                        tempDTMFCounter.push_back(DTMFCounter[0]);
+
+                        //// Herefter slettes den værdi fra DTMFcounter  ////
+                        DTMFCounter.erase(DTMFCounter.begin());
+                    }
+                }else{
+                    /// Hvis der ikke er nogle midlertiige værdier, så behøver vi ikke tjekke disse værdier og vi kan sammenligning de to værdier ////
+
+                    /// Hvis de to værdier der ligger i DTMFcounter IKKE er ens, så gem den første værdi i tempCounter og herefter slettes den ////
+                    if (DTMFCounter[0] != DTMFCounter[1])
+                    {
+                        tempDTMFCounter.push_back(DTMFCounter[0]);
+                        DTMFCounter.erase(DTMFCounter.begin());
+                    }
+                }
+
+            }else{
+                /// Hvis de to værdi der ligger DTMFcounter er ens, så har vi en DTMF tone ///
+
+<<<<<<< HEAD
             if(DTMFCounter.size() == 1)
             {
                 //cout << DTMFCounter[0];
+=======
+>>>>>>> windowsTestEnvironment
                 DTMFbuffer.push_back(DTMFCounter[0]);
+                tempDTMFCounter.clear();
             }
 
-            if(DTMFCounter.size() > 1)
-            {
-                if((DTMFCounter[DTMFCounter.size()-2]) != (DTMFCounter[DTMFCounter.size()-1]))
+        }
+
+        //// Hvis DTMFcounter er større end 2, så tjek om de to nyeste værdier i counter er ens ////
+
+        if (DTMFCounter.size() > 2) {
+
+            ///// Hvis den nyeste og næstnyeste værdi IKKE er ens, så kør følgende kode ////
+
+            if ((DTMFCounter[DTMFCounter.size() - 2]) != (DTMFCounter[DTMFCounter.size() - 1])) {
+
+                ///// Hvis den nyeste værdi og den 3. nyeste værdi er ens, så slet den imellem ////
+
+                if(DTMFCounter[DTMFCounter.size() - 3] == DTMFCounter[DTMFCounter.size() - 1])
                 {
+<<<<<<< HEAD
                     //cout << DTMFCounter[DTMFCounter.size()-1];
                     DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
                     DTMFCounter.clear();
                     DTMFCounter.push_back(DTMFtable[numberConst[0]] [numberConst[1]-4]);
+=======
+                    DTMFCounter.erase(DTMFCounter.begin() + 1 );
+
+>>>>>>> windowsTestEnvironment
                 }else{
-                    if (DTMFCounter.size() == 4 || DTMFCounter.size() == 6 || DTMFCounter.size() == 8 || DTMFCounter.size() == 10)
+                    //// Hvis de ikke er lig med hinanden, så tjek om den 3. og 2. nyeste værdier er lig med hinanden.
+
+                    if((DTMFCounter[DTMFCounter.size() - 3]) == (DTMFCounter[DTMFCounter.size() - 2]))
                     {
+<<<<<<< HEAD
                         //cout << DTMFCounter[DTMFCounter.size()-1];
                         DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size()-1]);
+=======
+                        //// Hvis de er lig med hinanden, så gem disse værdier i tempCounter ////
+                        for (int i = 0; i < DTMFCounter.size() - 1; ++i) {
+                            tempDTMFCounter.push_back(DTMFCounter[i]);
+                        }
+                    }
+
+                    /// Herefter gemmes den næste tone i DTMFcounter og DTMFcounter slettes ////
+                    nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
+                    DTMFCounter.clear();
+                    DTMFCounter.push_back(nextDtmfTone);
+                }
+
+            } else {
+
+                //// Køres kun når størrelsen på bufferen er over 3 og alle værdier i bufferen er ens /////
+
+                if (DTMFCounter.size() == 5 || DTMFCounter.size() == 8 || DTMFCounter.size() == 11 ||
+                    DTMFCounter.size() == 14)
+                {
+                    //cout << DTMFCounter[DTMFCounter.size() - 1];
+                    DTMFbuffer.push_back(DTMFCounter[DTMFCounter.size() - 1]);
+
+                    if(DTMFCounter.size() > 14)
+                    {
+                        cout << "DTMFcounter size excided it's max" << endl;
+>>>>>>> windowsTestEnvironment
                     }
                 }
             }
         }
-    }else {
+    } else {
         timeOutCounter++;
     }
+/*
+    cout << "DTMF toner fundet: ";
+    for (int m = 0; m < DTMFbuffer.size(); ++m) {
+        cout << DTMFbuffer[m];
+    }
+
+    cout << endl;
+
+
+    cout << "  DTMFcounter: ";
+    for (int k = 0; k < DTMFCounter.size(); ++k) {
+        cout << DTMFCounter[k];
+    }
+
+    cout << endl << "  - Temp counter: ";
+    for (int l = 0; l < tempDTMFCounter.size(); ++l) {
+        cout << tempDTMFCounter[l];
+    }
+    cout << endl << endl;
+*/
 }
 
 bool DtmfFinder::pairFinder(vector<int> dtmfVec)

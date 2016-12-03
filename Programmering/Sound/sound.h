@@ -10,7 +10,9 @@ public:
     void setSamplingRate(double SR);
     void makeSound(vector<int>);
 
-    short sinWave(double amp, double time , double timePrTone,  double freqLast, double freqNext);
+    short sinWave(double amp, double time , double timePrTone, int freqLast, int freqNext);
+    short sinWaveOld(double amp, double time, int freq);
+    void setSamplePrTone(int tonePlayTime);
     vector <sf::Int16> getSound();
 
     void delay(double ms);
@@ -18,6 +20,7 @@ public:
     ~Sound();
 
 private:
+    int samplesPrTone;
     double samplingRate;
     vector<sf::Int16> inputSamples;
 

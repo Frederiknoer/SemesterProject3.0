@@ -17,8 +17,10 @@ public:
     ~DtmfFinder();
 
 private:
-    vector <double> DTMFCounter;
-    vector <int> DTMFbuffer;
+    vector<int> DTMFCounter;
+    vector<int> tempDTMFCounter;
+    vector<int> DTMFbuffer;
+    vector<int> leftOverBuffer;
     vector< vector<int> > finalData;
     int timeOutCounter;
 };

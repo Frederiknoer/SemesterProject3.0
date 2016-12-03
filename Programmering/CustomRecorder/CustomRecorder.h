@@ -18,13 +18,20 @@ public:
 	csmaCA getcsmaCA();
     bool onStart();
     bool onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount);
+    void setSamplesPrDFT(int SamplesPerDTF);
     void onStop();
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> windowsTestEnvironment
     ~CustomRecorder();
 
 private:
     DtmfFinder findTones;
     DtmfFinder lyddata;
     vector< vector<int> > udData;
+<<<<<<< HEAD
 	bool rtsFlag = 0;
 	bool ctsFlag = 0;
 	bool ackFlag = 0;
@@ -33,5 +40,10 @@ private:
 
 
 
+=======
+    vector<double> leftOverSamples;
+    vector<double> dataToProcess;
+    int samplesPrDFT;
+>>>>>>> windowsTestEnvironment
 };
 

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Projekt"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\cmake_modules\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Projekt">
+				<Option output="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Projekt" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Frameworks/SFML.framework"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.3.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 Projekt"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Projekt/fast">
+				<Option output="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Projekt" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Frameworks/SFML.framework"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.3.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 Projekt/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/alexdupond/Google\ Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.cpp">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.h">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DFT/DFT.cpp">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DFT/DFT.h">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.cpp">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/DtmfFinder/DtmfFinder.h">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Frame/Frame/Frame.cpp">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Frame/Frame/Frame.h">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.cpp">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.h">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.cpp">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/main.cpp">
+			<Option target="Projekt"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/cmake_modules/FindSFML.cmake">
+			<Option virtualFolder="CMake Files\cmake_modules\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

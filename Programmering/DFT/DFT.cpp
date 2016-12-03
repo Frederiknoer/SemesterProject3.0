@@ -7,7 +7,7 @@ DFT::DFT()
 }
 
 
-void DFT::DFTrans8(const sf::Int16 *samples, double N, int sampleFreq)
+void DFT::DFTrans8(vector<double> samples, double N, int sampleFreq)
 {
 
     double FreqFaktor = N/(sampleFreq);
@@ -21,11 +21,9 @@ void DFT::DFTrans8(const sf::Int16 *samples, double N, int sampleFreq)
             int integers = -1 * j * FreqTabel[k];
             complex<double> exponent(0.0, (TWOPI * ((double) integers * FreqFaktor)) / N);
             sum += (double)1/N * samples[j] * exp(exponent);
-
         }
         freqSpek.push_back(abs(sum));
     }
-
 }
 
 void DFT::DFTrans(const sf::Int16 *samples, double N, int sampleFreq)
@@ -50,6 +48,10 @@ void DFT::DFTrans(const sf::Int16 *samples, double N, int sampleFreq)
 
 vector<double> DFT::getFreqSpek8(){
     return freqSpek;
+}
+
+void DFT::clearFreqSpek8() {
+    freqSpek.clear();
 }
 
 vector<double> DFT::getFreqSpek(){

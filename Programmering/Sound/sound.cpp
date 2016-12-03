@@ -22,15 +22,17 @@ void Sound::setSamplingRate(double SR) {
     samplingRate = SR;
 }
 
-
-
-short Sound::sinWave(double amp, double time, double timePrTone, double freqLast, double freqNext) {
+short Sound::sinWave(double amp, double time, double timePrTone, int freqLast, int freqNext) {
 
 
     double transformedFreqLast = freqLast/samplingRate;
     double transformedFreqNext = freqNext/samplingRate;
 
-    return (short)(amp * 32767 * sin(TWOPI * (transformedFreqLast*timePrTone + time * transformedFreqNext)));
+    return (short)(amp * 32767 * cos(TWOPI * (transformedFreqLast*timePrTone + time * transformedFreqNext)));
+}
+
+short Sound::sinWaveOld(double amp, double time, int freq) {
+    return (short)(amp * 32767 * cos(TWOPI * (freq/samplingRate) * time));
 }
 
 
@@ -57,11 +59,9 @@ void Sound::makeSound(vector<int> inputVector)
                            1, 1, 1, 1,
                            1, 1, 1, 1,
                            1, 1, 1, 1};
-
-    double timePrTone = 30;
-    double numberOfSamples = (samplingRate * timePrTone) / 1000; //44100 = the number of sampels for 1 sekund
-    double freqSumFirst = 0;
-    double freqSumSecound = 0;
+    int numberOfSamples = samplesPrTone * (samplingRate/4096);
+    int freqSumFirst = 0;
+    int freqSumSecound = 0;
     double amplitude = 0.5;
 
 
@@ -70,6 +70,7 @@ void Sound::makeSound(vector<int> inputVector)
     for (int j = 0; j < inputVector.size(); j++) {
 
         for (int i = 0; i < numberOfSamples; ++i){
+
             bufferSamples.push_back(
                     sinWave(amplitude, i, numberOfSamples, freqSumFirst, toneFirst[inputVector[j]]) +
                     sinWave(amplitude,  i, numberOfSamples, freqSumSecound, toneSecound[inputVector[j]])
@@ -86,10 +87,11 @@ void Sound::makeSound(vector<int> inputVector)
 
 vector<sf::Int16> Sound::getSound() {
     return inputSamples;
-
 }
 
-
+void Sound::setSamplePrTone(int samplePlayTime) {
+    samplesPrTone = samplePlayTime;
+}
 
 void Sound::delay(double ms)
 {

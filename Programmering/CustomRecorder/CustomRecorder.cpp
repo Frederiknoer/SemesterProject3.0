@@ -1,10 +1,9 @@
 #include "CustomRecorder.h"
-#include "fstream"
+
 
 
 CustomRecorder::CustomRecorder()
 {
-
 }
 
 CustomRecorder::CustomRecorder(csmaCA etO)
@@ -20,7 +19,7 @@ csmaCA CustomRecorder::getcsmaCA()
 
 bool CustomRecorder::onStart() {
 
-        setProcessingInterval(sf::milliseconds(10));
+        setProcessingInterval(sf::milliseconds(50));
         return true;
 
 }
@@ -29,34 +28,77 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
+    int numberOfProcessingSamples = 0;
+    int samplePointer = 0;
 
-    DFT DiskretFourierTrans;
-    DiskretFourierTrans.DFTrans8(samples, N, samplingFreq);
+    /////// Vi tjekker først antallet af samles + eventuelt tidligere samles //////
 
-    vector<double> freqSpek;
-    freqSpek = DiskretFourierTrans.getFreqSpek8();
+    if ((N + leftOverSamples.size()) > samplesPrDFT){
+        numberOfProcessingSamples = (int)(N + leftOverSamples.size())/(samplesPrDFT);
+    }else{
+        cout << "Count error" << endl;
+    }
 
-    findTones.findDtmfTones(freqSpek);
+    // cout << endl << sampleCount << "/" << samplesPrDFT << " = " << sampleCount/samplesPrDFT << endl;
 
-    vector<int> DTMFbuffer;
-    DTMFbuffer = findTones.getDTMFBuffer();
+    ///////////////////////////////////////////////////////////////////////////////
 
+<<<<<<< HEAD
     if (lyddata.pairFinder(DTMFbuffer) == true)
     {
+=======
+    ///// Vi starter med at bruge de tidligere samples fra sidste onProcess call /////
 
-        udData = lyddata.pairGetter(DTMFbuffer);
+    for (int l = 0; l < leftOverSamples.size() ; ++l) {
+        dataToProcess.push_back(leftOverSamples[l]);
+    }
+    leftOverSamples.clear();
+    //////////////////////////////////////////////////////////////////////////////////
 
-        for (int i = 0; i < udData.size(); ++i) {
-            for (int j = 0; j < udData[i].size(); j++) {
-                cout << udData[i][j];
-            }
+>>>>>>> windowsTestEnvironment
+
+    for (int k = 0; k < numberOfProcessingSamples; ++k) {
+
+        /////////////////// Vi fylder herefter op med de nye samples ///////////////////
+        while(samplesPrDFT > dataToProcess.size()){
+            dataToProcess.push_back(samples[samplePointer]);
+            samplePointer++;
         }
-        cout << endl;
+        //////////////////////////////////////////////////////////////////////////////////
+
+        DFT DiskretFourierTrans;
+        DiskretFourierTrans.DFTrans8(dataToProcess, samplesPrDFT, samplingFreq);
+
+        vector<double> freqSpek;
+        freqSpek = DiskretFourierTrans.getFreqSpek8();
+
+        /*for(int i = 0; i < freqSpek.size(); i++)
+            cout << freqSpek[i] << ",";
+        cout << endl;*/
+        findTones.findDtmfTones(freqSpek);
+
+        vector<int> DTMFbuffer;
+        DTMFbuffer = findTones.getDTMFBuffer();
 
 
-        Frame unframing(udData[0]);
+
+        if (lyddata.pairFinder(DTMFbuffer) == true)
+        {
+            cout << endl;
+            udData = lyddata.pairGetter(DTMFbuffer);
+
+            for (int i = 0; i < udData.size(); ++i) {
+                for (int j = 0; j < udData[i].size(); j++) {
+                    cout << udData[i][j];
+                }
+            }
+            cout << endl;
 
 
+            Frame unframing(udData[0]);
+
+
+<<<<<<< HEAD
         if(unframing.validataFrame() == true)                             //tjekker modtaget lyde igennem for bestemte frekvenser
         {
             unframing.unFrame();
@@ -88,20 +130,60 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 			}
         } else{
             cout << "Error" << endl;
+=======
+            if (unframing.validataFrame() == true) {
+                unframing.unFrame();
+                TextHandler outputText;
+                cout << outputText.OutputText(unframing.getFrame()) << endl;
+            } else {
+                cout << "Error" << endl;
+            }
+
+
+            findTones.clearDTMFbuffer();
+            udData.clear();
+            lyddata.clearFinalData();
+>>>>>>> windowsTestEnvironment
         }
 
+        freqSpek.clear();
+        DiskretFourierTrans.clearFreqSpek8();
+        dataToProcess.clear();
 
-        findTones.clearDTMFbuffer();
-        udData.clear();
-        lyddata.clearFinalData();
     }
 
+    // cout << samplePointer << endl;
+
+    ///// Vi tjekker om alle samples er blevet brugt eller om der er en rest /////
+
+    if (samplePointer < sampleCount){
+        for (int i = 0; i < (sampleCount-samplePointer); ++i) {
+            leftOverSamples.push_back(samples[samplePointer]);
+        }
+     //   cout << "Left over samples: " << leftOverSamples.size() << endl;
+    }else{
+        if(samplePointer == sampleCount){
+            // cout << "No leftovers" << endl;
+        }else{
+            cout << "Sampling count error - samples leftover error" << endl;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////
     return true;
 }
 
+<<<<<<< HEAD
 void CustomRecorder::onStop() 
 {
+=======
+>>>>>>> windowsTestEnvironment
 
+void CustomRecorder::setSamplesPrDFT(int SamplesPerDTF) {
+    samplesPrDFT = SamplesPerDTF;
+}
+
+void CustomRecorder::onStop() {
 
 }
 
