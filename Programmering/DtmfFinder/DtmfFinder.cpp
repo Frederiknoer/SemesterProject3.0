@@ -82,8 +82,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
         timeOutCounter = 0;
         DTMFCounter.push_back(DTMFtable[numberLow][numberHigh - 4]);
 
-        //// Hvis DTMFcounter = 2, så tjek om de er lig med hinanden eller ej /////
-        /// Hvis lig med hinanden så gem værdien, ellers slet værdien /////
+        //// Hvis DTMFcounter størrelse = 2, så skal vi se om der er sket en fejl eller om vi har fået en DTMF tone ///
 
         if (DTMFCounter.size() == 2) {
 
@@ -91,42 +90,61 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
 
             if (DTMFCounter[0] != DTMFCounter[1])
             {
-                /// Hvis der størrelsen af vores midlertidige buffer er lig 0, så slet den nye værdi ////
+                ///// Hvis størrelsen af vores midlertidige buffer er større end nul, så skal vi huske at tjekke det data ///
 
-                if(tempDTMFCounter.size() != 0)
+                if(tempDTMFCounter.size() > 0)
                 {
+                    /// Hvis den nyeste værdi vi har fået ind er lig med en af værdierne i vores midlertidige DTMF counter, så ved vi af den næst nyeste værdi er en fejl ///
+
                     if(DTMFCounter[1] == tempDTMFCounter[0])
                     {
+                        /// Vi sletter først fejlen ///
+
                         DTMFCounter.erase(DTMFCounter.begin());
+
+                        /// Da temp og den nye værdi er ens, gemmer vi vores temp værdier over i DTMF counter ///
 
                         for (int i = 0; i < tempDTMFCounter.size(); ++i)
                         {
                             DTMFCounter.push_back(tempDTMFCounter[i]);
                         }
 
+                        /// Hvis størrelsen på DTMFcounter efter vi har flyttet værdierne over = 2, så har vi en DTMF tone, og den skal gemmes ////
+
                         if(DTMFCounter.size() == 2)
                         {
                             DTMFbuffer.push_back(DTMFCounter[0]);
                         }
 
+                        //// Til sidst slettes den midlertidige buffer ///
+
                         tempDTMFCounter.clear();
 
                     }else{
+
+                        //// Hvis vores nye værdi IKKE er lig med noget af det der ligger i temp, så skal temp slettes ////
                         tempDTMFCounter.clear();
+
+                        /// Herefter gemmes den første værdi i temp, så den er klar til at blive sammenligning næste gang ////
                         tempDTMFCounter.push_back(DTMFCounter[0]);
+
+                        //// Herefter slettes den værdi fra DTMFcounter  ////
                         DTMFCounter.erase(DTMFCounter.begin());
                     }
                 }else{
+                    /// Hvis der ikke er nogle midlertiige værdier, så behøver vi ikke tjekke disse værdier og vi kan sammenligning de to værdier ////
+
+                    /// Hvis de to værdier der ligger i DTMFcounter IKKE er ens, så gem den første værdi i tempCounter og herefter slettes den ////
                     if (DTMFCounter[0] != DTMFCounter[1])
                     {
                         tempDTMFCounter.push_back(DTMFCounter[0]);
                         DTMFCounter.erase(DTMFCounter.begin());
-                    }else{
-                        tempDTMFCounter.clear();
                     }
                 }
 
             }else{
+                /// Hvis de to værdi der ligger DTMFcounter er ens, så har vi en DTMF tone ///
+
                 DTMFbuffer.push_back(DTMFCounter[0]);
                 tempDTMFCounter.clear();
             }
@@ -148,19 +166,26 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
                     DTMFCounter.erase(DTMFCounter.begin() + 1 );
 
                 }else{
+                    //// Hvis de ikke er lig med hinanden, så tjek om den 3. og 2. nyeste værdier er lig med hinanden.
+
                     if((DTMFCounter[DTMFCounter.size() - 3]) == (DTMFCounter[DTMFCounter.size() - 2]))
                     {
+                        //// Hvis de er lig med hinanden, så gem disse værdier i tempCounter ////
                         for (int i = 0; i < DTMFCounter.size() - 1; ++i) {
                             tempDTMFCounter.push_back(DTMFCounter[i]);
                         }
                     }
 
+                    /// Herefter gemmes den næste tone i DTMFcounter og DTMFcounter slettes ////
                     nextDtmfTone = DTMFCounter[DTMFCounter.size() - 1];
                     DTMFCounter.clear();
                     DTMFCounter.push_back(nextDtmfTone);
                 }
 
             } else {
+
+                //// Køres kun når størrelsen på bufferen er over 3 og alle værdier i bufferen er ens /////
+
                 if (DTMFCounter.size() == 5 || DTMFCounter.size() == 8 || DTMFCounter.size() == 11 ||
                     DTMFCounter.size() == 14)
                 {
