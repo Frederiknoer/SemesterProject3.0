@@ -1,9 +1,6 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
-#include "Sound/sound.h"
 #include "CustomRecorder/CustomRecorder.h"
-#include "TextHandler/TextHandler.h"
 #include "CSMAca/CSMAca/csmaCA.h"
 
 using namespace std;
