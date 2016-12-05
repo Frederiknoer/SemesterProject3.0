@@ -8,6 +8,7 @@
 #include "../Frame/Frame/Frame.h"
 #include "../TextHandler/TextHandler.h"
 #include "../CSMAca/CSMAca/csmaCA.h"
+
 #pragma once
 
 
@@ -41,5 +42,6 @@ private:
     int samplesPrDFT;
     csmaCA * csmaHandler;
     vector<vector<int> > modtagetPakker;				//indenholder dtmf værdier for den modtaget data
+
 };
 

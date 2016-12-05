@@ -152,7 +152,10 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                     (*csmaHandler).setPstopFlag();                                  //sidder "pakke stop" modtaget flag
                     cout << "CustomRecorder.cpp [onProcessSamples]  -  Pstop flag sat" << endl;
 
-                    //Frede pakke handler på modtagetPakker (udskriv til skerment)
+                    TextHandler packageHandler;
+                    string output = packageHandler.OutputText(packageHandler.textAssembler(modtagetPakker));
+                    cout << output << endl;
+
 
                     modtagetPakker = {};                                            //nulstiller pakke vektor
                     cout << "CustomRecorder.cpp [onProcessSamples]  -  modtaget pakkeVector cleared" << endl;
