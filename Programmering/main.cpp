@@ -17,9 +17,9 @@ int main()
 
     //=========== INIT ==============
     vector<vector<int> > pakkeV;    //opretter Test pakke
-    pakkeV.push_back({3, 1, 3, 1}); //tilføjer 4 pakke elementer
-    pakkeV.push_back({2, 2, 2, 2});
-    pakkeV.push_back({3, 3, 3, 3});
+    pakkeV.push_back({6, 8, 6, 5}); //tilføjer 4 pakke elementer
+    pakkeV.push_back({6, 5, 6, 5});
+    pakkeV.push_back({6, 5, 6, 10});
     pakkeV.push_back({1, 15, 1, 15}); // <-- "pakke stop" element
 
     vector<int> ID = { 14, 15 };                // computer ID

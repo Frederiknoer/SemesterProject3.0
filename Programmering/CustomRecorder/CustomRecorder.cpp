@@ -26,10 +26,10 @@ bool CustomRecorder::onStart() {
 bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount)
 {
 
-    /*if((*csmaHandler).getTxFlag() == true) {
-        cout << "Paused" << endl;
+    if((*csmaHandler).getTxFlag() == true) {
+        //cout << "Paused" << endl;
         return true;
-    }*/
+    }
 
     if(sampleCount > 1000)
     {
