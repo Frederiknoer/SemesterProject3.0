@@ -129,8 +129,8 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
     int pakkeAntal = Data.size();			//gemmer størelsen af pakken, da den hele tiden bliver reduseret (.pop_back)
     for(int pakkeNr = 0; pakkeNr < pakkeAntal; pakkeNr++)	//køre alle pakker igennem
     {
-        pakkeHolder = Data.back();			//gemmer sidste element fra Data vector
-        Data.pop_back();					//sletter sidste elemetn fra Data vector
+        pakkeHolder = Data[0];			//gemmer øverste element fra Data vector
+        Data.erase(Data.begin());					//sletter sidste element fra Data vector
 
         Frame csmaCAframer(pakkeHolder);	//Opretter frame objekt
      //   csmaCAframer.makeFrame();			//framer data
