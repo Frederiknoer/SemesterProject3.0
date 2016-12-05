@@ -16,13 +16,7 @@ int main()
     int windowSize = 3;
     int samplePlayTime = (int)(samplesPrDTF * windowSize);
 
-    //=========== INIT ==============
-    vector<vector<int> > pakkeV;    //opretter Test pakke
-    pakkeV.push_back({6, 8, 6, 5}); //tilføjer 4 pakke elementer
-    pakkeV.push_back({6, 5, 6, 5});
-    pakkeV.push_back({6, 5, 6, 10});
-    pakkeV.push_back({1, 15, 1, 15}); // <-- "pakke stop" element
-
+    TextHandler textHandler;
     vector<int> ID = { 14, 15 };                // computer ID
     vector<int> tagetID = { 10, 12 };           // taget ID
     csmaCA csmaHandler(ID, tagetID);            //opretter handler (parametret ID bliver overskrevet senere)
@@ -31,27 +25,15 @@ int main()
     csmaPointer = &csmaHandler;                 //binder opinter til csmaHandler
     CustomRecorder recorder(csmaPointer);       //opretter costum recorder objekt
     recorder.setSamplesPrDFT(samplesPrDTF);
-    recorder.start(recordSampleRate);                      //starter recorder med samplingrate på 44100Hz
+    recorder.start(recordSampleRate);           //starter recorder med samplingrate på 44100Hz
     string myString;                            //holder bruger input
 
-    //===============================
-    int hej;
-    cin >> hej;
+    //=========== Send packages ==============
+    cout << "skriv besked: ";
+    getline(cin, myString);
+    vector <vector<int> > packages = textHandler.textSplitter(textHandler.InputText(myString));
+    csmaHandler.sendPakker(packages);
+    //========================================
 
-//    while(true)
- //   {
-        cout << "skriv besked: ";
-        getline(cin, myString);
-        //frede pakke handler
-        if(csmaHandler.sendPakker(pakkeV))                         //sender data. retunere true hvis data sendt korekt
-            cout << "Main.cpp [main()]  -  alle pakker sendt korekt!" << endl;
-        else
-            cout << "Main.cpp [main()]  -  Fejl! alle pakker kunne ikke sendes.. anal rytter!" << endl;
- //   }
-
-
-
-    if(csmaHandler.sendData({}))
-        cout << "main.cpp [min()]  -  Fejl! program har escaped while(true) loop..." << endl;
     return 0;
 }

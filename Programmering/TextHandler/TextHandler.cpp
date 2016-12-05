@@ -33,8 +33,10 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 	int splitCounter = 6;
 	vector<int> rowMaker;
 	vector< vector<int> > hexBuffer;
+	hexBuffer.clear();
 	int counter = 0;
 	int packageNumber = 0;
+	vector<int> endPackage = { 1, 15, 1, 15 };
 
 	for (int i = 0; i < (textVec.size()/splitCounter); i++)
 	{
@@ -60,6 +62,7 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 		hexBuffer.push_back(rowMaker);
 		rowMaker.clear();
 	}
+	hexBuffer.push_back(endPackage);
 
 	return hexBuffer;
 }
