@@ -62,6 +62,7 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 		hexBuffer.push_back(rowMaker);
 		rowMaker.clear();
 	}
+	//cout << hexBuffer.back().back();
 	hexBuffer.push_back(endPackage);
 
 	return hexBuffer;
