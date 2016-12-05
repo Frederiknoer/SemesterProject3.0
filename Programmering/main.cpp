@@ -20,7 +20,7 @@ int main()
     pakkeV.push_back({3, 1, 3, 1}); //tilføjer 4 pakke elementer
     pakkeV.push_back({2, 2, 2, 2});
     pakkeV.push_back({3, 3, 3, 3});
-    pakkeV.push_back({0, 0, 0, 0}); // <-- "pakke stop" element
+    pakkeV.push_back({1, 15, 1, 15}); // <-- "pakke stop" element
 
     vector<int> ID = { 14, 15 };                // computer ID
     vector<int> tagetID = { 10, 12 };           // taget ID
@@ -37,8 +37,8 @@ int main()
     int hej;
     cin >> hej;
 
-    while(true)
-    {
+//    while(true)
+ //   {
         cout << "skriv besked: ";
         getline(cin, myString);
         //frede pakke handler
@@ -46,7 +46,7 @@ int main()
             cout << "Main.cpp [main()]  -  alle pakker sendt korekt!" << endl;
         else
             cout << "Main.cpp [main()]  -  Fejl! alle pakker kunne ikke sendes.. anal rytter!" << endl;
-    }
+ //   }
 
 
 

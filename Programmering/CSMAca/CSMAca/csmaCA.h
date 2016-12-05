@@ -59,7 +59,7 @@ private:
     vector<int> CTS = { 4, 1, 4, 1 };		        //difinere CTS
     vector<int> ACK = { 5, 1, 5, 1 };		        //difinere ACK
     vector<int> NACK = { 0x4, 0x8, 0x1, 0x1 };		//difinere NACK
-    vector<int> Pstop = { 0, 0, 0, 0 };				//difinere pakke stop væri
+    vector<int> Pstop = { 1, 15, 1, 15 };				//difinere pakke stop væri
     vector<int> bufferTextIn;						//Buffer til data fra frede
     vector<int> bFramedData;						//Buffer hvor framet data gennes
     vector<int> pakkeHolder;						//holder pakken midlertidigt, imens elementet bliver poppet
