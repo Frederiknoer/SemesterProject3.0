@@ -44,7 +44,9 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 		for (int j = 0; j < splitCounter; j++)
 		{
 			rowMaker.push_back(textVec[(j + (counter*splitCounter))]);
+			cout << textVec[(j + (counter*splitCounter))] << ", ";
 		}
+		cout << endl;
 		hexBuffer.push_back(rowMaker);
 		counter++;
 		packageNumber++;
@@ -58,13 +60,16 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 		for (int i = (counter*splitCounter); i < textVec.size(); i++)
 		{
 			rowMaker.push_back(textVec[i]);
+			cout << textVec[i] << ", ";
 		}
+		cout << endl;
 		hexBuffer.push_back(rowMaker);
 		rowMaker.clear();
 	}
 	//cout << hexBuffer.back().back();
 	hexBuffer.push_back(endPackage);
 
+	cout << endl << hexBuffer.size();
 	return hexBuffer;
 }
 
@@ -73,7 +78,7 @@ vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
 	int packageNumber = 0;
 	int packageIndex = 0;
 	vector<int> AssembletHex;
-
+	cout << packageVec.size() << endl;
 	for (int i = 0; i < packageVec.size(); i++)
 	{
 		if (packageNumber > 15)
@@ -84,9 +89,12 @@ vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
 
 		if (packageNumber == (packageVec[i][0] + (1 * packageIndex))) {
 			packageVec[i].erase(packageVec[i].begin());
-			for (int j = 0; j < packageVec[i].size(); j++) {
+			for (int j = 0; j < packageVec[i].size(); j++)
+			{
 				AssembletHex.push_back(packageVec[i][j]);
+				cout << packageVec[i][j] << ", ";
 			}
+			cout << endl;
 			packageNumber++;
 		}
 		else
