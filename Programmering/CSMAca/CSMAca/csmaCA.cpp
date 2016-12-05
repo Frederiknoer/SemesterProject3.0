@@ -235,7 +235,7 @@ void csmaCA::sendSound(vector<int> d)
 
     sound1.setBuffer(bufferInput);                           //initalisere bufferInput i sound klasse
 
-    mySound1.delay(10);
+    mySound1.delay(100);
 
     sound1.play();                                           //afspiller bufferInput
 

@@ -163,7 +163,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
 
                 if(DTMFCounter[DTMFCounter.size() - 3] == DTMFCounter[DTMFCounter.size() - 1])
                 {
-                    DTMFCounter.erase(DTMFCounter.begin() + 1 );
+                    DTMFCounter.erase(DTMFCounter.end() - 1 );
 
                 }else{
                     //// Hvis de ikke er lig med hinanden, så tjek om den 3. og 2. nyeste værdier er lig med hinanden.
