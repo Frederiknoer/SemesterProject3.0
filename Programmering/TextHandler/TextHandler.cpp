@@ -49,16 +49,16 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 		for (int i = (counter*splitCounter); i < textVec.size(); i++)
 		{
 			rowMaker.push_back(textVec[i]);
-			cout << textVec[i] << ", ";
+			//cout << textVec[i] << ", ";
 		}
-		cout << endl;
+		//cout << endl;
 		hexBuffer.push_back(rowMaker);
 		rowMaker.clear();
 	}
 	//cout << hexBuffer.back().back();
 	hexBuffer.push_back(endPackage);
 
-	cout << endl << hexBuffer.size();
+	//cout << endl << hexBuffer.size();
 	return hexBuffer;
 }
 
