@@ -52,7 +52,7 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 		if (packageNumber > 15)
 			packageNumber = 0;
 	}
-	if (textVec.size() % counter > 0)
+	if (textVec.size() % splitCounter > 0)
 	{
 		rowMaker.push_back(packageNumber);
 		for (int i = (counter*splitCounter); i < textVec.size(); i++)
@@ -62,7 +62,6 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 		hexBuffer.push_back(rowMaker);
 		rowMaker.clear();
 	}
-	cout << hexBuffer[packageNumber][(textVec.size() % counter)];
 	hexBuffer.push_back(endPackage);
 
 	return hexBuffer;
