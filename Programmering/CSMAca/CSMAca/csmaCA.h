@@ -75,6 +75,7 @@ private:
     bool pstopFlag = false;							//flag sætte til true hvis "pakke stop" modtages
     bool txFlag = false;							//flag sættes til true hvis denne enhed afspiller lyd (transmitere)
     int test = 0;									//[eksperimental]
+    int timeToResend = 100;
 };
 
 

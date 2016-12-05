@@ -105,7 +105,19 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
             if (unframing.validataFrame() == true)
             {
+                for (int i = 0; i < unframing.getFrame().size(); ++i) {
+                    cout << unframing.getFrame()[i];
+                }
+
+                cout << endl;
+
                 unframing.unFrame();
+
+                for (int i = 0; i < unframing.getFrame().size(); ++i) {
+                    cout << unframing.getFrame()[i];
+                }
+
+                cout << endl;
 
                 //TextHandler outputText;
                 //cout << outputText.OutputText(unframing.getFrame()) << endl;
