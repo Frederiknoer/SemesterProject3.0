@@ -90,7 +90,11 @@ vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
 			packageNumber++;
 		}
 		else
+		{
 			packageVec.erase(packageVec.begin());
+			i--;
+		}
+
 	}
 	return AssembletHex;
 }
