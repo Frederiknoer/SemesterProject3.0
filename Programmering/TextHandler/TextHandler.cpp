@@ -33,9 +33,9 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 		for (int j = 0; j < splitCounter; j++)
 		{
 			rowMaker.push_back(textVec[(j + (counter*splitCounter))]);
-			cout << textVec[(j + (counter*splitCounter))] << ", ";
+			//cout << textVec[(j + (counter*splitCounter))] << ", ";
 		}
-		cout << endl;
+		//cout << endl;
 		hexBuffer.push_back(rowMaker);
 		counter++;
 		packageNumber++;
