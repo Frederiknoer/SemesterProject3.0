@@ -20,7 +20,7 @@ public:
 private:
 
 	//output consts.
-	char outDataString[10000];
+	vector<char> outDataString;
 	vector<int> outputBuffer;
 	vector<int> transNBuffer;
 
