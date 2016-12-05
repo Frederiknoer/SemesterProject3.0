@@ -46,7 +46,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     if ((N + leftOverSamples.size()) > samplesPrDFT){
         numberOfProcessingSamples = (int)(N + leftOverSamples.size())/(samplesPrDFT);
     }else{
-        cout << "Count error" << endl;
+        //cout << "Count error" << endl;
     }
 
     // cout << endl << sampleCount << "/" << samplesPrDFT << " = " << sampleCount/samplesPrDFT << endl;
@@ -112,53 +112,53 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
             if (unframing.validataFrame() == true)
             {
-                for (int i = 0; i < unframing.getFrame().size(); ++i) {
+                /*for (int i = 0; i < unframing.getFrame().size(); ++i) {
                     cout << unframing.getFrame()[i];
                 }
 
-                cout << endl;
+                cout << endl;*/
 
                 unframing.unFrame();
 
-                for (int i = 0; i < unframing.getFrame().size(); ++i) {
+                /*for (int i = 0; i < unframing.getFrame().size(); ++i) {
                     cout << unframing.getFrame()[i];
                 }
 
-                cout << endl;
+                cout << endl;*/
 
                 //TextHandler outputText;
                 //cout << outputText.OutputText(unframing.getFrame()) << endl;
                 if (unframing.getFrame() == (*csmaHandler).getRTSverdi())        // Tjekker for RTS
                 {
                     (*csmaHandler).setRtsFlag();                                   //sidder RTS modtaget flag
-                    cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
+                    //cout << "CustomRecorder.cpp [onProcessSamples]  -  RTS flag sat" << endl;
                     (*csmaHandler).setBusy();                                      //indikere at pc er laver noget
-                    cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt |" << endl;
+                    //cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt |" << endl;
                     (*csmaHandler).sendCTS();                                      //sender CTS
 
                 }
                 else if (unframing.getFrame() == (*csmaHandler).getCTSverdi())     //tjekker for CTS
                 {
                     (*csmaHandler).setCtsFlag();                                   //sidder CTS modtaget flag
-                    cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS flag sat" << endl;
+                    //cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS flag sat" << endl;
                 }
                 else if (unframing.getFrame() == (*csmaHandler).getACKverdi())     //tjekker for ACK
                 {
                     (*csmaHandler).setAckFlag();                                   //sidder ACK modtaget flag
-                    cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK flag sat" << endl;
+                    //cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK flag sat" << endl;
                 }
                 else if(unframing.getFrame() == (*csmaHandler).getPSTOPverdi())     //tjekker for Pstop
                 {
                     (*csmaHandler).setPstopFlag();                                  //sidder "pakke stop" modtaget flag
-                    cout << "CustomRecorder.cpp [onProcessSamples]  -  Pstop flag sat" << endl;
+                    //cout << "CustomRecorder.cpp [onProcessSamples]  -  Pstop flag sat" << endl;
 
                     TextHandler packageHandler;
                     string output = packageHandler.OutputText(packageHandler.textAssembler(modtagetPakker));
-                    cout << output << endl;
+                    cout << endl << output << endl << endl;
 
 
-                    modtagetPakker = {};                                            //nulstiller pakke vektor
-                    cout << "CustomRecorder.cpp [onProcessSamples]  -  modtaget pakkeVector cleared" << endl;
+                    modtagetPakker.clear();                                            //nulstiller pakke vektor
+                    //cout << "CustomRecorder.cpp [onProcessSamples]  -  modtaget pakkeVector cleared" << endl;
                     (*csmaHandler).sendACK();                                      //sender ACK
                     (*csmaHandler).clearBusy();                                    //indikere at computeren ikke laver noget
                 }
@@ -166,15 +166,15 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                 {
                     (*csmaHandler).setDataFlag();                                  //sidder Data modtaget flag
                     TextHandler outputText;                                        //opretter texthandler objekt
-                    cout << "CustomRecorder.cpp [onProcessSamples]  -  data modtaget |" << endl;
-                    cout << outputText.OutputText(unframing.getFrame()) << endl;
+                    //cout << "CustomRecorder.cpp [onProcessSamples]  -  data modtaget |" << endl;
+                    //cout << outputText.OutputText(unframing.getFrame()) << endl;
                     modtagetPakker.push_back(unframing.getFrame());                //ligger modtaget pakke ind i modtagetPakker vector
-                    cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt |" << endl;
+                    //cout << "CustomRecorder.cpp [onProcessSamples]  -  ACK sendt |" << endl;
                     (*csmaHandler).sendACK();                                      //sender ACK
 
                 }
             } else {
-                cout << "CustomRecorder.cpp [onProcessSamples]  -  Error" << endl;
+                //cout << "CustomRecorder.cpp [onProcessSamples]  -  Error" << endl;
             }
 
 
@@ -202,7 +202,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         if(samplePointer == sampleCount){
             // cout << "No leftovers" << endl;
         }else{
-            cout << "Sampling count error - samples leftover error" << endl;
+            //cout << "Sampling count error - samples leftover error" << endl;
         }
     }
 

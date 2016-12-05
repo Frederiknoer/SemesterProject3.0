@@ -139,7 +139,7 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
         bool pakkeSendtKorekt = false;								//siddes til true i polling loop hvis pakken er sendt korekt
         for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//3 forsøg til at sende pakke korekt
         {
-            cout << "csmaCA.cpp [sendPakker()]  -  sender Pakke " << (pakkeNr + 1) << "/" << pakkeAntal << " |" << endl;
+            //cout << "csmaCA.cpp [sendPakker()]  -  sender Pakke " << (pakkeNr + 1) << "/" << pakkeAntal << " |" << endl;
             sendSound(csmaCAframer.getFrame());						//sender framet data
             for (int time = 1; time <= timeToResend; time++)					//polling timer 700*10ms =  7sek
             {
@@ -155,14 +155,14 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
             }
             if(pakkeSendtKorekt)									//tjekker om pakke sendt korekt
                 break;												//stopper gensendings loop
-            cout << "csmaCA.cpp [sendPakker()]  -  " << dataAttempts << ". send attempt brugt.." << endl;
+            //cout << "csmaCA.cpp [sendPakker()]  -  " << dataAttempts << ". send attempt brugt.." << endl;
         }
         if (!pakkeSendtKorekt)
         {
-            cout << "csmaCA.cpp [sendPakker()]  -  ingen ACK er modtaget efter 3 * pakke attempts... Fu*k julemanden.. " << endl;
+            //cout << "csmaCA.cpp [sendPakker()]  -  ingen ACK er modtaget efter 3 * pakke attempts... Fu*k julemanden.. " << endl;
             return false;
         }
-        cout << "csmaCA.cpp [sendPakker()]  -  pakke " << (pakkeNr+1) << " sendt korekt!" << endl;
+        //cout << "csmaCA.cpp [sendPakker()]  -  pakke " << (pakkeNr+1) << " sendt korekt!" << endl;
     }
     return true;
 }
@@ -174,7 +174,7 @@ bool csmaCA::makeHandShake()
 
     for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
     {
-        cout << "csmaCA.cpp [makeHandShake]  -  sender RTS |" << endl;
+        //cout << "csmaCA.cpp [makeHandShake]  -  sender RTS |" << endl;
         sendSound(RTS);						//sender framet Rts
         for (int time = 1; time <= timeToResend; time++)					//polling timer 700*10ms =  7sek
         {
@@ -187,10 +187,10 @@ bool csmaCA::makeHandShake()
             }
             //cout << "csmaCA.cpp [makeHandShake]  -  ctsFlag er false" << endl;			//kan unkomenteres for debugging
         }
-        cout << "csmaCA.cpp [makeHandShake()] - " << rtsAttempts << ". RTS fejlet.." << endl;
+        //cout << "csmaCA.cpp [makeHandShake()] - " << rtsAttempts << ". RTS fejlet.." << endl;
     }
     //hvis CTS ikke modtages
-    cout << "csmaCA.cpp [makeHandShake()] -  ingen CTS er modtagfet efter 3 RTS... er jeg helt alene i verden? :/ " << endl;
+    //cout << "csmaCA.cpp [makeHandShake()] -  ingen CTS er modtagfet efter 3 RTS... er jeg helt alene i verden? :/ " << endl;
     return false;												//retunere false
 }
 
@@ -218,12 +218,12 @@ void csmaCA::sendSound(vector<int> d)
     frammedHex = framming.getFrame();          		//gemmer framet data i "framedHex"
 
     //================ Udskriver framed data =========================
-    cout << "csmaCA.cpp [sendSound()]  -  Data played: ";			//
-    for (int j = 0; j < frammedHex.size(); ++j)             		//udskriver frameHex til skermen
+    //cout << "csmaCA.cpp [sendSound()]  -  Data played: ";			//
+    /*for (int j = 0; j < frammedHex.size(); ++j)             		//udskriver frameHex til skermen
     {                                                       		//
         cout << frammedHex[j] << " ";                       		//
     }                                                       		//
-    cout << endl;                                           		//
+    cout << endl;    */                                       		//
     //================================================================
     mySound1.setSamplePrTone(180);                           //
     mySound1.makeSound(frammedHex);                          //klargøre framed data "framedHex" til afspildning
@@ -287,7 +287,7 @@ bool csmaCA::checkForRTS()
                 }
 
             }
-            cout << "csmaCA.cpp [checkForRTS()]  -  " << DataTimeouts << ". 3 timeout's for data" << endl;
+            //cout << "csmaCA.cpp [checkForRTS()]  -  " << DataTimeouts << ". 3 timeout's for data" << endl;
         }
 
     }
