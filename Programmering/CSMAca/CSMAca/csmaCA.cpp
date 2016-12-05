@@ -99,7 +99,7 @@ bool csmaCA::sendData(vector<int> Data)
  //   csmaCAframer.makeFrame();			//framer data
 
     //vent p� at et ack modtages
-    for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//fors�ger data 3 gange
+    for (int dataAttempts = 1; dataAttempts <= sendAttempts; dataAttempts++)	//fors�ger data 3 gange
     {
         cout << "csmaCA.cpp [sendData()]  -  sender Data |" << endl;
         sendSound(csmaCAframer.getFrame());						//sender framet data
@@ -137,7 +137,7 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
 
 
         bool pakkeSendtKorekt = false;								//siddes til true i polling loop hvis pakken er sendt korekt
-        for (int dataAttempts = 1; dataAttempts <= 3; dataAttempts++)	//3 forsøg til at sende pakke korekt
+        for (int dataAttempts = 1; dataAttempts <= sendAttempts; dataAttempts++)	//3 forsøg til at sende pakke korekt
         {
             //cout << "csmaCA.cpp [sendPakker()]  -  sender Pakke " << (pakkeNr + 1) << "/" << pakkeAntal << " |" << endl;
             sendSound(csmaCAframer.getFrame());						//sender framet data
@@ -172,7 +172,7 @@ bool csmaCA::makeHandShake()
 {
     Sound mySound5;											//opretter soundobjekt (brugt til delay)
 
-    for (int rtsAttempts = 1; rtsAttempts <= 3; rtsAttempts++)	//fors�ger RTS 3 gange
+    for (int rtsAttempts = 1; rtsAttempts <= sendAttempts; rtsAttempts++)	//fors�ger RTS 3 gange
     {
         //cout << "csmaCA.cpp [makeHandShake]  -  sender RTS |" << endl;
         sendSound(RTS);						//sender framet Rts
@@ -235,7 +235,7 @@ void csmaCA::sendSound(vector<int> d)
 
     sound1.setBuffer(bufferInput);                           //initalisere bufferInput i sound klasse
 
-    mySound1.delay(200);
+    mySound1.delay(10);
 
     sound1.play();                                           //afspiller bufferInput
 
@@ -274,7 +274,7 @@ bool csmaCA::checkForRTS()
         Frame csmaCAframer(CTS);						//opretter framing objekt
         csmaCAframer.makeFrame();						//Frame CTS
 
-        for (int DataTimeouts = 1; DataTimeouts <= 3; DataTimeouts++)	//venter paa data 3 gange
+        for (int DataTimeouts = 1; DataTimeouts <= sendAttempts; DataTimeouts++)	//venter paa data 3 gange
         {
             sendSound(csmaCAframer.getFrame());						//sender framet CTS
             for (int time = 1; time <= timeToResend; time++)					//polling timer 700*10ms =  7sek

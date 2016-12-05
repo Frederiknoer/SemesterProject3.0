@@ -57,7 +57,7 @@ private:
     vector<int> ID = { 0 };							//Denne pc's bruger ID
     vector<int> RTS = { 1, 4, 1, 4 };		        //difinere RTS
     vector<int> CTS = { 1, 7, 1, 7 };		        //difinere CTS
-    vector<int> ACK = { 1, 10, 1, 10 };		        //difinere ACK
+    vector<int> ACK = { 6 };		                //difinere ACK
     vector<int> NACK = { 1, 13, 1, 13 };		//difinere NACK
     vector<int> Pstop = { 1, 15, 1, 15 };				//difinere pakke stop væri
     vector<int> bufferTextIn;						//Buffer til data fra frede
@@ -76,6 +76,7 @@ private:
     bool txFlag = false;							//flag sættes til true hvis denne enhed afspiller lyd (transmitere)
     int test = 0;									//[eksperimental]
     int timeToResend = 100;
+    int sendAttempts = 5;
 };
 
 

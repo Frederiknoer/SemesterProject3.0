@@ -19,7 +19,7 @@ vector<int> TextHandler::InputText(string enS)
 
 vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 {
-	int splitCounter = 6;
+	int splitCounter = 8;
 	vector<int> rowMaker;
 	vector< vector<int> > hexBuffer;
 	hexBuffer.clear();
@@ -67,7 +67,7 @@ vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
 	int packageNumber = 0;
 	int packageIndex = 0;
 	vector<int> AssembletHex;
-	cout << packageVec.size() << endl;
+	//cout << packageVec.size() << endl;
 	for (int i = 0; i < packageVec.size(); i++)
 	{
 		if (packageNumber > 15)
@@ -81,9 +81,9 @@ vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
 			for (int j = 0; j < packageVec[i].size(); j++)
 			{
 				AssembletHex.push_back(packageVec[i][j]);
-				cout << packageVec[i][j] << ", ";
+				//cout << packageVec[i][j] << ", ";
 			}
-			cout << endl;
+			//cout << endl;
 			packageNumber++;
 		}
 		else
