@@ -27,7 +27,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 {
 
     if((*csmaHandler).getTxFlag() == true)
-        return false;
+        return true;
 
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
