@@ -81,15 +81,15 @@ vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
 			packageIndex = packageIndex - 16;
 		}
 
-		if (packageNumber == (i + (1 * packageIndex)))
-		{
+		if (packageNumber == (i + (1 * packageIndex))) {
 			packageVec[i].erase(packageVec[i].begin());
-			for (int j = 0; j < packageVec[i].size(); j++)
-			{
+			for (int j = 0; j < packageVec[i].size(); j++) {
 				AssembletHex.push_back(packageVec[i][j]);
 			}
 			packageNumber++;
 		}
+		else
+			packageVec.erase(packageVec.begin());
 	}
 	return AssembletHex;
 }
