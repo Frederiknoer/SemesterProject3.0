@@ -1,11 +1,7 @@
-
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include "CustomRecorder/CustomRecorder.h"
-#include "CSMAca/CSMAca/csmaCA.h"
-
 using namespace std;
-
 #define TWOPI = 6.283185                        //difinere 2 gange pi
 
 int main()
@@ -31,10 +27,14 @@ int main()
     string myString;
 
     /*================ Send packages ================*/
-    cout << "skriv besked: ";
-    getline(cin, myString);
-    vector <vector<int> > packages = textHandler.textSplitter(textHandler.InputText(myString));
-    csmaHandler.sendPakker(packages);
-
+    cout << "       Chat program klar      " << endl;
+    while(true)
+    {
+        getline(cin, myString);
+        if(myString == "Close program")
+            break;
+        vector <vector<int> > packages = textHandler.textSplitter(textHandler.InputText(myString));
+        csmaHandler.sendPakker(packages);
+    }
     return 0;
 }

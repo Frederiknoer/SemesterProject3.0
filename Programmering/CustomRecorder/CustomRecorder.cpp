@@ -27,7 +27,6 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 {
 
     if((*csmaHandler).getTxFlag() == true) {
-        //cout << "Paused" << endl;
         return true;
     }
 
@@ -77,9 +76,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         vector<double> freqSpek;
         freqSpek = DiskretFourierTrans.getFreqSpek8();
 
-        /*for(int i = 0; i < freqSpek.size(); i++)
-            cout << freqSpek[i] << ",";
-        cout << endl;*/
+
         findTones.findDtmfTones(freqSpek);
 
         vector<int> DTMFbuffer;
@@ -89,44 +86,13 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
         if (lyddata.pairFinder(DTMFbuffer) == true)
         {
-            //cout << endl;
             udData = lyddata.pairGetter(DTMFbuffer);
-
-            for (int i = 0; i < udData.size(); ++i) {
-                for (int j = 0; j < udData[i].size(); j++) {
-                    //cout << udData[i][j];
-                }
-            }
-
-
-
-
             Frame unframing(udData[0]);
-
-            /*unframing.unFrame();
-            for (int l = 0; l < unframing.getFrame().size(); ++l) {
-                cout <<": "<< unframing.getFrame()[l];
-                // cout << "handler " << l << " : " << (*csmaHandler).getRTSverdi()[l]<<endl<<endl;
-            }
-*/
 
             if (unframing.validataFrame() == true)
             {
-                /*for (int i = 0; i < unframing.getFrame().size(); ++i) {
-                    cout << unframing.getFrame()[i];
-                }
-
-                cout << endl;*/
-
                 unframing.unFrame();
 
-                /*for (int i = 0; i < unframing.getFrame().size(); ++i) {
-                    cout << unframing.getFrame()[i];
-                }
-
-                cout << endl;*/
-
-                //TextHandler outputText;
                 //cout << outputText.OutputText(unframing.getFrame()) << endl;
                 if (unframing.getFrame() == (*csmaHandler).getRTSverdi())        // Tjekker for RTS
                 {
@@ -154,7 +120,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
 
                     TextHandler packageHandler;
                     string output = packageHandler.OutputText(packageHandler.textAssembler(modtagetPakker));
-                    cout << endl << output << endl << endl;
+                    cout << "               " << output << endl;
 
 
                     modtagetPakker.clear();                                            //nulstiller pakke vektor
