@@ -25,7 +25,7 @@ public:
     void setID(vector<int> newID);					//	done!
     vector<int> getID();							//	done!
     bool sendData(vector<int> data);				//	done!	(enkelt data vektor)retunere true hvis data sendt og ACK modtaget
-    bool sendPakker(vector <vector<int> > data);	//			(2D data vektor)retunere true hvis alle pakker bliver sendt korekt
+    bool sendPakker(vector <vector<int> > data);	//		(2D data vektor)retunere true hvis alle pakker bliver sendt korekt
     bool makeHandShake();							//	done!	sender RTS og retunere true n�r cts modtages
     void sendACK();									//	done! 	sender ACK
     void sendCTS();									//			sender CTS

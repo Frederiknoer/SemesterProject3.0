@@ -24,6 +24,4 @@ private:
 	vector<int> outputBuffer;
 	vector<int> transNBuffer;
 
-	//input conts.
-	string s;
 };
