@@ -123,6 +123,7 @@ bool csmaCA::sendData(vector<int> Data)
 
 bool csmaCA::sendPakker(vector<vector<int> > Data)
 {
+    pakkeHolder.clear();
     Sound mySound4;						//opretter sound objekt (til delay)
     if (!makeHandShake())				//retunere false hvis handshake fejler
         return false;
@@ -153,17 +154,23 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
                 }
 
             }
-            if(pakkeSendtKorekt)									//tjekker om pakke sendt korekt
-                break;												//stopper gensendings loop
+            if(pakkeSendtKorekt)        //tjekker om pakke sendt korekt
+            {
+                Data.clear();
+                break;
+            }
+               												//stopper gensendings loop
             //cout << "csmaCA.cpp [sendPakker()]  -  " << dataAttempts << ". send attempt brugt.." << endl;
         }
         if (!pakkeSendtKorekt)
         {
             //cout << "csmaCA.cpp [sendPakker()]  -  ingen ACK er modtaget efter 3 * pakke attempts... Fu*k julemanden.. " << endl;
+            Data.clear();
             return false;
         }
         //cout << "csmaCA.cpp [sendPakker()]  -  pakke " << (pakkeNr+1) << " sendt korekt!" << endl;
     }
+    Data.clear();
     return true;
 }
 
