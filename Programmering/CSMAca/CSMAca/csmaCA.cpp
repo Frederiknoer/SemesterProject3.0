@@ -156,7 +156,6 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
             }
             if(pakkeSendtKorekt)        //tjekker om pakke sendt korekt
             {
-                Data.clear();
                 break;
             }
                												//stopper gensendings loop
@@ -165,7 +164,6 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
         if (!pakkeSendtKorekt)
         {
             //cout << "csmaCA.cpp [sendPakker()]  -  ingen ACK er modtaget efter 3 * pakke attempts... Fu*k julemanden.. " << endl;
-            Data.clear();
             return false;
         }
         //cout << "csmaCA.cpp [sendPakker()]  -  pakke " << (pakkeNr+1) << " sendt korekt!" << endl;
