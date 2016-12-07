@@ -12,7 +12,7 @@ vector<int> TextHandler::InputText(string enS)
 	vector<int> transNBuffer;
 	transNBuffer.clear();
 	outDataString.clear();
-	outputBuffer.clear;
+	outputBuffer.clear();
 
 	for (int i = 0; i < enS.length(); i++)
 	{

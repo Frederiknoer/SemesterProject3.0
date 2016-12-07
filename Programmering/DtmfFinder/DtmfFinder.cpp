@@ -30,7 +30,7 @@ void DtmfFinder::findDtmfTones(vector<double> freqSpek) {
     DTMFtable[3][2] = 14;
     DTMFtable[3][3] = 15;
 
-    if (timeOutCounter > 6) {
+    if (timeOutCounter > 1) {
         DTMFbuffer.clear();
         DTMFCounter.clear();
         timeOutCounter = 0;
