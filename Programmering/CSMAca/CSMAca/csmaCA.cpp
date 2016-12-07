@@ -124,14 +124,14 @@ bool csmaCA::sendData(vector<int> Data)
 bool csmaCA::sendPakker(vector<vector<int> > Data)
 {
     pakkeHolder.clear();
-    Sound mySound4;						//opretter sound objekt (til delay)
-    if (!makeHandShake())				//retunere false hvis handshake fejler
+    Sound mySound4;						    //opretter sound objekt (til delay)
+    if (!makeHandShake())				    //retunere false hvis handshake fejler
         return false;
     int pakkeAntal = Data.size();			//gemmer størelsen af pakken, da den hele tiden bliver reduseret (.pop_back)
     for(int pakkeNr = 0; pakkeNr < pakkeAntal; pakkeNr++)	//køre alle pakker igennem
     {
-        pakkeHolder = Data[0];			//gemmer øverste element fra Data vector
-        Data.erase(Data.begin());					//sletter sidste element fra Data vector
+        pakkeHolder = Data[0];			    //gemmer øverste element fra Data vector
+        Data.erase(Data.begin());			//sletter sidste element fra Data vector
 
         Frame csmaCAframer(pakkeHolder);	//Opretter frame objekt
      //   csmaCAframer.makeFrame();			//framer data
