@@ -38,6 +38,8 @@ public:
     void setDataFlag();								//	done!	siddes dataFlag til true
     void setPstopFlag();							//			sidder PstopFlag til true
     void setBusy();									//			sidder busy til true
+    void setMediaInUse();
+    void clearMediaInUse();
     void clearBusy();								//			sidder busy til false
     bool getAckFlagStatus();                        //          retunere værdi af ACK flag
     bool getCtsFlagStatus();                        //          retunere værdi af CTS flag
@@ -74,6 +76,7 @@ private:
     bool dataFlag = false;							//flag sættes til true hvis data er modtaget
     bool pstopFlag = false;							//flag sætte til true hvis "pakke stop" modtages
     bool txFlag = false;							//flag sættes til true hvis denne enhed afspiller lyd (transmitere)
+    bool mediaInUse = false;
     int test = 0;									//[eksperimental]
     int timeToResend = 70;
     int sendAttempts = 8;

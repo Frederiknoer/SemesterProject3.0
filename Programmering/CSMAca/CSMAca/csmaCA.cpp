@@ -123,6 +123,11 @@ bool csmaCA::sendData(vector<int> Data)
 
 bool csmaCA::sendPakker(vector<vector<int> > Data)
 {
+    if(mediaInUse) {
+        cout << "Media busy" << endl;
+    }
+
+
     pakkeHolder.clear();
     Sound mySound4;						    //opretter sound objekt (til delay)
     if (!makeHandShake())				    //retunere false hvis handshake fejler
@@ -176,9 +181,13 @@ bool csmaCA::sendPakker(vector<vector<int> > Data)
 bool csmaCA::makeHandShake()
 {
     Sound mySound5;											//opretter soundobjekt (brugt til delay)
+    int delayTime = 0;
 
     for (int rtsAttempts = 1; rtsAttempts <= sendAttempts; rtsAttempts++)	//fors�ger RTS 3 gange
     {
+        delayTime = 1 * rtsAttempts;
+        mySound5.delay(delayTime);
+
         //cout << "csmaCA.cpp [makeHandShake]  -  sender RTS |" << endl;
         sendSound(RTS);						//sender framet Rts
         for (int time = 1; time <= timeToResend; time++)					//polling timer 700*10ms =  7sek
@@ -213,11 +222,11 @@ void csmaCA::sendSound(vector<int> d)
     mySound1.setSamplingRate(playSampleRate);    //sætter afspildnings sample rate
 
     TextHandler myTest;                         //opretter texthandler objekt
-    Frame framming(ID);                         //Opretter frame objekt
+    Frame framming(d);                         //Opretter frame objekt
     sf::SoundBuffer bufferInput;                //laver lydbuffer objekt
     sf::Sound sound1;                            //opretter sound objekt
     //=======================================
-    framming.setData(d);                            //ligger hexbuffer ind i framing
+   // framming.setData(d);                            //ligger hexbuffer ind i framing
     framming.makeFrame();                           //framer hexbuffer
 
     frammedHex = framming.getFrame();          		//gemmer framet data i "framedHex"
@@ -349,6 +358,13 @@ void csmaCA::setBusy()
     busy = true;
 }
 
+void csmaCA::clearMediaInUse() {
+    mediaInUse = false;
+}
+
+void csmaCA::setMediaInUse(){
+    mediaInUse = true;
+}
 
 void csmaCA::clearBusy()
 {

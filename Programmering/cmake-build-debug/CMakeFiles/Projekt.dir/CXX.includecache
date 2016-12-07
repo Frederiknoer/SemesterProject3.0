@@ -129,14 +129,6 @@ iostream
 -
 SFML/Audio.hpp
 -
-SFML/Graphics.hpp
--
-Sound/sound.h
-/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/Sound/sound.h
 CustomRecorder/CustomRecorder.h
 /Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CustomRecorder/CustomRecorder.h
-TextHandler/TextHandler.h
-/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/TextHandler/TextHandler.h
-CSMAca/CSMAca/csmaCA.h
-/Users/alexdupond/Google Drev/Robotteknologi/GitHub/SemesterProject3.0/Programmering/CSMAca/CSMAca/csmaCA.h
 

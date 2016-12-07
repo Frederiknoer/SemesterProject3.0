@@ -82,6 +82,10 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         vector<int> DTMFbuffer;
         DTMFbuffer = findTones.getDTMFBuffer();
 
+        if(DTMFbuffer.size() > 1)
+        {
+            (*csmaHandler).setMediaInUse();
+        }
 
 
         if (lyddata.pairFinder(DTMFbuffer) == true)
