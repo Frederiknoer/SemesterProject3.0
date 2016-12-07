@@ -65,7 +65,6 @@ vector< vector<int> > TextHandler::textSplitter(vector<int> textVec)
 vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
 {
 	int packageNumber = 0;
-	int packageIndex = 0;
 	vector<int> AssembletHex;
 	//cout << packageVec.size() << endl;
 	for (int i = 0; i < packageVec.size(); i++)
@@ -73,10 +72,9 @@ vector<int> TextHandler::textAssembler(vector <vector<int> > packageVec)
 		if (packageNumber > 15)
 		{
 			packageNumber = 0;
-			packageIndex = packageIndex - 16;
 		}
 
-		if (packageNumber == (packageVec[i][0] + (1 * packageIndex))) {
+		if (packageNumber == (packageVec[i][0])) {
 			packageVec[i].erase(packageVec[i].begin());
 			for (int j = 0; j < packageVec[i].size(); j++)
 			{
