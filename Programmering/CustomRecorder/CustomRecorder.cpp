@@ -29,7 +29,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     if((*csmaHandler).getTxFlag() == true) {
         return true;
     }
-
+    //cout << sampleCount << endl;
     if(sampleCount > 1000)
     {
         return true;

@@ -35,6 +35,8 @@ int main()
             break;
         vector <vector<int> > packages = textHandler.textSplitter(textHandler.InputText(myString));
         csmaHandler.sendPakker(packages);
+        packages.clear();
+        myString.clear();
     }
     return 0;
 }
