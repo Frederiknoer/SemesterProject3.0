@@ -20,8 +20,8 @@ public:
 private:
 
 	//output consts.
-	vector<char> outDataString;
-	vector<int> outputBuffer;
-	vector<int> transNBuffer;
+
+
+
 
 };

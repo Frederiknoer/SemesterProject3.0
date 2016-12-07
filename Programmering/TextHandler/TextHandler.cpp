@@ -7,6 +7,13 @@ TextHandler::TextHandler()
 
 vector<int> TextHandler::InputText(string enS)
 {
+	vector<char> outDataString;
+	vector<int> outputBuffer;
+	vector<int> transNBuffer;
+	transNBuffer.clear();
+	outDataString.clear();
+	outputBuffer.clear;
+
 	for (int i = 0; i < enS.length(); i++)
 	{
 		outDataString.push_back(enS[i]);

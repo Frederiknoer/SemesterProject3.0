@@ -121,8 +121,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                     TextHandler packageHandler;
                     string output = packageHandler.OutputText(packageHandler.textAssembler(modtagetPakker));
                     cout << "               " << output << endl;
-
-
+                    output.clear();
                     modtagetPakker.clear();                                            //nulstiller pakke vektor
                     //cout << "CustomRecorder.cpp [onProcessSamples]  -  modtaget pakkeVector cleared" << endl;
                     (*csmaHandler).sendACK();                                      //sender ACK
