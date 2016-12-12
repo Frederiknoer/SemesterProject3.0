@@ -26,15 +26,18 @@ bool CustomRecorder::onStart() {
 bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t sampleCount)
 {
 
+   /*
     if((*csmaHandler).getTxFlag() == true) {
         return true;
     }
-    //cout << sampleCount << endl;
+
+
     if(sampleCount > 1000)
     {
         return true;
     }
 
+    */
     int samplingFreq = sf::SoundRecorder::getSampleRate();
     double N = sampleCount;
     int numberOfProcessingSamples = 0;
@@ -45,7 +48,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     if ((N + leftOverSamples.size()) > samplesPrDFT){
         numberOfProcessingSamples = (int)(N + leftOverSamples.size())/(samplesPrDFT);
     }else{
-        //cout << "Count error" << endl;
+        cout << "Count error" << endl;
     }
 
     // cout << endl << sampleCount << "/" << samplesPrDFT << " = " << sampleCount/samplesPrDFT << endl;
