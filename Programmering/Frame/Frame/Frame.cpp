@@ -21,7 +21,7 @@ void Frame::makeFrame()
 	unsigned long sum = 0;						// Variabel til summen af alle pladser p� vektortabellen
 	int checkSum = 0;	
 	bitset<8> checkSumBit = 0;					//F�lgende udregner tjeksummen og deler den op i nipples p� en noget besv�rlig m�de 
-	bitset<4> checkSumHN = 0;					// Det hele laves eventuelt om til Frederiks metode fra TextHandler 
+	bitset<4> checkSumHN = 0;					 
 	bitset<4> checkSumLN = 0;
 	int checkSumLNint = 0;
 	int checkSumHNint = 0;
