@@ -78,7 +78,7 @@ private:
     bool txFlag = false;							//flag sættes til true hvis denne enhed afspiller lyd (transmitere)
     bool mediaInUse = false;
     int test = 0;									//[eksperimental]
-    int timeToResend = 70;
+    int timeToResend = 80;  //70
     int sendAttempts = 8;
 };
 

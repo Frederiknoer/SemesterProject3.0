@@ -14,7 +14,7 @@ void Frame::makeFrame()
 	{
 		if (getElement(i) == 0b0111)
 		{
-			data.insert(data.begin() + i + 1, 0);
+			data.insert(data.begin() + i + 1, 3);
 		}
 	}
 	// Redundante bits tilf�jes, med generatiopolynomiet 10001001:
