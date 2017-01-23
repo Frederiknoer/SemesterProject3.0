@@ -85,10 +85,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
         vector<int> DTMFbuffer;
         DTMFbuffer = findTones.getDTMFBuffer();
 
-        if(DTMFbuffer.size() > 1)
-        {
-            (*csmaHandler).setMediaInUse();
-        }
+
 
 
         if (lyddata.pairFinder(DTMFbuffer) == true)
@@ -108,6 +105,8 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                     (*csmaHandler).setBusy();                                      //indikere at pc er laver noget
                     //cout << "CustomRecorder.cpp [onProcessSamples]  -  CTS sendt |" << endl;
                     (*csmaHandler).sendCTS();                                      //sender CTS
+                    (*csmaHandler).setMediaInUse();
+
 
                 }
                 else if (unframing.getFrame() == (*csmaHandler).getCTSverdi())     //tjekker for CTS

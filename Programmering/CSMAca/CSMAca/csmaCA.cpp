@@ -124,7 +124,7 @@ bool csmaCA::sendData(vector<int> Data)
 bool csmaCA::sendPakker(vector<vector<int> > Data)
 {
     if(mediaInUse) {
-        //cout << "Media busy" << endl;
+        cout << "Media busy" << endl;
         return false;
     }
 
