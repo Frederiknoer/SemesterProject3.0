@@ -48,7 +48,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
     if ((N + leftOverSamples.size()) > samplesPrDFT){
         numberOfProcessingSamples = (int)(N + leftOverSamples.size())/(samplesPrDFT);
     }else{
-        cout << "Count error" << endl;
+        // cout << "Count error" << endl;
     }
 
     // cout << endl << sampleCount << "/" << samplesPrDFT << " = " << sampleCount/samplesPrDFT << endl;
@@ -132,7 +132,7 @@ bool CustomRecorder::onProcessSamples(const sf::Int16 *samples, std::size_t samp
                     modtagetPakker.clear();                                            //nulstiller pakke vektor
                     //cout << "CustomRecorder.cpp [onProcessSamples]  -  modtaget pakkeVector cleared" << endl;
                     (*csmaHandler).sendACK();                                      //sender ACK
-                    (*csmaHandler).clearBusy();                                    //indikere at computeren ikke laver noget
+                    (*csmaHandler).clearMediaInUse();
                 }
                 else                                                               //ellers er det data
                 {
